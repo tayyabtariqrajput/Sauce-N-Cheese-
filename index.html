@@ -1,6 +1,3 @@
-bash
-
-cat > /home/claude/part1.html << 'EOF'
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,97 +7,256 @@ cat > /home/claude/part1.html << 'EOF'
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root {
-  --red: #B31217; --red-dark: #8a0d11; --yellow: #FFB300; --yellow-light: #FFD54F;
-  --black: #111111; --black2: #1a1a1a; --card-bg: rgba(30,15,15,0.85);
-  --cream: #FFF5E6; --glass: rgba(255,255,255,0.06); --glass-border: rgba(255,179,0,0.18);
+  --red: #B31217;
+  --red-dark: #8a0d11;
+  --yellow: #FFB300;
+  --yellow-light: #FFD54F;
+  --black: #111111;
+  --black2: #1a1a1a;
+  --card-bg: rgba(30,15,15,0.85);
+  --cream: #FFF5E6;
+  --glass: rgba(255,255,255,0.06);
+  --glass-border: rgba(255,179,0,0.18);
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-body { background: #0d0d0d; color: #111; font-family: 'Nunito', sans-serif; }
-#loader { position: fixed; inset: 0; background: var(--black); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.6s ease, visibility 0.6s ease; }
-#loader.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+body { background: #ffffff; color: #111; font-family: 'Nunito', sans-serif; }
+
+/* ===================== LOADER ===================== */
+#loader {
+  position: fixed; inset: 0;
+  background: var(--black);
+  z-index: 9999;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+#loader.hide { opacity: 0; visibility: hidden; }
 .loader-logo { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; color: var(--yellow); letter-spacing: 4px; }
 .loader-sub { color: var(--red); font-size: 1rem; margin-top: 4px; letter-spacing: 2px; font-family: 'Fredoka One'; }
 .loader-bar { width: 220px; height: 4px; background: #222; border-radius: 99px; margin-top: 28px; overflow: hidden; }
 .loader-fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--red), var(--yellow)); border-radius: 99px; animation: fillBar 1.8s ease forwards; }
 @keyframes fillBar { to { width: 100%; } }
-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 10px 5%; transition: background 0.4s, backdrop-filter 0.4s, box-shadow 0.4s; }
-nav.scrolled { background: rgba(17,17,17,0.95); backdrop-filter: blur(18px); box-shadow: 0 4px 32px rgba(179,18,23,0.18); border-bottom: 1px solid var(--glass-border); }
-.nav-logo-img { height: 64px; width: auto; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(255,179,0,0.3)); transition: filter 0.3s, transform 0.3s; }
-.nav-logo-img:hover { filter: drop-shadow(0 4px 16px rgba(255,179,0,0.6)); transform: scale(1.05); }
-.nav-logo-text { font-family: 'Bebas Neue'; font-size: 1.6rem; color: var(--yellow); letter-spacing: 2px; line-height: 1; display: none; }
+
+/* ===================== NAVBAR ===================== */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 5%;
+  transition: background 0.4s, backdrop-filter 0.4s, box-shadow 0.4s;
+}
+nav.scrolled {
+  background: rgba(17,17,17,0.95);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 4px 32px rgba(179,18,23,0.18);
+  border-bottom: 1px solid var(--glass-border);
+}
+.nav-logo-text { font-family: 'Bebas Neue'; font-size: 1.6rem; color: var(--yellow); letter-spacing: 2px; line-height: 1; }
 .nav-logo-text span { color: var(--red); }
-.nav-logo-img-error .nav-logo-img { display: none; }
-.nav-logo-img-error .nav-logo-text { display: block; }
 .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
 .nav-links a { text-decoration: none; color: var(--cream); font-weight: 700; font-size: 0.88rem; letter-spacing: 1px; text-transform: uppercase; transition: color 0.2s; position: relative; }
-.nav-links a::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 2px; background: var(--yellow); transition: width .3s; }
-.nav-links a:hover::after { width: 100%; }
+.nav-links a::after { content:''; position:absolute; bottom:-3px; left:0; width:0; height:2px; background:var(--yellow); transition:width .3s; }
+.nav-links a:hover::after { width:100%; }
 .nav-links a:hover { color: var(--yellow); }
-.nav-order-btn { background: linear-gradient(135deg, var(--red), #d41c23); color: #fff; border: none; padding: 9px 22px; border-radius: 50px; font-family: 'Bebas Neue'; letter-spacing: 2px; font-size: 1rem; cursor: pointer; transition: all 0.3s; box-shadow: 0 0 20px rgba(179,18,23,0.5); }
+.nav-order-btn {
+  background: linear-gradient(135deg, var(--red), #d41c23);
+  color: #fff; border: none; padding: 9px 22px;
+  border-radius: 50px; font-family: 'Bebas Neue'; letter-spacing: 2px;
+  font-size: 1rem; cursor: pointer; transition: all 0.3s;
+  box-shadow: 0 0 20px rgba(179,18,23,0.5);
+}
 .nav-order-btn:hover { transform: scale(1.06); box-shadow: 0 0 35px rgba(255,179,0,0.5); background: linear-gradient(135deg, var(--yellow), #e6a000); color: var(--black); }
 .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
 .hamburger span { width: 26px; height: 2.5px; background: var(--cream); border-radius: 2px; transition: all 0.3s; }
 #mobile-menu { display: none; }
-#hero { min-height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; background: radial-gradient(ellipse at 60% 40%, #2a0808 0%, var(--black) 70%); }
-.hero-bg-anim { position: absolute; inset: 0; background: radial-gradient(circle at 20% 80%, rgba(179,18,23,0.12) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255,179,0,0.08) 0%, transparent 50%); animation: bgPulse 6s ease-in-out infinite alternate; }
+
+/* ===================== HERO ===================== */
+#hero {
+  min-height: 100vh;
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 60% 40%, #2a0808 0%, var(--black) 70%);
+}
+.hero-bg-anim {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 20% 80%, rgba(179,18,23,0.12) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255,179,0,0.08) 0%, transparent 50%);
+  animation: bgPulse 6s ease-in-out infinite alternate;
+}
 @keyframes bgPulse { from { opacity: 0.6; } to { opacity: 1; } }
-.cheese-drip { position: absolute; top: 0; left: 0; right: 0; height: 8px; background: var(--yellow); display: flex; justify-content: space-around; align-items: flex-start; pointer-events: none; }
-.drip { width: 18px; background: var(--yellow); border-radius: 0 0 40% 40%; animation: dripAnim 2.5s ease-in-out infinite; }
+.cheese-drip {
+  position: absolute; top: 0; left: 0; right: 0; height: 8px;
+  background: var(--yellow);
+  display: flex; justify-content: space-around; align-items: flex-start;
+}
+.drip { width: 18px; background: var(--yellow); border-radius: 0 0 40% 40%; animation: drip 2.5s ease-in-out infinite; }
 .drip:nth-child(1){height:40px;animation-delay:0s}.drip:nth-child(2){height:65px;animation-delay:.4s}.drip:nth-child(3){height:30px;animation-delay:.8s}.drip:nth-child(4){height:55px;animation-delay:.2s}.drip:nth-child(5){height:45px;animation-delay:.6s}.drip:nth-child(6){height:70px;animation-delay:1s}.drip:nth-child(7){height:35px;animation-delay:.3s}.drip:nth-child(8){height:60px;animation-delay:.7s}.drip:nth-child(9){height:48px;animation-delay:.1s}.drip:nth-child(10){height:52px;animation-delay:.5s}
-@keyframes dripAnim { 0%,100% { transform: scaleY(1); } 50% { transform: scaleY(1.18); } }
-.hero-content { position: relative; z-index: 2; text-align: center; padding: 120px 24px 60px; max-width: 900px; animation: heroFadeUp 1s ease 0.5s both; }
+@keyframes drip { 0%,100% { transform: scaleY(1); } 50% { transform: scaleY(1.18); } }
+.hero-content {
+  position: relative; z-index: 2;
+  text-align: center;
+  padding: 120px 24px 60px;
+  max-width: 900px;
+  animation: heroFadeUp 1s ease 0.5s both;
+}
 @keyframes heroFadeUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
-.hero-logo-img { width: min(280px, 70vw); filter: drop-shadow(0 8px 40px rgba(255,179,0,0.35)); animation: floatLogo 4s ease-in-out infinite; margin-bottom: 24px; }
+.hero-logo-img {
+  width: min(280px, 70vw);
+  filter: drop-shadow(0 8px 40px rgba(255,179,0,0.35));
+  animation: floatLogo 4s ease-in-out infinite;
+  margin-bottom: 24px;
+}
 @keyframes floatLogo { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
 .hero-tagline { font-family: 'Bebas Neue'; font-size: clamp(2.4rem, 7vw, 5.5rem); color: var(--cream); letter-spacing: 3px; line-height: 1.05; text-shadow: 0 4px 40px rgba(255,179,0,0.25); }
 .hero-tagline .accent { color: var(--yellow); }
 .hero-tagline .red-accent { color: var(--red); }
 .hero-sub { margin-top: 12px; font-size: 1.1rem; color: rgba(255,245,230,0.7); font-weight: 600; letter-spacing: 2px; }
 .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 36px; }
-.btn-primary { background: linear-gradient(135deg, var(--red), #d41c23); color: #fff; text-decoration: none; padding: 14px 36px; border-radius: 50px; font-family: 'Bebas Neue'; letter-spacing: 3px; font-size: 1.15rem; box-shadow: 0 0 30px rgba(179,18,23,0.6); transition: all 0.3s; display: inline-block; border: none; cursor: pointer; }
+.btn-primary {
+  background: linear-gradient(135deg, var(--red), #d41c23);
+  color: #fff; text-decoration: none;
+  padding: 14px 36px; border-radius: 50px;
+  font-family: 'Bebas Neue'; letter-spacing: 3px; font-size: 1.15rem;
+  box-shadow: 0 0 30px rgba(179,18,23,0.6);
+  transition: all 0.3s; display: inline-block; border: none; cursor: pointer;
+}
 .btn-primary:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 0 50px rgba(179,18,23,0.8); }
-.btn-secondary { background: transparent; color: var(--yellow); text-decoration: none; padding: 13px 36px; border-radius: 50px; font-family: 'Bebas Neue'; letter-spacing: 3px; font-size: 1.15rem; border: 2px solid var(--yellow); box-shadow: 0 0 20px rgba(255,179,0,0.2); transition: all 0.3s; display: inline-block; cursor: pointer; }
+.btn-secondary {
+  background: transparent; color: var(--yellow); text-decoration: none;
+  padding: 13px 36px; border-radius: 50px;
+  font-family: 'Bebas Neue'; letter-spacing: 3px; font-size: 1.15rem;
+  border: 2px solid var(--yellow);
+  box-shadow: 0 0 20px rgba(255,179,0,0.2);
+  transition: all 0.3s; display: inline-block; cursor: pointer;
+}
 .btn-secondary:hover { background: var(--yellow); color: var(--black); transform: translateY(-3px); }
 .float-cards { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
-.float-card { position: absolute; background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 10px 16px; font-size: 0.78rem; font-weight: 700; color: var(--yellow); backdrop-filter: blur(8px); white-space: nowrap; animation: floatCard 6s ease-in-out infinite; }
+.float-card {
+  position: absolute;
+  background: var(--card-bg); border: 1px solid var(--glass-border);
+  border-radius: 16px; padding: 10px 16px;
+  font-size: 0.78rem; font-weight: 700; color: var(--yellow);
+  backdrop-filter: blur(8px); white-space: nowrap;
+  animation: floatCard 6s ease-in-out infinite;
+}
 .float-card:nth-child(1){top:22%;left:5%;animation-delay:0s}.float-card:nth-child(2){top:60%;left:2%;animation-delay:1.2s}.float-card:nth-child(3){top:20%;right:4%;animation-delay:.6s}.float-card:nth-child(4){top:65%;right:3%;animation-delay:1.8s}.float-card:nth-child(5){top:80%;left:30%;animation-delay:.9s}
 .float-card .fc-price { color: var(--cream); font-size: 0.7rem; margin-top: 2px; }
 @keyframes floatCard { 0%,100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-12px) rotate(1deg); } }
-.scroll-indicator { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 6px; color: rgba(255,245,230,0.45); font-size: 0.72rem; letter-spacing: 2px; animation: scrollBounce 2s ease-in-out infinite; pointer-events: none; }
+.scroll-indicator {
+  position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  color: rgba(255,245,230,0.45); font-size: 0.72rem; letter-spacing: 2px;
+  animation: scrollBounce 2s ease-in-out infinite;
+}
 .scroll-arrow { width: 20px; height: 20px; border-right: 2px solid var(--yellow); border-bottom: 2px solid var(--yellow); transform: rotate(45deg); }
 @keyframes scrollBounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+
+/* ===================== SECTION BASE ===================== */
 section { padding: 80px 5%; }
-.section-title { text-align: center; font-family: 'Bebas Neue'; letter-spacing: 3px; font-size: clamp(2rem, 5vw, 3.2rem); color: var(--cream); position: relative; margin-bottom: 12px; }
+.section-title {
+  text-align: center; font-family: 'Bebas Neue'; letter-spacing: 3px;
+  font-size: clamp(2rem, 5vw, 3.2rem); color: var(--cream);
+  position: relative; margin-bottom: 12px;
+}
 .section-title .hl { color: var(--yellow); }
 .section-title .hr-line { display: block; width: 80px; height: 4px; background: linear-gradient(90deg, var(--red), var(--yellow)); margin: 10px auto 0; border-radius: 4px; }
 .section-sub { text-align: center; color: rgba(255,245,230,0.55); margin-bottom: 52px; font-size: 0.95rem; font-weight: 600; letter-spacing: 1px; }
+
+/* ===================== MENU ===================== */
 #menu { background: #0f0f0f; }
 .menu-filters { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 44px; }
-.filter-btn { padding: 8px 20px; border-radius: 50px; background: var(--glass); border: 1px solid var(--glass-border); color: var(--cream); font-weight: 700; font-size: 0.82rem; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: all 0.3s; }
+.filter-btn {
+  padding: 8px 20px; border-radius: 50px;
+  background: var(--glass); border: 1px solid var(--glass-border);
+  color: var(--cream); font-weight: 700; font-size: 0.82rem;
+  letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: all 0.3s;
+}
 .filter-btn:hover, .filter-btn.active { background: var(--red); color: #fff; border-color: var(--red); box-shadow: 0 0 20px rgba(179,18,23,0.5); }
 .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 22px; }
-.menu-card { background: #1a0a0a; border: 1px solid rgba(255,179,0,0.12); border-radius: 18px; overflow: hidden; transition: all 0.35s; position: relative; box-shadow: 0 5px 25px rgba(0,0,0,0.3); display: flex; flex-direction: column; }
+
+/* ── Menu Card ── */
+.menu-card {
+  background: #1a0a0a;
+  border: 1px solid rgba(255,179,0,0.12);
+  border-radius: 18px;
+  overflow: hidden;
+  transition: all 0.35s;
+  position: relative;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+  display: flex; flex-direction: column;
+}
 .menu-card:hover { transform: translateY(-6px); border-color: rgba(255,179,0,0.4); box-shadow: 0 16px 50px rgba(0,0,0,0.6), 0 0 30px rgba(255,179,0,0.08); }
-.menu-card-img-wrap { width: 100%; height: 200px; background: #111; overflow: hidden; position: relative; flex-shrink: 0; }
-.menu-card-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; display: block; }
+
+.menu-card-img-wrap {
+  width: 100%; height: 200px;
+  background: #111; overflow: hidden;
+  position: relative; flex-shrink: 0;
+}
+.menu-card-img-wrap img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.4s ease;
+  display: block;
+}
 .menu-card:hover .menu-card-img-wrap img { transform: scale(1.07); }
-.menu-card-img-wrap .img-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(135deg, #1a0808, #0f0606); color: rgba(255,179,0,0.4); font-size: 3rem; }
-.menu-card-img-wrap .img-placeholder span { font-size: 0.7rem; color: rgba(255,245,230,0.25); margin-top: 6px; font-family: 'Nunito'; letter-spacing: 1px; }
-.size-tooltip { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(17,5,5,0.97); border-top: 1px solid rgba(255,179,0,0.3); padding: 12px 14px; display: flex; gap: 8px; justify-content: space-around; transform: translateY(100%); transition: transform 0.32s cubic-bezier(0.4,0,0.2,1); z-index: 10; }
+.menu-card-img-wrap .img-placeholder {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, #1a0808, #0f0606);
+  color: rgba(255,179,0,0.4); font-size: 3rem;
+}
+.menu-card-img-wrap .img-placeholder span {
+  font-size: 0.7rem; color: rgba(255,245,230,0.25); margin-top: 6px;
+  font-family: 'Nunito'; letter-spacing: 1px;
+}
+
+/* ── Pizza Size Hover Tooltip ── */
+.size-tooltip {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(17,5,5,0.97);
+  border-top: 1px solid rgba(255,179,0,0.3);
+  padding: 12px 14px;
+  display: flex; gap: 8px; justify-content: space-around;
+  transform: translateY(100%);
+  transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
+  z-index: 10;
+}
+.menu-card-img-wrap:hover .size-tooltip,
 .menu-card:hover .size-tooltip { transform: translateY(0); }
-.size-pill { display: flex; flex-direction: column; align-items: center; gap: 2px; background: rgba(255,179,0,0.08); border: 1px solid rgba(255,179,0,0.25); border-radius: 10px; padding: 6px 10px; flex: 1; transition: background 0.2s, border-color 0.2s, transform 0.15s; cursor: pointer; user-select: none; font-family: inherit; }
-.size-pill:hover { background: rgba(255,179,0,0.22); border-color: var(--yellow); transform: translateY(-2px); }
+.size-pill {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  background: rgba(255,179,0,0.08);
+  border: 1px solid rgba(255,179,0,0.25);
+  border-radius: 10px; padding: 6px 10px; flex: 1;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+  cursor: pointer; user-select: none; border: none; font-family: inherit;
+}
+.size-pill:hover { background: rgba(255,179,0,0.22); border: 1px solid var(--yellow); transform: translateY(-2px); }
 .size-pill:active { transform: scale(0.95); }
-.size-pill.added { background: rgba(37,211,102,0.25); border: 1px solid #4ade80 !important; animation: pillPop 0.4s ease; }
-@keyframes pillPop { 0%{transform:scale(1)} 40%{transform:scale(1.15)} 100%{transform:scale(1)} }
+.size-pill.added {
+  background: rgba(37,211,102,0.25);
+  border: 1px solid #4ade80 !important;
+  animation: pillPop 0.4s ease;
+}
+@keyframes pillPop {
+  0%  { transform: scale(1); }
+  40% { transform: scale(1.15); }
+  100%{ transform: scale(1); }
+}
 .size-pill .sp-label { font-size: 0.58rem; color: rgba(255,245,230,0.45); text-transform: uppercase; letter-spacing: 1px; font-weight: 800; pointer-events: none; }
 .size-pill .sp-price { font-family: 'Bebas Neue'; font-size: 1rem; color: var(--yellow); letter-spacing: 1px; pointer-events: none; }
-.size-pill .sp-tick { font-size: 0.7rem; color: #4ade80; display: none; pointer-events: none; }
-.size-pill.added .sp-tick { display: block; }
+.size-pill .sp-tick  { font-size: 0.7rem; color: #4ade80; display: none; pointer-events: none; }
+.size-pill.added .sp-tick  { display: block; }
 .size-pill.added .sp-price { display: none; }
+
 .menu-card-body { padding: 16px 18px 18px; flex: 1; display: flex; flex-direction: column; }
-.menu-cat-badge { display: inline-block; font-size: 0.62rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--yellow); background: rgba(255,179,0,0.1); border: 1px solid rgba(255,179,0,0.25); border-radius: 50px; padding: 3px 10px; margin-bottom: 8px; }
+.menu-cat-badge {
+  display: inline-block; font-size: 0.62rem; font-weight: 800; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--yellow); background: rgba(255,179,0,0.1);
+  border: 1px solid rgba(255,179,0,0.25); border-radius: 50px;
+  padding: 3px 10px; margin-bottom: 8px;
+}
 .menu-card-title { font-size: 1rem; font-weight: 800; color: var(--cream); margin-bottom: 5px; }
 .menu-card-desc { font-size: 0.76rem; color: rgba(255,245,230,0.45); line-height: 1.55; margin-bottom: 14px; flex: 1; }
 .menu-card-footer { display: flex; align-items: flex-end; justify-content: space-between; gap: 8px; margin-top: auto; }
@@ -108,116 +264,281 @@ section { padding: 80px 5%; }
 .price-label { font-size: 0.6rem; color: rgba(255,245,230,0.35); text-transform: uppercase; letter-spacing: 1px; }
 .price-val { font-family: 'Bebas Neue'; font-size: 1.4rem; color: var(--yellow); letter-spacing: 1px; }
 .price-sub { font-size: 0.68rem; color: rgba(255,245,230,0.4); }
-.add-btn { background: linear-gradient(135deg, var(--red), #d41c23); color: #fff; border: none; padding: 9px 20px; border-radius: 50px; font-weight: 800; font-size: 0.82rem; cursor: pointer; transition: all 0.3s; box-shadow: 0 0 15px rgba(179,18,23,0.4); white-space: nowrap; font-family: 'Nunito'; }
+.add-btn {
+  background: linear-gradient(135deg, var(--red), #d41c23);
+  color: #fff; border: none; padding: 9px 20px; border-radius: 50px;
+  font-weight: 800; font-size: 0.82rem; cursor: pointer; transition: all 0.3s;
+  box-shadow: 0 0 15px rgba(179,18,23,0.4); white-space: nowrap;
+  font-family: 'Nunito';
+}
 .add-btn:hover { transform: scale(1.06); box-shadow: 0 0 25px rgba(255,179,0,0.5); background: linear-gradient(135deg, var(--yellow), #e6a000); color: var(--black); }
-.product-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 3000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.3s; backdrop-filter: blur(6px); padding: 20px; }
+
+/* ===================== PRODUCT MODAL ===================== */
+.product-modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+  z-index: 3000; display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transition: all 0.3s; backdrop-filter: blur(6px);
+  padding: 20px;
+}
 .product-modal-overlay.open { opacity: 1; visibility: visible; }
-.product-modal { background: #1a0808; border: 1.5px solid rgba(255,179,0,0.25); border-radius: 20px; width: 100%; max-width: 460px; max-height: 90vh; overflow-y: auto; position: relative; padding: 28px; animation: modalSlideUp 0.3s ease; }
+.product-modal {
+  background: #1a0808; border: 1.5px solid rgba(255,179,0,0.25);
+  border-radius: 20px; width: 100%; max-width: 460px;
+  max-height: 90vh; overflow-y: auto;
+  position: relative; padding: 28px;
+  animation: modalSlideUp 0.3s ease;
+}
 @keyframes modalSlideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-.modal-close { position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.08); border: none; color: var(--cream); width: 32px; height: 32px; border-radius: 50%; font-size: 1rem; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
+.modal-close {
+  position: absolute; top: 16px; right: 16px;
+  background: rgba(255,255,255,0.08); border: none; color: var(--cream);
+  width: 32px; height: 32px; border-radius: 50%; font-size: 1rem;
+  cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center;
+}
 .modal-close:hover { background: var(--red); }
-.modal-img-wrap { width: 100%; height: 200px; border-radius: 14px; overflow: hidden; background: #111; margin-bottom: 18px; }
+.modal-img-wrap {
+  width: 100%; height: 200px; border-radius: 14px; overflow: hidden;
+  background: #111; margin-bottom: 18px;
+}
 .modal-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.modal-img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 4rem; }
+.modal-img-placeholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 4rem;
+}
 #modalTitle { font-family: 'Bebas Neue'; font-size: 1.6rem; color: var(--yellow); letter-spacing: 2px; margin-bottom: 6px; }
 #modalDesc { font-size: 0.82rem; color: rgba(255,245,230,0.55); line-height: 1.6; margin-bottom: 18px; }
 .modal-label { font-size: 0.72rem; font-weight: 800; color: var(--yellow); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; display: block; }
-#modalSize { width: 100%; background: #2a1010; border: 1px solid rgba(255,179,0,0.35); border-radius: 10px; padding: 11px 14px; color: var(--cream); font-family: 'Nunito'; font-size: 0.9rem; margin-bottom: 16px; outline: none; transition: border-color 0.3s; cursor: pointer; -webkit-appearance: none; appearance: none; }
+
+/* ── FIX: Select dropdown option text visibility ── */
+#modalSize {
+  width: 100%;
+  background: #2a1010;
+  border: 1px solid rgba(255,179,0,0.35);
+  border-radius: 10px; padding: 11px 14px;
+  color: var(--cream);
+  font-family: 'Nunito'; font-size: 0.9rem; margin-bottom: 16px;
+  outline: none; transition: border-color 0.3s; cursor: pointer;
+  -webkit-appearance: none; appearance: none;
+}
 #modalSize:focus { border-color: var(--yellow); }
-#modalSize option { background: #2a1010; color: #FFF5E6; }
-#modalComment { width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,179,0,0.25); border-radius: 10px; padding: 11px 14px; color: var(--cream); font-family: 'Nunito'; font-size: 0.85rem; margin-bottom: 20px; outline: none; transition: border-color 0.3s; resize: vertical; min-height: 80px; }
+#modalSize option {
+  background: #2a1010;
+  color: #FFF5E6;
+}
+
+#modalComment {
+  width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,179,0,0.25);
+  border-radius: 10px; padding: 11px 14px; color: var(--cream);
+  font-family: 'Nunito'; font-size: 0.85rem; margin-bottom: 20px;
+  outline: none; transition: border-color 0.3s; resize: vertical; min-height: 80px;
+}
 #modalComment:focus { border-color: var(--yellow); }
 #modalComment::placeholder { color: rgba(255,245,230,0.3); }
-.modal-add-btn { width: 100%; background: linear-gradient(135deg, var(--red), #d41c23); color: #fff; border: none; padding: 14px; border-radius: 12px; font-family: 'Bebas Neue'; font-size: 1.15rem; letter-spacing: 2px; cursor: pointer; transition: all 0.3s; box-shadow: 0 0 25px rgba(179,18,23,0.5); }
+.modal-add-btn {
+  width: 100%; background: linear-gradient(135deg, var(--red), #d41c23);
+  color: #fff; border: none; padding: 14px; border-radius: 12px;
+  font-family: 'Bebas Neue'; font-size: 1.15rem; letter-spacing: 2px;
+  cursor: pointer; transition: all 0.3s; box-shadow: 0 0 25px rgba(179,18,23,0.5);
+}
 .modal-add-btn:hover { background: linear-gradient(135deg, var(--yellow), #e6a000); color: var(--black); box-shadow: 0 0 35px rgba(255,179,0,0.5); }
-/* DEALS */
+
+/* ===================== DEALS ===================== */
 #deals { background: var(--black); }
-.deals-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-.deal-card { background: linear-gradient(135deg, rgba(179,18,23,0.15), rgba(30,15,15,0.9)); border: 1.5px solid rgba(179,18,23,0.4); border-radius: 18px; padding: 24px; transition: all 0.35s; position: relative; overflow: hidden; cursor: pointer; display: flex; flex-direction: column; user-select: none; }
-.deal-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(179,18,23,0.05), transparent); opacity: 0; transition: opacity 0.3s; pointer-events: none; }
-.deal-card:hover::before { opacity: 1; }
+.deals-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+.deal-card {
+  background: linear-gradient(135deg, rgba(179,18,23,0.15), rgba(30,15,15,0.9));
+  border: 1.5px solid rgba(179,18,23,0.4);
+  border-radius: 18px; padding: 24px;
+  transition: all 0.35s; position: relative; overflow: hidden;
+  cursor: pointer;
+}
 .deal-card.premium { border-color: var(--yellow); background: linear-gradient(135deg, rgba(255,179,0,0.12), rgba(30,15,15,0.9)); }
 .deal-card.kids { border-color: #4ade80; background: linear-gradient(135deg, rgba(74,222,128,0.1), rgba(30,15,15,0.9)); }
 .deal-card.midnight { border-color: #818cf8; background: linear-gradient(135deg, rgba(129,140,248,0.1), rgba(30,15,15,0.9)); }
-.deal-card:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 40px rgba(179,18,23,0.2); }
-.deal-card.premium:hover { box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 40px rgba(255,179,0,0.2); }
-.deal-card.kids:hover { box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 40px rgba(74,222,128,0.2); }
-.deal-card.midnight:hover { box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 40px rgba(129,140,248,0.2); }
-.deal-card:active { transform: translateY(-3px) scale(0.99); }
-.deal-badge { position: absolute; top: -1px; right: 18px; background: var(--red); color: #fff; font-size: 0.65rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 12px; border-radius: 0 0 10px 10px; }
+.deal-card:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 20px 60px rgba(0,0,0,0.7); }
+.deal-card.selected { border-color: #4ade80 !important; box-shadow: 0 0 30px rgba(74,222,128,0.3) !important; }
+.deal-select-btn {
+  margin-top: 14px; width: 100%;
+  background: linear-gradient(135deg, var(--red), #d41c23);
+  color: #fff; border: none; padding: 10px 16px; border-radius: 10px;
+  font-family: 'Bebas Neue'; font-size: 0.95rem; letter-spacing: 2px;
+  cursor: pointer; transition: all 0.3s; box-shadow: 0 0 14px rgba(179,18,23,0.4);
+}
+.deal-select-btn:hover { background: linear-gradient(135deg, var(--yellow), #e6a000); color: var(--black); }
+.deal-badge {
+  position: absolute; top: -1px; right: 18px;
+  background: var(--red); color: #fff; font-size: 0.65rem; font-weight: 800;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 4px 12px; border-radius: 0 0 10px 10px;
+}
 .deal-card.premium .deal-badge { background: var(--yellow); color: var(--black); }
-.deal-card.kids .deal-badge { background: #4ade80; color: #0a2010; }
-.deal-card.midnight .deal-badge { background: #818cf8; color: #fff; }
 .deal-number { font-family: 'Bebas Neue'; font-size: 1rem; color: rgba(255,245,230,0.4); letter-spacing: 2px; margin-bottom: 4px; }
 .deal-price { font-family: 'Bebas Neue'; font-size: 2.4rem; color: var(--yellow); letter-spacing: 1px; line-height: 1; margin-bottom: 10px; }
-.deal-items { font-size: 0.82rem; color: rgba(255,245,230,0.7); line-height: 1.7; margin-bottom: 16px; flex: 1; }
+.deal-items { font-size: 0.82rem; color: rgba(255,245,230,0.7); line-height: 1.7; }
 .deal-items strong { color: var(--cream); }
-.deal-add-cart-btn { width: 100%; background: linear-gradient(135deg, var(--red), #d41c23); color: #fff; border: none; padding: 11px 16px; border-radius: 12px; font-family: 'Bebas Neue'; font-size: 1rem; letter-spacing: 2px; cursor: pointer; transition: all 0.3s; box-shadow: 0 0 16px rgba(179,18,23,0.4); display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: auto; }
-.deal-add-cart-btn:hover { background: linear-gradient(135deg, var(--yellow), #e6a000); color: var(--black); box-shadow: 0 0 28px rgba(255,179,0,0.5); transform: scale(1.03); }
-.deal-card.premium .deal-add-cart-btn { background: linear-gradient(135deg, var(--yellow), #e6a000); color: var(--black); }
-.deal-card.premium .deal-add-cart-btn:hover { background: linear-gradient(135deg, var(--red), #d41c23); color: #fff; }
-.deal-card.kids .deal-add-cart-btn { background: linear-gradient(135deg, #4ade80, #22c55e); color: #0a2010; }
-.deal-card.midnight .deal-add-cart-btn { background: linear-gradient(135deg, #818cf8, #6366f1); color: #fff; }
-/* DEAL MODAL */
-.deal-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 5000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.3s; backdrop-filter: blur(8px); padding: 20px; }
+
+/* ── Deal Order Modal ── */
+.deal-modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.88);
+  z-index: 5000; display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transition: all 0.3s; backdrop-filter: blur(8px);
+  padding: 20px;
+}
 .deal-modal-overlay.open { opacity: 1; visibility: visible; }
-.deal-modal { background: #1a0808; border: 1.5px solid rgba(255,179,0,0.3); border-radius: 22px; width: 100%; max-width: 520px; max-height: 92vh; overflow-y: auto; padding: 30px; position: relative; animation: modalSlideUp 0.3s ease; }
-.deal-modal-header { margin-bottom: 16px; }
-.deal-modal h2 { font-family: 'Bebas Neue'; font-size: 1.7rem; color: var(--yellow); letter-spacing: 3px; margin-bottom: 4px; }
-.deal-modal-price { font-family: 'Bebas Neue'; font-size: 2.2rem; color: var(--red); margin-bottom: 12px; }
-.deal-modal-desc { background: rgba(179,18,23,0.1); border: 1px solid rgba(179,18,23,0.25); border-radius: 10px; padding: 12px 14px; font-size: 0.82rem; color: rgba(255,245,230,0.75); line-height: 1.7; margin-bottom: 18px; }
+.deal-modal {
+  background: #1a0808; border: 1.5px solid rgba(255,179,0,0.3);
+  border-radius: 22px; width: 100%; max-width: 520px;
+  max-height: 92vh; overflow-y: auto;
+  padding: 30px; position: relative;
+  animation: modalSlideUp 0.3s ease;
+}
+.deal-modal h2 { font-family: 'Bebas Neue'; font-size: 1.6rem; color: var(--yellow); letter-spacing: 3px; margin-bottom: 4px; }
+.deal-modal-price { font-family: 'Bebas Neue'; font-size: 2rem; color: var(--red); margin-bottom: 12px; }
+.deal-modal-desc {
+  background: rgba(179,18,23,0.1); border: 1px solid rgba(179,18,23,0.25);
+  border-radius: 10px; padding: 12px 14px; font-size: 0.82rem;
+  color: rgba(255,245,230,0.75); line-height: 1.7; margin-bottom: 18px;
+}
 .pizza-flavour-wrap { margin-bottom: 14px; }
-.classic-only-banner { background: linear-gradient(135deg, rgba(179,18,23,0.25), rgba(139,0,0,0.2)); border: 1.5px solid var(--red); border-radius: 12px; padding: 14px 16px; margin-bottom: 14px; }
-.classic-only-banner .banner-title { display: flex; align-items: center; gap: 8px; font-family: 'Bebas Neue'; font-size: 1.05rem; color: var(--red); letter-spacing: 2px; margin-bottom: 8px; }
-.classic-only-banner .banner-body { font-size: 0.78rem; color: rgba(255,245,230,0.8); line-height: 1.65; }
-.classic-only-banner .banner-flavours { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 5px; }
-.classic-only-banner .fl-tag { background: rgba(255,179,0,0.12); border: 1px solid rgba(255,179,0,0.3); border-radius: 50px; padding: 3px 10px; font-size: 0.68rem; color: var(--yellow); font-weight: 700; }
-.pizza-flavour-input { width: 100%; background: #1e0808; border: 1px solid rgba(255,179,0,0.3); border-radius: 10px; padding: 11px 14px; color: var(--cream); font-family: 'Nunito'; font-size: 0.88rem; outline: none; transition: border-color 0.3s; resize: vertical; min-height: 70px; }
+.classic-note {
+  background: rgba(255,179,0,0.08); border: 1px solid rgba(255,179,0,0.3);
+  border-radius: 8px; padding: 9px 12px; font-size: 0.76rem;
+  color: rgba(255,179,0,0.9); margin-bottom: 10px; line-height: 1.5;
+}
+.pizza-flavour-input {
+  width: 100%; background: #1e0808; border: 1px solid rgba(255,179,0,0.3);
+  border-radius: 10px; padding: 11px 14px; color: var(--cream);
+  font-family: 'Nunito'; font-size: 0.88rem; outline: none;
+  transition: border-color 0.3s; resize: vertical; min-height: 70px;
+}
 .pizza-flavour-input:focus { border-color: var(--yellow); }
 .pizza-flavour-input::placeholder { color: rgba(255,245,230,0.3); }
-.deal-flavour-error { background: rgba(179,18,23,0.25); border: 1.5px solid var(--red); border-radius: 10px; padding: 12px 14px; font-size: 0.8rem; color: #ff8888; margin-top: 10px; display: none; line-height: 1.6; }
-.deal-flavour-error.show { display: block; animation: shakeErr 0.4s ease; }
-@keyframes shakeErr { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)} }
-.deal-flavour-error ul { margin: 6px 0 0 16px; }
-.deal-flavour-error ul li { margin-bottom: 2px; }
-.deal-order-btn { width: 100%; margin-top: 20px; background: linear-gradient(135deg, #25D366, #1da851); color: #fff; border: none; padding: 17px; border-radius: 14px; font-family: 'Bebas Neue'; font-size: 1.2rem; letter-spacing: 3px; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 0 28px rgba(37,211,102,0.4); }
+.deal-flavour-error {
+  background: rgba(179,18,23,0.2); border: 1px solid var(--red);
+  border-radius: 8px; padding: 10px 12px; font-size: 0.8rem;
+  color: #ff8080; margin-top: 8px; display: none; line-height: 1.5;
+}
+.deal-flavour-error.show { display: block; }
+.deal-order-btn {
+  width: 100%; margin-top: 20px;
+  background: linear-gradient(135deg, #25D366, #1da851);
+  color: #fff; border: none; padding: 17px; border-radius: 14px;
+  font-family: 'Bebas Neue'; font-size: 1.2rem; letter-spacing: 3px;
+  cursor: pointer; transition: all 0.3s;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  box-shadow: 0 0 28px rgba(37,211,102,0.4);
+}
 .deal-order-btn:hover { background: linear-gradient(135deg, #1da851, #178f43); transform: scale(1.02); }
-/* DELIVERY CHARGE DISPLAY */
-.dc-info-box { background: rgba(255,179,0,0.08); border: 1.5px solid rgba(255,179,0,0.3); border-radius: 12px; padding: 12px 14px; margin-top: 8px; font-size: 0.82rem; color: rgba(255,245,230,0.8); line-height: 1.7; display: none; }
-.dc-info-box.show { display: block; }
-.dc-info-box .dc-amount { font-family: 'Bebas Neue'; font-size: 1.3rem; color: var(--yellow); letter-spacing: 1px; }
-.dc-info-box .dc-zone { font-size: 0.72rem; color: rgba(255,245,230,0.5); margin-top: 2px; }
-.address-hint { font-size: 0.72rem; color: rgba(255,245,230,0.4); margin-top: 5px; padding: 6px 10px; background: rgba(255,255,255,0.03); border-radius: 8px; border-left: 3px solid rgba(255,179,0,0.3); line-height: 1.5; }
-.delivery-time-note { background: rgba(37,211,102,0.08); border: 1px solid rgba(37,211,102,0.25); border-radius: 10px; padding: 10px 14px; margin-top: 8px; font-size: 0.8rem; color: rgba(255,245,230,0.75); display: none; line-height: 1.6; }
-.delivery-time-note.show { display: block; }
-/* ADDONS */
+
+/* ── Send-confirmation overlay (no external link) ── */
+.send-confirm-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+  z-index: 6000; display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transition: all 0.3s; backdrop-filter: blur(10px);
+  padding: 20px;
+}
+.send-confirm-overlay.open { opacity: 1; visibility: visible; }
+.send-confirm-box {
+  background: #0d1f0d; border: 1.5px solid #4ade80;
+  border-radius: 22px; width: 100%; max-width: 460px;
+  padding: 32px; text-align: center;
+  animation: modalSlideUp 0.3s ease;
+}
+.send-confirm-box .sc-icon { font-size: 3.5rem; margin-bottom: 12px; }
+.send-confirm-box h3 { font-family: 'Bebas Neue'; font-size: 1.6rem; color: #4ade80; letter-spacing: 3px; margin-bottom: 8px; }
+.send-confirm-box p { font-size: 0.85rem; color: rgba(255,245,230,0.65); line-height: 1.7; margin-bottom: 18px; }
+.sc-msg-box {
+  background: #111; border: 1px solid rgba(74,222,128,0.3);
+  border-radius: 10px; padding: 14px; font-size: 0.78rem;
+  color: rgba(255,245,230,0.8); text-align: left; line-height: 1.7;
+  max-height: 160px; overflow-y: auto; margin-bottom: 16px;
+  white-space: pre-wrap; font-family: monospace;
+}
+.sc-copy-btn {
+  width: 100%; background: rgba(74,222,128,0.15); border: 1px solid #4ade80;
+  color: #4ade80; padding: 12px; border-radius: 10px;
+  font-family: 'Bebas Neue'; font-size: 1rem; letter-spacing: 2px;
+  cursor: pointer; margin-bottom: 10px; transition: all 0.3s;
+}
+.sc-copy-btn:hover { background: rgba(74,222,128,0.3); }
+.sc-wa-btn {
+  width: 100%; background: linear-gradient(135deg, #25D366, #1da851);
+  color: #fff; padding: 14px; border-radius: 10px; border: none;
+  font-family: 'Bebas Neue'; font-size: 1rem; letter-spacing: 2px;
+  cursor: pointer; margin-bottom: 10px; transition: all 0.3s;
+  box-shadow: 0 0 20px rgba(37,211,102,0.35);
+}
+.sc-wa-btn:hover { background: linear-gradient(135deg, #1da851, #178f43); }
+.sc-close-btn {
+  background: none; border: 1px solid rgba(255,245,230,0.2);
+  color: rgba(255,245,230,0.5); padding: 10px; border-radius: 10px;
+  font-family: 'Nunito'; font-size: 0.85rem; cursor: pointer; width: 100%;
+  transition: all 0.3s;
+}
+.sc-close-btn:hover { border-color: var(--red); color: var(--red); }
+
+/* ===================== ADD-ONS ===================== */
 #addons { background: #0a0a0a; }
 .addons-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
-.addon-card { background: #1a0a0a; border: 1px solid rgba(255,179,0,0.12); border-radius: 14px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; transition: all 0.3s; cursor: pointer; }
+.addon-card {
+  background: #1a0a0a; border: 1px solid rgba(255,179,0,0.12);
+  border-radius: 14px; padding: 14px 16px;
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  transition: all 0.3s; cursor: pointer;
+}
 .addon-card:hover { border-color: rgba(255,179,0,0.4); background: rgba(255,179,0,0.05); transform: translateY(-2px); }
 .addon-name { font-size: 0.82rem; font-weight: 700; color: var(--cream); flex: 1; }
 .addon-price { font-family: 'Bebas Neue'; font-size: 1.1rem; color: var(--yellow); white-space: nowrap; }
-.addon-add-btn { background: var(--red); color: #fff; border: none; width: 26px; height: 26px; border-radius: 50%; font-size: 1rem; cursor: pointer; transition: all 0.25s; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: 900; }
+.addon-add-btn {
+  background: var(--red); color: #fff; border: none;
+  width: 26px; height: 26px; border-radius: 50%; font-size: 1rem;
+  cursor: pointer; transition: all 0.25s; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-weight: 900;
+}
 .addon-add-btn:hover { background: var(--yellow); color: var(--black); transform: scale(1.15); }
+
+/* ===================== GALLERY ===================== */
 #gallery { background: linear-gradient(180deg, #180606 0%, var(--black) 100%); }
 .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-.gallery-item { border-radius: 16px; overflow: hidden; position: relative; background: var(--card-bg); border: 1px solid var(--glass-border); aspect-ratio: 1; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.4s; }
+.gallery-item {
+  border-radius: 16px; overflow: hidden; position: relative;
+  background: var(--card-bg); border: 1px solid var(--glass-border);
+  aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.4s;
+}
 .gallery-item.wide { grid-column: span 2; aspect-ratio: 2/1; }
 .gallery-item.tall { grid-row: span 2; aspect-ratio: 1/2; }
 .gallery-item:hover { transform: scale(1.03); box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 30px rgba(255,179,0,0.1); border-color: rgba(255,179,0,0.4); }
 .gallery-emoji { font-size: 3.5rem; opacity: 0.8; }
-.gallery-label { position: absolute; bottom: 0; left: 0; right: 0; padding: 14px 16px; background: linear-gradient(0deg, rgba(0,0,0,0.85), transparent); font-weight: 800; font-size: 0.88rem; letter-spacing: 1px; color: var(--cream); }
+.gallery-label {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 14px 16px;
+  background: linear-gradient(0deg, rgba(0,0,0,0.85), transparent);
+  font-weight: 800; font-size: 0.88rem; letter-spacing: 1px; color: var(--cream);
+}
+
+/* ===================== ABOUT ===================== */
 #about { background: var(--black2); }
 .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
 .about-text h2 { font-family: 'Bebas Neue'; font-size: clamp(2rem, 4vw, 3rem); color: var(--yellow); letter-spacing: 2px; margin-bottom: 16px; }
 .about-text p { color: rgba(255,245,230,0.7); line-height: 1.8; font-size: 0.95rem; margin-bottom: 16px; }
 .about-features { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 24px; }
-.about-feature { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 14px; padding: 16px; display: flex; align-items: center; gap: 12px; transition: all 0.3s; }
+.about-feature {
+  background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: 14px; padding: 16px;
+  display: flex; align-items: center; gap: 12px; transition: all 0.3s;
+}
 .about-feature:hover { border-color: var(--yellow); background: rgba(255,179,0,0.06); }
 .about-feature-icon { font-size: 1.8rem; }
 .about-feature-text strong { display: block; color: var(--yellow); font-size: 0.82rem; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 2px; }
 .about-feature-text span { font-size: 0.72rem; color: rgba(255,245,230,0.5); }
-.about-visual { background: linear-gradient(135deg, rgba(179,18,23,0.12), rgba(255,179,0,0.06)); border: 1.5px solid var(--glass-border); border-radius: 24px; padding: 40px; text-align: center; position: relative; overflow: hidden; }
+.about-visual {
+  background: linear-gradient(135deg, rgba(179,18,23,0.12), rgba(255,179,0,0.06));
+  border: 1.5px solid var(--glass-border);
+  border-radius: 24px; padding: 40px;
+  text-align: center; position: relative; overflow: hidden;
+}
 .about-logo-big { font-family: 'Bebas Neue'; font-size: 4rem; color: var(--yellow); letter-spacing: 4px; line-height: 1; }
 .about-logo-big span { color: var(--red); }
 .about-logo-sub { color: rgba(255,245,230,0.4); font-size: 0.8rem; letter-spacing: 3px; margin-top: 4px; }
@@ -225,6 +546,8 @@ section { padding: 80px 5%; }
 .stat { text-align: center; }
 .stat-num { font-family: 'Bebas Neue'; font-size: 2.5rem; color: var(--yellow); letter-spacing: 2px; }
 .stat-label { font-size: 0.72rem; color: rgba(255,245,230,0.5); text-transform: uppercase; letter-spacing: 1px; }
+
+/* ===================== CONTACT ===================== */
 #contact { background: linear-gradient(180deg, var(--black) 0%, #180606 100%); }
 .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
 .contact-block { margin-bottom: 28px; }
@@ -234,18 +557,45 @@ section { padding: 80px 5%; }
 .contact-row a { color: var(--yellow); text-decoration: none; transition: color 0.2s; }
 .contact-row a:hover { color: var(--red); }
 .social-row { display: flex; gap: 12px; margin-top: 12px; }
-.social-btn { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 10px; padding: 10px 18px; color: var(--cream); font-weight: 700; font-size: 0.82rem; text-decoration: none; transition: all 0.3s; display: flex; align-items: center; gap: 6px; }
+.social-btn {
+  background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: 10px; padding: 10px 18px;
+  color: var(--cream); font-weight: 700; font-size: 0.82rem;
+  text-decoration: none; transition: all 0.3s; display: flex; align-items: center; gap: 6px;
+}
 .social-btn:hover { background: var(--red); border-color: var(--red); transform: translateY(-2px); }
-.contact-form input, .contact-form textarea { width: 100%; background: #1e0808; border: 1px solid rgba(255,179,0,0.25); border-radius: 12px; padding: 14px 16px; color: var(--cream); font-family: 'Nunito'; font-size: 0.9rem; margin-bottom: 12px; outline: none; transition: border-color 0.3s; }
-.contact-form input:focus, .contact-form textarea:focus { border-color: var(--yellow); }
+
+/* ── Contact Form ── */
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  background: #1e0808;
+  border: 1px solid rgba(255,179,0,0.25);
+  border-radius: 12px; padding: 14px 16px;
+  color: var(--cream);
+  font-family: 'Nunito'; font-size: 0.9rem; margin-bottom: 12px;
+  outline: none; transition: border-color 0.3s;
+}
+.contact-form input:focus,
+.contact-form textarea:focus { border-color: var(--yellow); }
 .contact-form textarea { min-height: 110px; resize: vertical; }
-.contact-form input::placeholder, .contact-form textarea::placeholder { color: rgba(255,245,230,0.3); }
+.contact-form input::placeholder,
+.contact-form textarea::placeholder { color: rgba(255,245,230,0.3); }
 .form-submit { width: 100%; }
-.map-placeholder { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 16px; padding: 30px; text-align: center; margin-top: 20px; color: rgba(255,245,230,0.5); font-size: 0.9rem; }
+.map-placeholder {
+  background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: 16px; padding: 30px; text-align: center;
+  margin-top: 20px; color: rgba(255,245,230,0.5); font-size: 0.9rem;
+}
 .map-placeholder .map-icon { font-size: 3rem; margin-bottom: 10px; }
 .map-link { display: inline-block; margin-top: 10px; color: var(--yellow); font-weight: 700; text-decoration: none; font-size: 0.85rem; }
 .map-link:hover { color: var(--red); }
-footer { background: #0a0a0a; border-top: 1px solid var(--glass-border); padding: 50px 5% 24px; }
+
+/* ===================== FOOTER ===================== */
+footer {
+  background: #0a0a0a; border-top: 1px solid var(--glass-border);
+  padding: 50px 5% 24px;
+}
 .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
 .footer-logo { font-family: 'Bebas Neue'; font-size: 2rem; color: var(--yellow); letter-spacing: 3px; }
 .footer-logo span { color: var(--red); }
@@ -261,9 +611,20 @@ footer { background: #0a0a0a; border-top: 1px solid var(--glass-border); padding
 .footer-bottom { border-top: 1px solid var(--glass-border); padding-top: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
 .footer-bottom p { font-size: 0.78rem; color: rgba(255,245,230,0.35); }
 .footer-bottom p span { color: var(--red); }
-.cart-sidebar { position: fixed; top: 0; right: -420px; width: 400px; height: 100vh; background: #1a0606; border-left: 1.5px solid var(--glass-border); z-index: 2000; transition: right 0.4s cubic-bezier(0.4,0,0.2,1); display: flex; flex-direction: column; box-shadow: -10px 0 60px rgba(0,0,0,0.8); }
+
+/* ===================== CART SIDEBAR ===================== */
+.cart-sidebar {
+  position: fixed; top: 0; right: -420px; width: 400px; height: 100vh;
+  background: #1a0606; border-left: 1.5px solid var(--glass-border);
+  z-index: 2000; transition: right 0.4s cubic-bezier(0.4,0,0.2,1);
+  display: flex; flex-direction: column;
+  box-shadow: -10px 0 60px rgba(0,0,0,0.8);
+}
 .cart-sidebar.open { right: 0; }
-.cart-header { padding: 20px 24px; border-bottom: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: space-between; }
+.cart-header {
+  padding: 20px 24px; border-bottom: 1px solid var(--glass-border);
+  display: flex; align-items: center; justify-content: space-between;
+}
 .cart-header h3 { font-family: 'Bebas Neue'; font-size: 1.5rem; color: var(--yellow); letter-spacing: 2px; }
 .cart-close { background: none; border: none; color: var(--cream); font-size: 1.5rem; cursor: pointer; transition: color 0.2s; }
 .cart-close:hover { color: var(--red); }
@@ -281,89 +642,244 @@ footer { background: #0a0a0a; border-top: 1px solid var(--glass-border); padding
 .cart-total { display: flex; justify-content: space-between; margin-bottom: 16px; align-items: center; }
 .cart-total span { font-weight: 700; color: rgba(255,245,230,0.7); }
 .cart-total strong { font-family: 'Bebas Neue'; font-size: 1.5rem; color: var(--yellow); letter-spacing: 1px; }
-.cart-proceed-btn { width: 100%; background: linear-gradient(135deg, #25D366, #1da851); color: #fff; border: none; padding: 17px; border-radius: 14px; font-family: 'Bebas Neue'; font-size: 1.25rem; letter-spacing: 3px; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 0 28px rgba(37,211,102,0.45); margin-bottom: 10px; }
-.cart-proceed-btn:hover { background: linear-gradient(135deg, #1da851, #178f43); transform: scale(1.03); box-shadow: 0 0 40px rgba(37,211,102,0.6); }
+
+/* ── Single Big Order Button ── */
+.cart-proceed-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #25D366, #1da851);
+  color: #fff; border: none; padding: 17px;
+  border-radius: 14px;
+  font-family: 'Bebas Neue'; font-size: 1.25rem; letter-spacing: 3px;
+  cursor: pointer; transition: all 0.3s;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  box-shadow: 0 0 28px rgba(37,211,102,0.45);
+  margin-bottom: 10px;
+}
+.cart-proceed-btn:hover {
+  background: linear-gradient(135deg, #1da851, #178f43);
+  transform: scale(1.03);
+  box-shadow: 0 0 40px rgba(37,211,102,0.6);
+}
 .cart-cod { display: block; text-align: center; color: rgba(255,245,230,0.4); font-size: 0.75rem; }
-.cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1999; opacity: 0; visibility: hidden; transition: all 0.3s; backdrop-filter: blur(3px); }
+.cart-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1999;
+  opacity: 0; visibility: hidden; transition: all 0.3s; backdrop-filter: blur(3px);
+}
 .cart-overlay.open { opacity: 1; visibility: visible; }
-.checkout-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 4000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.3s; backdrop-filter: blur(8px); padding: 20px; }
+
+/* ===================== CHECKOUT MODAL ===================== */
+.checkout-modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.92);
+  z-index: 4000; display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transition: all 0.3s; backdrop-filter: blur(8px);
+  padding: 20px;
+}
 .checkout-modal-overlay.open { opacity: 1; visibility: visible; }
-.checkout-modal { background: #1a0808; border: 1.5px solid rgba(255,179,0,0.3); border-radius: 22px; width: 100%; max-width: 500px; max-height: 92vh; overflow-y: auto; padding: 32px; position: relative; animation: modalSlideUp 0.3s ease; }
+.checkout-modal {
+  background: #1a0808; border: 1.5px solid rgba(255,179,0,0.3);
+  border-radius: 22px; width: 100%; max-width: 500px;
+  max-height: 92vh; overflow-y: auto;
+  padding: 32px; position: relative;
+  animation: modalSlideUp 0.3s ease;
+}
 .checkout-modal h2 { font-family: 'Bebas Neue'; font-size: 1.8rem; color: var(--yellow); letter-spacing: 3px; margin-bottom: 6px; }
 .checkout-modal .checkout-sub { font-size: 0.82rem; color: rgba(255,245,230,0.45); margin-bottom: 22px; line-height: 1.6; }
-.order-summary-box { background: rgba(179,18,23,0.1); border: 1px solid rgba(179,18,23,0.25); border-radius: 12px; padding: 14px; margin-bottom: 20px; }
+
+/* Order summary */
+.order-summary-box {
+  background: rgba(179,18,23,0.1); border: 1px solid rgba(179,18,23,0.25);
+  border-radius: 12px; padding: 14px; margin-bottom: 20px;
+}
 .order-summary-box h4 { font-family: 'Bebas Neue'; font-size: 1rem; color: var(--red); letter-spacing: 2px; margin-bottom: 10px; }
 .order-summary-item { display: flex; justify-content: space-between; font-size: 0.8rem; color: rgba(255,245,230,0.7); margin-bottom: 5px; padding-bottom: 5px; border-bottom: 1px solid rgba(255,255,255,0.04); }
 .order-summary-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
 .order-summary-total { display: flex; justify-content: space-between; font-weight: 800; color: var(--yellow); font-family: 'Bebas Neue'; font-size: 1.2rem; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,179,0,0.2); }
+
+/* Form fields */
 .co-label { display: block; font-size: 0.7rem; font-weight: 800; color: var(--yellow); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; margin-top: 14px; }
-.co-input { width: 100%; background: #1e0808; border: 1px solid rgba(255,179,0,0.25); border-radius: 10px; padding: 12px 14px; color: var(--cream); font-family: 'Nunito'; font-size: 0.9rem; outline: none; transition: border-color 0.3s; }
+.co-input {
+  width: 100%;
+  background: #1e0808;
+  border: 1px solid rgba(255,179,0,0.25);
+  border-radius: 10px; padding: 12px 14px;
+  color: var(--cream);
+  font-family: 'Nunito'; font-size: 0.9rem;
+  outline: none; transition: border-color 0.3s;
+}
 .co-input:focus { border-color: var(--yellow); }
 .co-input::placeholder { color: rgba(255,245,230,0.28); }
-.co-select { width: 100%; background: #2a0f0f; border: 1px solid rgba(255,179,0,0.3); border-radius: 10px; padding: 12px 14px; color: #FFF5E6; font-family: 'Nunito'; font-size: 0.9rem; outline: none; transition: border-color 0.3s; cursor: pointer; -webkit-appearance: none; appearance: none; }
+
+/* ── FIX: Select dropdown text always visible ── */
+.co-select {
+  width: 100%;
+  background: #2a0f0f;
+  border: 1px solid rgba(255,179,0,0.3);
+  border-radius: 10px; padding: 12px 14px;
+  color: #FFF5E6;
+  font-family: 'Nunito'; font-size: 0.9rem;
+  outline: none; transition: border-color 0.3s; cursor: pointer;
+  -webkit-appearance: none; appearance: none;
+}
 .co-select:focus { border-color: var(--yellow); }
-.co-select option { background: #2a0f0f; color: #FFF5E6; }
-.co-select option:disabled { color: rgba(255,245,230,0.45); }
-.pickup-info { background: rgba(255,179,0,0.07); border: 1px solid rgba(255,179,0,0.2); border-radius: 10px; padding: 12px 14px; margin-top: 8px; font-size: 0.82rem; color: rgba(255,245,230,0.7); display: none; }
+.co-select option {
+  background: #2a0f0f;
+  color: #FFF5E6;
+}
+.co-select option:disabled,
+.co-select option[value=""] {
+  color: rgba(255,245,230,0.45);
+}
+
+.pickup-info {
+  background: rgba(255,179,0,0.07); border: 1px solid rgba(255,179,0,0.2);
+  border-radius: 10px; padding: 12px 14px; margin-top: 8px;
+  font-size: 0.82rem; color: rgba(255,245,230,0.7);
+  display: none;
+}
 .pickup-info.show { display: block; }
-.co-wa-final-btn { width: 100%; background: linear-gradient(135deg, #25D366, #1da851); color: #fff; border: none; padding: 18px; border-radius: 14px; font-weight: 900; font-size: 1.05rem; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; font-family: 'Nunito'; margin-top: 24px; box-shadow: 0 0 30px rgba(37,211,102,0.4); letter-spacing: 0.5px; }
-.co-wa-final-btn:hover { background: linear-gradient(135deg, #1da851, #178f43); transform: scale(1.02); box-shadow: 0 0 45px rgba(37,211,102,0.6); }
+
+/* ── Single Proceed Button ── */
+.co-wa-final-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #25D366, #1da851);
+  color: #fff; border: none; padding: 18px;
+  border-radius: 14px;
+  font-weight: 900; font-size: 1.05rem;
+  cursor: pointer; transition: all 0.3s;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  font-family: 'Nunito'; margin-top: 24px;
+  box-shadow: 0 0 30px rgba(37,211,102,0.4);
+  letter-spacing: 0.5px;
+}
+.co-wa-final-btn:hover {
+  background: linear-gradient(135deg, #1da851, #178f43);
+  transform: scale(1.02);
+  box-shadow: 0 0 45px rgba(37,211,102,0.6);
+}
 .co-note { text-align: center; font-size: 0.72rem; color: rgba(255,245,230,0.35); margin-top: 10px; line-height: 1.5; }
-.toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(20px); background: #1a2a1a; border: 1px solid #4ade80; color: #4ade80; padding: 14px 24px; border-radius: 12px; font-weight: 700; font-size: 0.9rem; z-index: 9999; opacity: 0; transition: all 0.4s; white-space: nowrap; box-shadow: 0 8px 30px rgba(0,0,0,0.5); pointer-events: none; }
+
+/* ===================== SUCCESS TOAST ===================== */
+.toast {
+  position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: #1a2a1a; border: 1px solid #4ade80;
+  color: #4ade80; padding: 14px 24px; border-radius: 12px;
+  font-weight: 700; font-size: 0.9rem; z-index: 9999;
+  opacity: 0; transition: all 0.4s; white-space: nowrap;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+}
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 .toast.error { background: #2a1a1a; border-color: var(--red); color: #ff6b6b; }
-.cart-fab { position: fixed; bottom: 90px; right: 24px; background: linear-gradient(135deg, var(--red), #d41c23); color: #fff; border: none; width: 58px; height: 58px; border-radius: 50%; font-size: 1.4rem; cursor: pointer; z-index: 900; box-shadow: 0 0 25px rgba(179,18,23,0.6); transition: all 0.3s; display: flex; align-items: center; justify-content: center; }
+
+/* Cart FAB */
+.cart-fab {
+  position: fixed; bottom: 90px; right: 24px;
+  background: linear-gradient(135deg, var(--red), #d41c23);
+  color: #fff; border: none; width: 58px; height: 58px; border-radius: 50%;
+  font-size: 1.4rem; cursor: pointer; z-index: 900;
+  box-shadow: 0 0 25px rgba(179,18,23,0.6);
+  transition: all 0.3s; display: flex; align-items: center; justify-content: center;
+}
 .cart-fab:hover { transform: scale(1.1); box-shadow: 0 0 40px rgba(255,179,0,0.5); }
-.cart-count { position: absolute; top: -4px; right: -4px; background: var(--yellow); color: var(--black); width: 20px; height: 20px; border-radius: 50%; font-size: 0.7rem; font-weight: 900; display: none; align-items: center; justify-content: center; }
-.wa-btn { position: fixed; bottom: 24px; right: 24px; background: #25D366; color: #fff; width: 58px; height: 58px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; text-decoration: none; z-index: 900; animation: waPulse 2.5s infinite; transition: transform 0.3s; }
+.cart-count {
+  position: absolute; top: -4px; right: -4px;
+  background: var(--yellow); color: var(--black);
+  width: 20px; height: 20px; border-radius: 50%;
+  font-size: 0.7rem; font-weight: 900;
+  display: none; align-items: center; justify-content: center;
+}
+.wa-btn {
+  position: fixed; bottom: 24px; right: 24px;
+  background: #25D366; color: #fff;
+  width: 58px; height: 58px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; text-decoration: none; z-index: 900;
+  animation: waPulse 2.5s infinite; transition: transform 0.3s;
+}
 .wa-btn:hover { transform: scale(1.12); }
 @keyframes waPulse { 0%{box-shadow:0 0 0 0 rgba(37,211,102,0.5)} 70%{box-shadow:0 0 0 18px rgba(37,211,102,0)} 100%{box-shadow:0 0 0 0 rgba(37,211,102,0)} }
+
 .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
 .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ===================== RESPONSIVE ===================== */
 @media (max-width: 900px) {
-  .nav-links { display: none; } .hamburger { display: flex; }
-  #mobile-menu { display: none; position: fixed; top: 64px; left: 0; right: 0; background: rgba(17,17,17,0.97); backdrop-filter: blur(20px); padding: 20px 24px 28px; z-index: 999; flex-direction: column; gap: 18px; border-bottom: 1px solid var(--glass-border); }
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  #mobile-menu {
+    display: none; position: fixed; top: 64px; left: 0; right: 0;
+    background: rgba(17,17,17,0.97); backdrop-filter: blur(20px);
+    padding: 20px 24px 28px; z-index: 999; flex-direction: column; gap: 18px;
+    border-bottom: 1px solid var(--glass-border);
+  }
   #mobile-menu.open { display: flex; }
   #mobile-menu a { color: var(--cream); text-decoration: none; font-weight: 700; font-size: 1.1rem; letter-spacing: 1px; text-transform: uppercase; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-  .about-grid { grid-template-columns: 1fr; } .contact-grid { grid-template-columns: 1fr; }
-  .footer-grid { grid-template-columns: 1fr 1fr; } .gallery-grid { grid-template-columns: repeat(2, 1fr); }
-  .gallery-item.wide { grid-column: span 1; aspect-ratio: 1; } .gallery-item.tall { grid-row: span 1; aspect-ratio: 1; }
-  .float-cards { display: none; } .cart-sidebar { width: 100%; right: -110%; }
+  .about-grid { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  .gallery-item.wide { grid-column: span 1; aspect-ratio: 1; }
+  .gallery-item.tall { grid-row: span 1; aspect-ratio: 1; }
+  .float-cards { display: none; }
+  .cart-sidebar { width: 100%; right: -110%; }
 }
 @media (max-width: 560px) {
-  .footer-grid { grid-template-columns: 1fr; } .deals-grid { grid-template-columns: 1fr; }
-  .menu-grid { grid-template-columns: 1fr; } .gallery-grid { grid-template-columns: 1fr; }
-  .about-features { grid-template-columns: 1fr; } .checkout-modal { padding: 22px 18px; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .deals-grid { grid-template-columns: 1fr; }
+  .menu-grid { grid-template-columns: 1fr; }
+  .gallery-grid { grid-template-columns: 1fr; }
+  .about-features { grid-template-columns: 1fr; }
+  .checkout-modal { padding: 22px 18px; }
 }
 </style>
 </head>
 <body>
+
 <div class="toast" id="toast"></div>
+
+<!-- LOADER -->
 <div id="loader">
   <div class="loader-logo">SAUCE N CHEESE</div>
   <div class="loader-sub">TAKE IT EASY LET'S GET CHEESY</div>
   <div class="loader-bar"><div class="loader-fill"></div></div>
 </div>
+
+<!-- NAVBAR -->
 <nav id="navbar">
-  <div class="nav-logo" id="navLogoWrap">
-    <img src="logo.png" alt="Sauce N Cheese" class="nav-logo-img" onerror="document.getElementById('navLogoWrap').classList.add('nav-logo-img-error');">
+  <div class="nav-logo">
     <div class="nav-logo-text">SAUCE <span>N</span> CHEESE</div>
   </div>
   <ul class="nav-links">
-    <li><a href="#hero">Home</a></li><li><a href="#menu">Menu</a></li>
-    <li><a href="#deals">Deals</a></li><li><a href="#gallery">Gallery</a></li>
-    <li><a href="#about">About</a></li><li><a href="#contact">Contact</a></li>
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#deals">Deals</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
   </ul>
   <button class="nav-order-btn" onclick="openCart()">🛒 ORDER NOW</button>
-  <div class="hamburger" onclick="toggleMobileMenu()"><span></span><span></span><span></span></div>
+  <div class="hamburger" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </div>
 </nav>
+
+<!-- MOBILE MENU -->
 <div id="mobile-menu">
-  <a href="#hero" onclick="closeMobileMenu()">Home</a><a href="#menu" onclick="closeMobileMenu()">Menu</a>
-  <a href="#deals" onclick="closeMobileMenu()">Deals</a><a href="#gallery" onclick="closeMobileMenu()">Gallery</a>
-  <a href="#about" onclick="closeMobileMenu()">About</a><a href="#contact" onclick="closeMobileMenu()">Contact</a>
+  <a href="#hero" onclick="closeMobileMenu()">Home</a>
+  <a href="#menu" onclick="closeMobileMenu()">Menu</a>
+  <a href="#deals" onclick="closeMobileMenu()">Deals</a>
+  <a href="#gallery" onclick="closeMobileMenu()">Gallery</a>
+  <a href="#about" onclick="closeMobileMenu()">About</a>
+  <a href="#contact" onclick="closeMobileMenu()">Contact</a>
 </div>
+
+<!-- HERO -->
 <section id="hero">
-  <div class="cheese-drip"><div class="drip"></div><div class="drip"></div><div class="drip"></div><div class="drip"></div><div class="drip"></div><div class="drip"></div><div class="drip"></div><div class="drip"></div><div class="drip"></div><div class="drip"></div></div>
+  <div class="cheese-drip">
+    <div class="drip"></div><div class="drip"></div><div class="drip"></div>
+    <div class="drip"></div><div class="drip"></div><div class="drip"></div>
+    <div class="drip"></div><div class="drip"></div><div class="drip"></div>
+    <div class="drip"></div>
+  </div>
   <div class="hero-bg-anim"></div>
   <div class="float-cards">
     <div class="float-card">🍕 B.B.Q Tikka<div class="fc-price">Rs. 299</div></div>
@@ -375,30 +891,41 @@ footer { background: #0a0a0a; border-top: 1px solid var(--glass-border); padding
   <div class="hero-content">
     <img src="logo.png" alt="Sauce N Cheese Logo" class="hero-logo-img" onerror="this.style.display='none'">
     <div class="hero-tagline">Take It Easy<br><span class="accent">Let's Get</span> <span class="red-accent">Cheesy</span></div>
-    <div class="hero-sub">PREMIUM PIZZA &amp; BURGERS · KARACHI'S FINEST</div>
+    <div class="hero-sub">PREMIUM PIZZA & BURGERS · KARACHI'S FINEST</div>
     <div class="hero-btns">
       <a href="#menu" class="btn-primary">🍕 View Menu</a>
       <a href="https://wa.me/923352014007?text=Hi!%20I'd%20like%20to%20place%20an%20order." target="_blank" class="btn-secondary">📱 Order on WhatsApp</a>
     </div>
   </div>
-  <div class="scroll-indicator"><span>SCROLL</span><div class="scroll-arrow"></div></div>
+  <div class="scroll-indicator">
+    <span>SCROLL</span>
+    <div class="scroll-arrow"></div>
+  </div>
 </section>
+
+<!-- MENU -->
 <section id="menu">
   <div class="section-title fade-in">OUR <span class="hl">MENU</span><span class="hr-line"></span></div>
   <div class="section-sub fade-in">Crafted with premium ingredients. Every bite tells a story.</div>
   <div class="menu-filters fade-in" id="menuFilters"></div>
   <div class="menu-grid" id="menuGrid"></div>
 </section>
+
+<!-- DEALS -->
 <section id="deals">
   <div class="section-title fade-in">SPECIAL <span class="hl">DEALS</span><span class="hr-line"></span></div>
-  <div class="section-sub fade-in">Unbeatable combos. Maximum taste, maximum value. Click any deal to order!</div>
+  <div class="section-sub fade-in">Unbeatable combos. Maximum taste, maximum value.</div>
   <div class="deals-grid" id="dealsGrid"></div>
 </section>
+
+<!-- ADD-ONS -->
 <section id="addons">
   <div class="section-title fade-in">ADD <span class="hl">ONS</span><span class="hr-line"></span></div>
   <div class="section-sub fade-in">Upgrade your meal with these delicious extras.</div>
   <div class="addons-grid" id="addonsGrid"></div>
 </section>
+
+<!-- GALLERY -->
 <section id="gallery">
   <div class="section-title fade-in">FOOD <span class="hl">GALLERY</span><span class="hr-line"></span></div>
   <div class="section-sub fade-in">Visual feast before the real one.</div>
@@ -406,12 +933,14 @@ footer { background: #0a0a0a; border-top: 1px solid var(--glass-border); padding
     <div class="gallery-item wide"><div class="gallery-emoji">🍕</div><div class="gallery-label">Signature Pizzas</div></div>
     <div class="gallery-item"><div class="gallery-emoji">🍔</div><div class="gallery-label">Gourmet Burgers</div></div>
     <div class="gallery-item tall"><div class="gallery-emoji">🍗</div><div class="gallery-label">Fried Chicken</div></div>
-    <div class="gallery-item"><div class="gallery-emoji">🌯</div><div class="gallery-label">Wraps &amp; Sandwiches</div></div>
+    <div class="gallery-item"><div class="gallery-emoji">🌯</div><div class="gallery-label">Wraps & Sandwiches</div></div>
     <div class="gallery-item"><div class="gallery-emoji">🍟</div><div class="gallery-label">Cheesy Fries</div></div>
-    <div class="gallery-item wide"><div class="gallery-emoji">🍝</div><div class="gallery-label">Pasta &amp; Lasagne</div></div>
+    <div class="gallery-item wide"><div class="gallery-emoji">🍝</div><div class="gallery-label">Pasta & Lasagne</div></div>
     <div class="gallery-item"><div class="gallery-emoji">🎂</div><div class="gallery-label">Lava Cake</div></div>
   </div>
 </section>
+
+<!-- ABOUT -->
 <section id="about">
   <div class="about-grid">
     <div class="about-text fade-in">
@@ -421,8 +950,8 @@ footer { background: #0a0a0a; border-top: 1px solid var(--glass-border); padding
       <p>We offer express delivery right to your doorstep — because great food shouldn't wait.</p>
       <div class="about-features">
         <div class="about-feature"><span class="about-feature-icon">🧀</span><div class="about-feature-text"><strong>Premium Cheese</strong><span>Real mozzarella on every pizza</span></div></div>
-        <div class="about-feature"><span class="about-feature-icon">🚀</span><div class="about-feature-text"><strong>Express Delivery</strong><span>35–50 min delivery time</span></div></div>
-        <div class="about-feature"><span class="about-feature-icon">🌶️</span><div class="about-feature-text"><strong>Bold Flavours</strong><span>Spicy, creamy, smoky &amp; more</span></div></div>
+        <div class="about-feature"><span class="about-feature-icon">🚀</span><div class="about-feature-text"><strong>Express Delivery</strong><span>25–35 min prep time</span></div></div>
+        <div class="about-feature"><span class="about-feature-icon">🌶️</span><div class="about-feature-text"><strong>Bold Flavours</strong><span>Spicy, creamy, smoky & more</span></div></div>
         <div class="about-feature"><span class="about-feature-icon">👨‍👩‍👧‍👦</span><div class="about-feature-text"><strong>Family Dining</strong><span>For every occasion</span></div></div>
       </div>
     </div>
@@ -437,6 +966,8 @@ footer { background: #0a0a0a; border-top: 1px solid var(--glass-border); padding
     </div>
   </div>
 </section>
+
+<!-- CONTACT -->
 <section id="contact">
   <div class="section-title fade-in">GET IN <span class="hl">TOUCH</span><span class="hr-line"></span></div>
   <div class="section-sub fade-in">Ready to order? We're open from 4:00 PM to 3:00 AM every day.</div>
@@ -445,7 +976,11 @@ footer { background: #0a0a0a; border-top: 1px solid var(--glass-border); padding
       <div class="contact-block">
         <h3>📍 Location</h3>
         <div class="contact-row"><span class="contact-icon">🏠</span><span>Shop No. SA/59, Block – 4, KAECHS (Baloch Colony), Karachi.</span></div>
-        <div class="map-placeholder"><div class="map-icon">🗺️</div><div>KAECHS Baloch Colony, Karachi</div><a href="https://maps.google.com/?q=KAECHS+Baloch+Colony+Karachi" target="_blank" class="map-link">📍 Open in Google Maps →</a></div>
+        <div class="map-placeholder">
+          <div class="map-icon">🗺️</div>
+          <div>KAECHS Baloch Colony, Karachi</div>
+          <a href="https://maps.google.com/?q=KAECHS+Baloch+Colony+Karachi" target="_blank" class="map-link">📍 Open in Google Maps →</a>
+        </div>
       </div>
       <div class="contact-block">
         <h3>📞 Order Now</h3>
@@ -456,7 +991,7 @@ footer { background: #0a0a0a; border-top: 1px solid var(--glass-border); padding
       <div class="contact-block">
         <h3>⏰ Timings</h3>
         <div class="contact-row"><span class="contact-icon">🕓</span><span>Open Daily: 4:00 PM – 3:00 AM</span></div>
-        <div class="contact-row"><span class="contact-icon">⚡</span><span>Delivery: 35–50 Minutes</span></div>
+        <div class="contact-row"><span class="contact-icon">⚡</span><span>Preparation: 25–35 Minutes</span></div>
       </div>
       <div class="contact-block">
         <h3>🌐 Follow Us</h3>
@@ -476,6 +1011,8 @@ footer { background: #0a0a0a; border-top: 1px solid var(--glass-border); padding
     </div>
   </div>
 </section>
+
+<!-- FOOTER -->
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
@@ -483,30 +1020,78 @@ footer { background: #0a0a0a; border-top: 1px solid var(--glass-border); padding
       <div class="footer-tagline">TAKE IT EASY LET'S GET CHEESY™</div>
       <p>Premium pizza and burgers crafted with the finest ingredients. Karachi's favourite late-night comfort food destination.</p>
     </div>
-    <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="#hero">Home</a></li><li><a href="#menu">Menu</a></li><li><a href="#deals">Deals</a></li><li><a href="#gallery">Gallery</a></li><li><a href="#about">About</a></li><li><a href="#contact">Contact</a></li></ul></div>
-    <div class="footer-col"><h4>Menu</h4><ul><li><a href="#menu">Pizzas</a></li><li><a href="#menu">Burgers</a></li><li><a href="#menu">Wraps</a></li><li><a href="#menu">Fries &amp; Nuggets</a></li><li><a href="#menu">Pasta</a></li><li><a href="#menu">Cakes</a></li></ul></div>
-    <div class="footer-col"><h4>Contact</h4><ul><li><a href="tel:+923347724486">+92 334 7724486</a></li><li><a href="tel:+923352014007">+92 335 2014007</a></li><li><a href="mailto:muhammadtayyabtariq437@gmail.com">Email Us</a></li></ul><div class="footer-timing"><strong>⏰ Opening Hours</strong>4:00 PM – 3:00 AM (Daily)</div></div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#deals">Deals</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Menu</h4>
+      <ul>
+        <li><a href="#menu">Pizzas</a></li>
+        <li><a href="#menu">Burgers</a></li>
+        <li><a href="#menu">Wraps</a></li>
+        <li><a href="#menu">Fries & Nuggets</a></li>
+        <li><a href="#menu">Pasta</a></li>
+        <li><a href="#menu">Cakes</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:+923347724486">+92 334 7724486</a></li>
+        <li><a href="tel:+923352014007">+92 335 2014007</a></li>
+        <li><a href="mailto:muhammadtayyabtariq437@gmail.com">Email Us</a></li>
+      </ul>
+      <div class="footer-timing">
+        <strong>⏰ Opening Hours</strong>
+        4:00 PM – 3:00 AM (Daily)
+      </div>
+    </div>
   </div>
   <div class="footer-bottom">
     <p>© 2025 Sauce N Cheese™ · All Rights Reserved · Karachi, Pakistan</p>
     <p>Made with <span>❤️</span> for cheese lovers</p>
   </div>
 </footer>
+
+<!-- CART OVERLAY -->
 <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+
+<!-- CART SIDEBAR -->
 <div class="cart-sidebar" id="cartSidebar">
-  <div class="cart-header"><h3>🛒 YOUR ORDER</h3><button class="cart-close" onclick="toggleCart()">✕</button></div>
-  <div class="cart-items" id="cartItems"><div class="cart-empty"><div class="cart-empty-icon">🛒</div><p>Your cart is empty.<br>Add some delicious items!</p></div></div>
+  <div class="cart-header">
+    <h3>🛒 YOUR ORDER</h3>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty"><div class="cart-empty-icon">🛒</div><p>Your cart is empty.<br>Add some delicious items!</p></div>
+  </div>
   <div class="cart-footer">
     <div class="cart-total"><span>Total:</span><strong id="cartTotal">Rs. 0</strong></div>
-    <button class="cart-proceed-btn" onclick="openCheckout()">💬 PROCEED TO ORDER ON WHATSAPP</button>
+    <button class="cart-proceed-btn" onclick="openCheckout()">
+      💬 PROCEED TO ORDER ON WHATSAPP
+    </button>
     <span class="cart-cod">💵 Cash on Delivery · Karachi Only</span>
   </div>
 </div>
+
+<!-- PRODUCT MODAL -->
 <div class="product-modal-overlay" id="productModalOverlay" onclick="handleModalOverlayClick(event)">
   <div class="product-modal" id="productModal">
     <button class="modal-close" onclick="closeProductModal()">✕</button>
-    <div class="modal-img-wrap"><div class="modal-img-placeholder" id="modalImgPlaceholder"></div><img id="modalImg" style="display:none;" alt=""></div>
-    <h2 id="modalTitle"></h2><p id="modalDesc"></p>
+    <div class="modal-img-wrap">
+      <div class="modal-img-placeholder" id="modalImgPlaceholder"></div>
+      <img id="modalImg" style="display:none;" alt="">
+    </div>
+    <h2 id="modalTitle"></h2>
+    <p id="modalDesc"></p>
     <label class="modal-label">Select Size / Option</label>
     <select id="modalSize"></select>
     <label class="modal-label">Special Instructions (optional)</label>
@@ -514,60 +1099,77 @@ footer { background: #0a0a0a; border-top: 1px solid var(--glass-border); padding
     <button class="modal-add-btn" onclick="addModalItemToCart()">🛒 ADD TO CART</button>
   </div>
 </div>
+
+<!-- CHECKOUT MODAL -->
 <div class="checkout-modal-overlay" id="checkoutModalOverlay" onclick="handleCheckoutOverlayClick(event)">
   <div class="checkout-modal" id="checkoutModal">
     <button class="modal-close" onclick="closeCheckout()">✕</button>
     <h2>📋 YOUR ORDER</h2>
-    <p class="checkout-sub">Review your order, fill in your details, then place it on WhatsApp!</p>
+    <p class="checkout-sub">
+      Review your order below, fill in your details, then tap the button — your order goes straight to us on WhatsApp!
+    </p>
+
+    <!-- Order Summary -->
     <div class="order-summary-box">
       <h4>🛒 Order Summary</h4>
       <div id="coSummaryItems"></div>
       <div class="order-summary-total"><span>Total</span><span id="coSummaryTotal">Rs. 0</span></div>
     </div>
+
+    <!-- Customer Details -->
     <label class="co-label">Full Name *</label>
     <input type="text" class="co-input" id="coName" placeholder="e.g. Muhammad Ali">
+
     <label class="co-label">Phone Number *</label>
     <input type="tel" class="co-input" id="coPhone" placeholder="e.g. 0331-8025998">
+
     <label class="co-label">Delivery or Pickup? *</label>
     <select class="co-select" id="coType" onchange="handleOrderType()">
       <option value="" disabled selected>— Select an option —</option>
       <option value="Delivery">🛵 Delivery</option>
       <option value="Pickup">🏃 Self Pickup</option>
     </select>
+
     <div id="coAddressWrap" style="display:none; margin-top:4px;">
       <label class="co-label">Delivery Address *</label>
-      <input type="text" class="co-input" id="coAddress" placeholder="Full address with area e.g. House 12, Street 5, Mehmoodabad No.3" oninput="updateDeliveryCharge()">
-      <div class="address-hint">📍 Please write your <strong>full address with area name</strong> (e.g. house no., street, area).</div>
-      <div class="delivery-time-note show">⏱️ <strong>Delivery Time: 35–50 minutes.</strong> Please ensure someone is available to receive the order.</div>
-      <div class="dc-info-box" id="dcInfoBox">
-        <div>🛵 Delivery Charge: <span class="dc-amount" id="dcAmount">—</span></div>
-        <div class="dc-zone" id="dcZone"></div>
-      </div>
+      <input type="text" class="co-input" id="coAddress" placeholder="Full delivery address">
     </div>
-    <div class="pickup-info" id="coPickupInfo">⏱ Your order will be ready for pickup in <strong>15–35 minutes</strong> from our kitchen at Shop No. SA/59, Block – 4, KAECHS Baloch Colony, Karachi.</div>
+
+    <div class="pickup-info" id="coPickupInfo">
+      ⏱ Your order will be ready for pickup in <strong>15–35 minutes</strong> from our kitchen at Shop No. SA/59, Block – 4, KAECHS Baloch Colony, Karachi.
+    </div>
+
     <label class="co-label" style="margin-top:14px;">Additional Notes (optional)</label>
     <input type="text" class="co-input" id="coNotes" placeholder="Any special requests...">
-    <button class="co-wa-final-btn" onclick="checkoutFinalWhatsApp()">💬 &nbsp;PLACE ORDER ON WHATSAPP</button>
-    <p class="co-note">Tapping this opens WhatsApp and sends your full order to Sauce N Cheese.<br>Cash on Delivery available · Karachi only.</p>
+
+    <!-- SINGLE BUTTON -->
+    <button class="co-wa-final-btn" onclick="checkoutFinalWhatsApp()">
+      💬 &nbsp;PLACE ORDER ON WHATSAPP
+    </button>
+    <p class="co-note">
+      Tapping this opens WhatsApp and sends your full order to Sauce N Cheese.<br>
+      Cash on Delivery available · Karachi only.
+    </p>
   </div>
 </div>
+
+<!-- DEAL ORDER MODAL -->
 <div class="deal-modal-overlay" id="dealModalOverlay" onclick="handleDealOverlayClick(event)">
   <div class="deal-modal" id="dealModal">
     <button class="modal-close" onclick="closeDealModal()">✕</button>
-    <div class="deal-modal-header">
-      <h2 id="dmTitle">DEAL 01</h2>
-      <div class="deal-modal-price" id="dmPrice"></div>
-      <div class="deal-modal-desc" id="dmDesc"></div>
-    </div>
+    <h2 id="dmTitle">DEAL 01</h2>
+    <div class="deal-modal-price" id="dmPrice"></div>
+    <div class="deal-modal-desc" id="dmDesc"></div>
+
     <div class="pizza-flavour-wrap" id="dmPizzaWrap">
-      <div class="classic-only-banner">
-        <div class="banner-title"><span>⚠️</span> CLASSIC FLAVOURS ONLY IN DEALS</div>
-        <div class="banner-body">Pizzas in deals are available in <strong>Classic Flavours only</strong>. Special &amp; Signature flavours are <u>not</u> available in any deal.<div class="banner-flavours" id="classicFlavourTags"></div></div>
+      <div class="classic-note">
+        ⚠️ <strong>Classic Flavours Only</strong> — Pizza in deals is available in Classic Flavours only (B.B.Q Tikka, Chicken Fajita, Chicken Afghani, Chicken Supreme, Cheese Pepperoni, Tandoori Chicken, Hot N Spicy, Cheesy Lover, Veggie Pizza). Special &amp; Signature flavours are <u>not</u> included in deals.
       </div>
-      <label class="modal-label" id="dmFlavourLabel">Enter Pizza Flavour(s) *</label>
-      <textarea class="pizza-flavour-input" id="dmFlavour" placeholder="e.g. B.B.Q Tikka, Chicken Supreme...&#10;Write each pizza on a new line if ordering more than one."></textarea>
+      <label class="modal-label" id="dmFlavourLabel">Enter Pizza Flavour(s)</label>
+      <textarea class="pizza-flavour-input" id="dmFlavour" placeholder="e.g. B.B.Q Tikka, Chicken Supreme...&#10;Write each pizza on a new line if more than one."></textarea>
       <div class="deal-flavour-error" id="dmFlavourError"></div>
     </div>
+
     <label class="co-label" style="margin-top:14px;">Your Name *</label>
     <input type="text" class="co-input" id="dmName" placeholder="e.g. Muhammad Ali">
     <label class="co-label">Phone Number *</label>
@@ -580,22 +1182,432 @@ footer { background: #0a0a0a; border-top: 1px solid var(--glass-border); padding
     </select>
     <div id="dmAddressWrap" style="display:none; margin-top:4px;">
       <label class="co-label">Delivery Address *</label>
-      <input type="text" class="co-input" id="dmAddress" placeholder="Full address with area e.g. House 12, Street 5, Mehmoodabad No.3" oninput="updateDmDeliveryCharge()">
-      <div class="address-hint">📍 Please write your <strong>full address with area name</strong> (e.g. house no., street, area).</div>
-      <div class="delivery-time-note show">⏱️ <strong>Delivery Time: 35–50 minutes.</strong> Please ensure someone is available to receive the order.</div>
-      <div class="dc-info-box" id="dmDcInfoBox">
-        <div>🛵 Delivery Charge: <span class="dc-amount" id="dmDcAmount">—</span></div>
-        <div class="dc-zone" id="dmDcZone"></div>
-      </div>
+      <input type="text" class="co-input" id="dmAddress" placeholder="Full delivery address">
     </div>
-    <div class="pickup-info" id="dmPickupInfo">⏱ Your order will be ready for pickup in <strong>15–35 minutes</strong> from our kitchen at KAECHS Baloch Colony, Karachi.</div>
+    <div class="pickup-info" id="dmPickupInfo">
+      ⏱ Your order will be ready for pickup in <strong>15–35 minutes</strong> from our kitchen at KAECHS Baloch Colony, Karachi.
+    </div>
     <label class="co-label" style="margin-top:14px;">Additional Notes (optional)</label>
     <input type="text" class="co-input" id="dmNotes" placeholder="Extra cheese, less spice...">
-    <button class="deal-order-btn" onclick="submitDealOrder()">💬 &nbsp;PLACE DEAL ORDER ON WHATSAPP</button>
+
+    <button class="deal-order-btn" onclick="submitDealOrder()">
+      💬 &nbsp;PLACE DEAL ORDER
+    </button>
     <p class="co-note" style="margin-top:10px;">Cash on Delivery available · Karachi only</p>
   </div>
 </div>
+
+<!-- SEND CONFIRM OVERLAY -->
+<div class="send-confirm-overlay" id="sendConfirmOverlay">
+  <div class="send-confirm-box">
+    <div class="sc-icon">✅</div>
+    <h3>ORDER READY!</h3>
+    <p>Your order message is ready. Tap <strong>Open WhatsApp</strong> to send it directly to Sauce N Cheese, or copy the message and paste it manually.</p>
+    <div class="sc-msg-box" id="scMsgBox"></div>
+    <button class="sc-copy-btn" onclick="copyOrderMsg()">📋 COPY MESSAGE</button>
+    <button class="sc-wa-btn" onclick="openWA()">💬 OPEN WHATSAPP & SEND</button>
+    <button class="sc-close-btn" onclick="closeSendConfirm()">Close</button>
+  </div>
+</div>
+
+<!-- FABs -->
 <button class="cart-fab" onclick="toggleCart()">🛒<span class="cart-count" id="cartCount">0</span></button>
 <a href="https://wa.me/923352014007?text=Hi!%20I'd%20like%20to%20place%20an%20order%20from%20Sauce%20N%20Cheese." target="_blank" class="wa-btn" title="Order on WhatsApp">💬</a>
-EOF
-echo "part1 done"
+
+<script>
+// ── Numbers ──
+const RESTAURANT_WA = '923352014007'; // orders sent TO this number
+const WEBSITE_NUM   = '03347724486';  // identifies orders as from website
+
+// ============================================================
+//  MENU DATA
+// ============================================================
+const menuData = [
+  { id:1,  cat:'Pizza Classic',   emoji:'🍕', image:'', name:'B.B.Q Tikka',         desc:'A blend of onion and traditional Chicken Tikka.',                                                                                     prices:[{label:'Small',val:299},{label:'Regular',val:650},{label:'Large',val:899}] },
+  { id:2,  cat:'Pizza Classic',   emoji:'🍕', image:'', name:'Chicken Fajita',       desc:'A delicious combination of Chicken Fajita with onions and green peppers.',                                                            prices:[{label:'Small',val:299},{label:'Regular',val:650},{label:'Large',val:899}] },
+  { id:3,  cat:'Pizza Classic',   emoji:'🍕', image:'', name:'Chicken Afghani',      desc:'Baked with succulent cheese and abundant mouthful toppings.',                                                                         prices:[{label:'Small',val:299},{label:'Regular',val:650},{label:'Large',val:899}] },
+  { id:4,  cat:'Pizza Classic',   emoji:'🍕', image:'', name:'Chicken Supreme',      desc:'A delicious combination of chicken sausage, smoked chicken, green peppers, mushrooms, black olives.',                                prices:[{label:'Small',val:299},{label:'Regular',val:650},{label:'Large',val:899}] },
+  { id:5,  cat:'Pizza Classic',   emoji:'🍕', image:'', name:'Cheese Pepperoni',     desc:'Based with pizza sauce and cheese and pepperoni on the top.',                                                                         prices:[{label:'Small',val:299},{label:'Regular',val:650},{label:'Large',val:899}] },
+  { id:6,  cat:'Pizza Classic',   emoji:'🍕', image:'', name:'Tandoori Chicken',     desc:'Grilled tandoori chicken, creamy spiced mayo sauce, onions, bell peppers, mozzarella.',                                              prices:[{label:'Small',val:299},{label:'Regular',val:650},{label:'Large',val:899}] },
+  { id:7,  cat:'Pizza Classic',   emoji:'🍕', image:'', name:'Hot N Spicy',          desc:'Spicy grilled chicken, sizzling jalapeños, and melty cheese layered over chilli-mayo sauce.',                                        prices:[{label:'Small',val:299},{label:'Regular',val:650},{label:'Large',val:899}] },
+  { id:8,  cat:'Pizza Classic',   emoji:'🍕', image:'', name:'Cheesy Lover',         desc:'Extra sprinkle of Mozzarella Cheese to make a perfect recipe of cheese addictive.',                                                  prices:[{label:'Small',val:299},{label:'Regular',val:650},{label:'Large',val:899}] },
+  { id:9,  cat:'Pizza Classic',   emoji:'🍕', image:'', name:'Veggie Pizza',         desc:'A delicious experience of onion, green peppers, fresh tomatoes, mushrooms and black olives.',                                        prices:[{label:'Small',val:299},{label:'Regular',val:650},{label:'Large',val:899}] },
+  { id:10, cat:'Special Flavours',emoji:'🍕', image:'', name:'Spicy Creamy',         desc:'Mouth watering combination of spicy chicken with creamy base sauce, green jalapeños, mushrooms and chicken kabab stuffed edges.',    prices:[{label:'Small',val:399},{label:'Regular',val:750},{label:'Large',val:1199}] },
+  { id:11, cat:'Special Flavours',emoji:'🍕', image:'', name:'Fajita Sicilion',      desc:'Thick Sicilian crust loaded with spicy fajita chicken, bell peppers, chicken kabab crust, and melty cheese.',                       prices:[{label:'Small',val:399},{label:'Regular',val:750},{label:'Large',val:1199}] },
+  { id:12, cat:'Special Flavours',emoji:'🍕', image:'', name:'Special Malai',        desc:'Based with special green malai sauce with chicken, mushrooms, capsicum and chicken kabab crust.',                                    prices:[{label:'Small',val:399},{label:'Regular',val:750},{label:'Large',val:1199}] },
+  { id:13, cat:'Special Flavours',emoji:'🍕', image:'', name:'Ringo Kabab',          desc:'Based with special green malai sauce. Added flavourful chicken kabab crust, garnished with green pepper and olives.',                prices:[{label:'Small',val:399},{label:'Regular',val:750},{label:'Large',val:1199}] },
+  { id:14, cat:'Special Flavours',emoji:'🍕', image:'', name:'Special Mughlai',      desc:'Tender chicken simmered in a rich onion-cashew gravy infused with warm spices — royal Mughlai indulgence.',                         prices:[{label:'Small',val:399},{label:'Regular',val:750},{label:'Large',val:1199}] },
+  { id:15, cat:'Special Flavours',emoji:'🍕', image:'', name:'Creamy Tikka',         desc:'BBQ Alfredo Sauce with chicken tikka, mushrooms and onion in base and chicken kabab crust.',                                        prices:[{label:'Small',val:399},{label:'Regular',val:750},{label:'Large',val:1199}] },
+  { id:16, cat:'Special Flavours',emoji:'🍕', image:'', name:'Tax Max',              desc:'Based with special sauce with tandoori chicken, jalapeño, onions, olives, sriracha and chicken kabab crust.',                       prices:[{label:'Small',val:399},{label:'Regular',val:750},{label:'Large',val:1199}] },
+  { id:17, cat:'Special Flavours',emoji:'🍕', image:'', name:'Mustard Spicy',        desc:'Light mustard spicy sauce with chicken, mushrooms, onions, jalapeño and olives with onion crust.',                                  prices:[{label:'Small',val:399},{label:'Regular',val:750},{label:'Large',val:1199}] },
+  { id:18, cat:'Special Flavours',emoji:'🍕', image:'', name:'Super Supreme',        desc:'Special 1000 Sauce with 4 different chicken meats, mushrooms, onions and olives with chicken kabab crust.',                         prices:[{label:'Small',val:399},{label:'Regular',val:750},{label:'Large',val:1199}] },
+  { id:19, cat:'Signature Pizza', emoji:'🍕', image:'', name:'BBQ Super Creamy',     desc:'Rich creamy sauce, juicy smoked chicken, sweet corn, chicken pepperoni and lasagne with mozzarella.',                               prices:[{label:'Small',val:450},{label:'Medium',val:850},{label:'Large',val:1299}] },
+  { id:20, cat:'Signature Pizza', emoji:'🍕', image:'', name:'Creamy Super Spicy',   desc:'Creamy spicy sauce, spicy chicken, green jalapeños, mushrooms and chicken pepperoni.',                                              prices:[{label:'Small',val:450},{label:'Medium',val:850},{label:'Large',val:1299}] },
+  { id:21, cat:'Signature Pizza', emoji:'🍕', image:'', name:'Euro Delight',         desc:'Creamy spicy sauce, 2 flavourful chicken meats, fully loaded mozzarella, jalapeños and olive chunks.',                              prices:[{label:'Small',val:450},{label:'Medium',val:850},{label:'Large',val:1299}] },
+  { id:22, cat:'Signature Pizza', emoji:'🍕', image:'', name:'Crown Pizza',          desc:'Flower-shaped pizza with mustard spicy flavour and crown stuffed chicken kabab crust.',                                              prices:[{label:'Large',val:1399}] },
+  { id:23, cat:'Burgers',         emoji:'🍔', image:'', name:'Crispy Zinger Burger', desc:'Classic crispy fried chicken burger with premium bun.',                                                                              prices:[{label:'Without Cheese',val:390},{label:'With Cheese',val:440}] },
+  { id:24, cat:'Burgers',         emoji:'🍔', image:'', name:'Jumbo Zinger Burger',  desc:'Extra-large crispy zinger patty in a premium bun.',                                                                                  prices:[{label:'With Cheese',val:750}] },
+  { id:25, cat:'Burgers',         emoji:'🍔', image:'', name:'Injected Zinger Burger',desc:'Juicy injected fried chicken burger.',                                                                                              prices:[{label:'Without Cheese',val:450},{label:'With Cheese',val:500}] },
+  { id:26, cat:'Burgers',         emoji:'🍔', image:'', name:'Ranch Burger',         desc:'Classic ranch style chicken burger.',                                                                                                 prices:[{label:'Price',val:350}] },
+  { id:27, cat:'Burgers',         emoji:'🍔', image:'', name:'Spicy Burger',         desc:'Fiery spicy chicken burger.',                                                                                                         prices:[{label:'Price',val:350}] },
+  { id:28, cat:'Burgers',         emoji:'🍔', image:'', name:'Chicken Steak Burger', desc:'Premium chicken steak in a soft bun.',                                                                                                prices:[{label:'Price',val:480}] },
+  { id:29, cat:'Burgers',         emoji:'🍔', image:'', name:'Classic Beef Burger',  desc:'Classic beef patty with fresh toppings.',                                                                                             prices:[{label:'Price',val:430}] },
+  { id:30, cat:'Burgers',         emoji:'🍔', image:'', name:'Beef Mushroom Burger', desc:'Juicy beef patty topped with sautéed mushrooms.',                                                                                    prices:[{label:'Price',val:480}] },
+  { id:31, cat:'Burgers',         emoji:'🍔', image:'', name:'Beef Firy Smash Burger',desc:'Smashed beef patty with fiery sauce.',                                                                                              prices:[{label:'Price',val:480}] },
+  { id:32, cat:'Burgers',         emoji:'🍔', image:'', name:'Beef Thick Cheese Burger',desc:'Thick beef patty loaded with cheese.',                                                                                            prices:[{label:'Price',val:640}] },
+  { id:33, cat:'Burgers',         emoji:'🍔', image:'', name:'Lacha Beef Smash Burger',desc:'Crispy lacha onion smash burger.',                                                                                                 prices:[{label:'Price',val:690}] },
+  { id:34, cat:'Burgers',         emoji:'🍔', image:'', name:'American Swiss Burger',desc:'Premium American-style Swiss cheese beef burger.',                                                                                   prices:[{label:'Price',val:899}] },
+  { id:35, cat:'Wraps',           emoji:'🌯', image:'', name:'Gyro Wrap',            desc:'Classic gyro-style wrap with fresh fillings.',                                                                                        prices:[{label:'Price',val:399}] },
+  { id:36, cat:'Wraps',           emoji:'🌯', image:'', name:'Chicken Chipotle Wrap',desc:'Smoky chipotle chicken wrap.',                                                                                                        prices:[{label:'Price',val:399}] },
+  { id:37, cat:'Wraps',           emoji:'🌯', image:'', name:'Beef Smash Wrap',      desc:'Smashed beef wrap with premium toppings.',                                                                                            prices:[{label:'Price',val:499}] },
+  { id:38, cat:'Sandwiches',      emoji:'🥪', image:'', name:'Chicken Club Sandwich',desc:'Classic club sandwich with grilled chicken.',                                                                                        prices:[{label:'Without Cheese',val:420},{label:'With Cheese',val:460}] },
+  { id:39, cat:'Sandwiches',      emoji:'🥪', image:'', name:'BBQ Club Sandwich',    desc:'Smoky BBQ chicken club sandwich.',                                                                                                    prices:[{label:'Without Cheese',val:490},{label:'With Cheese',val:530}] },
+  { id:40, cat:'Sandwiches',      emoji:'🥪', image:'', name:'Crispy Roasted Club Sandwich',desc:'Crispy roasted chicken in a club sandwich.',                                                                                 prices:[{label:'Without Cheese',val:490},{label:'With Cheese',val:530}] },
+  { id:41, cat:'Sandwiches',      emoji:'🥪', image:'', name:'Calzone Sandwich',     desc:'Italian-inspired calzone sandwich.',                                                                                                  prices:[{label:'Price',val:650}] },
+  { id:42, cat:'Fries & Nuggets', emoji:'🍟', image:'', name:'Plain Fries',          desc:'Crispy golden fries.',                                                                                                                prices:[{label:'Small',val:150},{label:'Large',val:300}] },
+  { id:43, cat:'Fries & Nuggets', emoji:'🍟', image:'', name:'Pizza Fries',          desc:'Fries topped with pizza sauce and cheese.',                                                                                           prices:[{label:'Small',val:450},{label:'Large',val:700}] },
+  { id:44, cat:'Fries & Nuggets', emoji:'🍟', image:'', name:'Cheesy Fries',         desc:'Loaded with melted cheese sauce.',                                                                                                    prices:[{label:'Small',val:300},{label:'Large',val:550}] },
+  { id:45, cat:'Fries & Nuggets', emoji:'🍟', image:'', name:'Chipotle Fries',       desc:'Fries with smoky chipotle sauce.',                                                                                                    prices:[{label:'Small',val:400},{label:'Large',val:700}] },
+  { id:46, cat:'Fries & Nuggets', emoji:'🍟', image:'', name:'Mayo Garlic Fries',    desc:'Fries drizzled with garlic mayo.',                                                                                                    prices:[{label:'Small',val:250},{label:'Large',val:500}] },
+  { id:47, cat:'Fries & Nuggets', emoji:'🍗', image:'', name:'Chicken Nuggets 6 Pcs',desc:'Golden crispy chicken nuggets.',                                                                                                     prices:[{label:'Price',val:300}] },
+  { id:48, cat:'Pasta & Lasagne', emoji:'🍝', image:'', name:'Chicken Lasagne',      desc:'Layers of pasta, chicken, and rich sauce, baked to perfection.',                                                                     prices:[{label:'Small',val:500},{label:'Large',val:800}] },
+  { id:49, cat:'Pasta & Lasagne', emoji:'🍝', image:'', name:'Creamy and Cheesy Pasta',desc:'Pasta in a rich, creamy cheese sauce.',                                                                                            prices:[{label:'Small',val:400},{label:'Large',val:700}] },
+  { id:50, cat:'Fried Chicken & Wings',emoji:'🍗',image:'', name:'Injected Fried Chicken Quarter Chest',desc:'Juicy injected quarter chest fried chicken.',                                                                     prices:[{label:'Price',val:599}] },
+  { id:51, cat:'Fried Chicken & Wings',emoji:'🍗',image:'', name:'Injected Fried Chicken Quarter Leg',  desc:'Juicy injected quarter leg fried chicken.',                                                                       prices:[{label:'Price',val:599}] },
+  { id:52, cat:'Fried Chicken & Wings',emoji:'🍗',image:'', name:'Injected Fried Chicken Half (4 Pcs)', desc:'Half chicken (4 pieces) injected and fried.',                                                                     prices:[{label:'Price',val:1099}] },
+  { id:53, cat:'Fried Chicken & Wings',emoji:'🍗',image:'', name:'Injected Fried Chicken Full (8 Pcs)', desc:'Full chicken (8 pieces) injected and fried.',                                                                     prices:[{label:'Price',val:2099}] },
+  { id:54, cat:'Fried Chicken & Wings',emoji:'🍗',image:'', name:'Crispy Drum Stick (4 Pcs)',            desc:'Perfectly crispy drumsticks.',                                                                                   prices:[{label:'Price',val:699}] },
+  { id:55, cat:'Fried Chicken & Wings',emoji:'🍗',image:'', name:'Spicy Wings 6 Pcs',                   desc:'Fiery spicy chicken wings.',                                                                                     prices:[{label:'Price',val:480}] },
+  { id:56, cat:'Fried Chicken & Wings',emoji:'🍗',image:'', name:'Buffalo Wings 6 Pcs',                 desc:'Classic Buffalo-style wings.',                                                                                   prices:[{label:'Price',val:480}] },
+  { id:57, cat:'Fried Chicken & Wings',emoji:'🍗',image:'', name:'Strips Chips N Dips (6 Pcs)',         desc:'Chicken strips with chips and dipping sauce.',                                                                   prices:[{label:'Price',val:699}] },
+  { id:58, cat:'Cake',            emoji:'🎂', image:'', name:'Lava Cake',             desc:'Warm chocolate lava cake with molten centre.',                                                                                       prices:[{label:'Price',val:450}] },
+];
+
+const dealsData = [
+  { num:'01', price:670,  items:'2 Small Pizza and 500ml Drink', type:'regular' },
+  { num:'02', price:1400, items:'2 Regular Pizza and 1 Ltr Drink', type:'regular' },
+  { num:'03', price:1890, items:'2 Large Pizza and 1.5 Ltr Drink', type:'regular' },
+  { num:'04', price:4399, items:'5 Large Pizza and 2 Cold Drink 1.5 Ltr', type:'regular' },
+  { num:'05', price:2600, items:'1 Large Pizza, 2 Club Sandwich, 1 Lasagne and 1.5 Ltr Drink', type:'regular' },
+  { num:'06', price:1899, items:'1 Large Pizza, 1 Regular Pizza, 1 Small Pizza and 1.5 Ltr Drink', type:'regular' },
+  { num:'07', price:2999, items:'2 Large Pizza, 1 Pizza Fries, 4 Drumsticks & 2 (1.5 Ltr Drink)', type:'regular' },
+  { num:'08', price:1299, items:'1 Mushroom Burger, 1 Zinger, 2 Drumsticks and 1 Ltr Drink', type:'regular' },
+  { num:'09', price:2350, items:'1 Large Pizza, 1 Crispy Roasted Club Sandwich, 6 Spicy Wings, 1 Pizza Fries and 1.5 Liter Drink', type:'regular' },
+  { num:'10', price:1280, items:'3 Crispy Zinger and 1 Liter Drink', type:'regular' },
+  { num:'11', price:890,  items:'1 Club Sandwich, 1 Zinger Burger and 500ml Drink', type:'regular' },
+  { num:'12', price:650,  items:'1 Small Pizza and 1 Zinger Burger', type:'regular' },
+  { num:'13', price:1050, items:'Quarter Injected Fried Chicken, 1 Crispy Zinger and 500ml Drink', type:'regular' },
+  { num:'Kids Deal',    price:2399, items:'3 Small Pizza, 12 Nuggets, 1 Large Pizza Fries and 3 (300ml Drink)', type:'kids' },
+  { num:'Premium Deal', price:4999, items:'2 Large Pizza, 3 Zinger Burger, 2 Club Sandwich, Half Injected Fried Chicken and 1 (1.5 Ltr Drink and 2 One Ltr Drink)', type:'premium' },
+  { num:'Mid Night Deal',price:null, items:'2 Large Pizza: Rs. 1699 | 2 Regular Pizza: Rs. 1199 | 5 Zinger: Rs. 1799', type:'midnight' },
+];
+
+// ── STATE ──
+let cart = [];
+let activeFilter = 'All';
+let currentModalItem = null;
+
+// ── PIZZA SIZE TOOLTIP HTML ──
+function buildSizeTooltip(prices, itemId) {
+  if (prices.length <= 1) return '';
+  const pills = prices.map(p =>
+    `<button class="size-pill" onclick="addSizeDirectly(event,${itemId},${p.val},'${p.label}')">
+      <span class="sp-label">${p.label}</span>
+      <span class="sp-price">Rs.${p.val.toLocaleString()}</span>
+      <span class="sp-tick">✓ Added!</span>
+    </button>`
+  ).join('');
+  return `<div class="size-tooltip">${pills}</div>`;
+}
+
+function addSizeDirectly(e, itemId, price, sizeLabel) {
+  e.stopPropagation();
+  const item = menuData.find(i => i.id === itemId);
+  if (!item) return;
+
+  const existing = cart.find(c => c.id === itemId && c.size === sizeLabel);
+  if (existing) { existing.qty++; }
+  else { cart.push({ id: itemId, name: item.name, emoji: item.emoji, price, size: sizeLabel, note: '', qty: 1 }); }
+
+  updateCartUI();
+  showToast(`✅ ${item.name} (${sizeLabel}) added!`);
+
+  // Flash the pill green briefly
+  const btn = e.currentTarget;
+  btn.classList.add('added');
+  setTimeout(() => btn.classList.remove('added'), 1200);
+}
+
+// ── MENU BUILD ──
+function buildMenuFilters() {
+  const cats = ['All', ...new Set(menuData.map(i => i.cat))];
+  document.getElementById('menuFilters').innerHTML = cats.map(c =>
+    `<button class="filter-btn${c===activeFilter?' active':''}" onclick="filterMenu('${c}')">${c}</button>`
+  ).join('');
+}
+
+function filterMenu(cat) {
+  activeFilter = cat;
+  buildMenuFilters();
+  const items = cat === 'All' ? menuData : menuData.filter(i => i.cat === cat);
+  renderMenuItems(items);
+}
+
+function renderMenuItems(items) {
+  document.getElementById('menuGrid').innerHTML = items.map(item => {
+    const mainPrice = item.prices[0];
+    const extraPrices = item.prices.slice(1);
+    const tooltip = buildSizeTooltip(item.prices, item.id);
+    const imgHtml = item.image
+      ? `<img src="${item.image}" alt="${item.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+         <div class="img-placeholder" style="display:none;">${item.emoji}<span>Image coming soon</span></div>`
+      : `<div class="img-placeholder">${item.emoji}<span>Image coming soon</span></div>`;
+    return `
+    <div class="menu-card fade-in visible">
+      <div class="menu-card-img-wrap">
+        ${imgHtml}
+        ${tooltip}
+      </div>
+      <div class="menu-card-body">
+        <div class="menu-cat-badge">${item.cat}</div>
+        <div class="menu-card-title">${item.name}</div>
+        <div class="menu-card-desc">${item.desc}</div>
+        <div class="menu-card-footer">
+          <div class="price-group">
+            <div class="price-label">${mainPrice.label}</div>
+            <div class="price-val">Rs. ${mainPrice.val.toLocaleString()}</div>
+            ${extraPrices.map(p=>`<div class="price-sub">${p.label}: Rs. ${p.val.toLocaleString()}</div>`).join('')}
+          </div>
+          <button class="add-btn" onclick="openProductModal(${item.id})">+ ADD</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function buildDeals() {
+  document.getElementById('dealsGrid').innerHTML = dealsData.map(d => {
+    const typeClass = {premium:'premium',kids:'kids',midnight:'midnight'}[d.type] || '';
+    const badge = {premium:'⭐ PREMIUM',kids:'🧒 KIDS',midnight:'🌙 MIDNIGHT'}[d.type] || '🔥 HOT DEAL';
+    const priceHtml = d.price
+      ? `<div class="deal-price">Rs. ${d.price.toLocaleString()}</div>`
+      : `<div class="deal-price" style="font-size:1.2rem;color:var(--red)">SEE BELOW</div>`;
+    return `
+    <div class="deal-card ${typeClass} fade-in visible">
+      <div class="deal-badge">${badge}</div>
+      <div class="deal-number">DEAL ${d.num}</div>
+      ${priceHtml}
+      <div class="deal-items">${d.items.replace(/\|/g,'<br>')}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── PRODUCT MODAL ──
+function openProductModal(id) {
+  const item = menuData.find(i => i.id === id);
+  if (!item) return;
+  currentModalItem = item;
+  document.getElementById('modalTitle').textContent = item.name;
+  document.getElementById('modalDesc').textContent = item.desc;
+  document.getElementById('modalComment').value = '';
+  const imgEl = document.getElementById('modalImg');
+  const phEl  = document.getElementById('modalImgPlaceholder');
+  if (item.image) {
+    imgEl.src = item.image; imgEl.style.display = 'block'; phEl.style.display = 'none';
+    imgEl.onerror = () => { imgEl.style.display='none'; phEl.style.display='flex'; phEl.textContent=item.emoji; };
+  } else {
+    imgEl.style.display = 'none'; phEl.style.display = 'flex'; phEl.textContent = item.emoji;
+  }
+  document.getElementById('modalSize').innerHTML = item.prices.map(p =>
+    `<option value="${p.val}">${p.label} — Rs. ${p.val.toLocaleString()}</option>`
+  ).join('');
+  document.getElementById('productModalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeProductModal() {
+  document.getElementById('productModalOverlay').classList.remove('open');
+  if (!document.getElementById('cartSidebar').classList.contains('open')) document.body.style.overflow = '';
+}
+function handleModalOverlayClick(e) {
+  if (e.target === document.getElementById('productModalOverlay')) closeProductModal();
+}
+function addModalItemToCart() {
+  if (!currentModalItem) return;
+  const sizeEl = document.getElementById('modalSize');
+  const price  = parseInt(sizeEl.value);
+  const sizeLabel = sizeEl.options[sizeEl.selectedIndex].text.split(' —')[0];
+  const comment   = document.getElementById('modalComment').value.trim();
+  const existing  = cart.find(c => c.id === currentModalItem.id && c.size === sizeLabel);
+  if (existing) { existing.qty++; }
+  else { cart.push({ id:currentModalItem.id, name:currentModalItem.name, emoji:currentModalItem.emoji, price, size:sizeLabel, note:comment, qty:1 }); }
+  updateCartUI();
+  closeProductModal();
+  openCart();
+  showToast(`✅ ${currentModalItem.name} added to cart!`);
+}
+
+// ── CART ──
+function updateCartUI() {
+  const total = cart.reduce((s,i) => s + i.price * i.qty, 0);
+  const count = cart.reduce((s,i) => s + i.qty, 0);
+  document.getElementById('cartTotal').textContent = `Rs. ${total.toLocaleString()}`;
+  const countEl = document.getElementById('cartCount');
+  countEl.textContent = count;
+  countEl.style.display = count > 0 ? 'flex' : 'none';
+  const itemsEl = document.getElementById('cartItems');
+  if (cart.length === 0) {
+    itemsEl.innerHTML = '<div class="cart-empty"><div class="cart-empty-icon">🛒</div><p>Your cart is empty.<br>Add some delicious items!</p></div>';
+  } else {
+    itemsEl.innerHTML = cart.map(c => `
+      <div class="cart-item">
+        <div style="flex:1">
+          <div class="cart-item-name">${c.emoji} ${c.name} ×${c.qty}</div>
+          <div class="cart-item-size">${c.size !== 'Price' ? c.size : ''}</div>
+          ${c.note ? `<div class="cart-item-note">📝 ${c.note}</div>` : ''}
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="cart-item-price">Rs. ${(c.price*c.qty).toLocaleString()}</div>
+          <button class="cart-item-remove" onclick="removeFromCart(${c.id},'${c.size}')">✕</button>
+        </div>
+      </div>`).join('');
+  }
+}
+function removeFromCart(id, size) {
+  cart = cart.filter(c => !(c.id === id && c.size === size));
+  updateCartUI();
+}
+function openCart() {
+  document.getElementById('cartSidebar').classList.add('open');
+  document.getElementById('cartOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeCart() {
+  document.getElementById('cartSidebar').classList.remove('open');
+  document.getElementById('cartOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function toggleCart() {
+  document.getElementById('cartSidebar').classList.contains('open') ? closeCart() : openCart();
+}
+
+// ── CHECKOUT MODAL ──
+function openCheckout() {
+  if (cart.length === 0) { showToast('🛒 Your cart is empty!','error'); return; }
+  const total = cart.reduce((s,i) => s + i.price * i.qty, 0);
+  document.getElementById('coSummaryItems').innerHTML = cart.map(c =>
+    `<div class="order-summary-item">
+       <span>${c.emoji} ${c.name}${c.size&&c.size!=='Price'?' ('+c.size+')':''} ×${c.qty}</span>
+       <span>Rs. ${(c.price*c.qty).toLocaleString()}</span>
+     </div>`
+  ).join('');
+  document.getElementById('coSummaryTotal').textContent = `Rs. ${total.toLocaleString()}`;
+  document.getElementById('coType').value = '';
+  document.getElementById('coAddressWrap').style.display = 'none';
+  document.getElementById('coPickupInfo').classList.remove('show');
+  document.getElementById('checkoutModalOverlay').classList.add('open');
+}
+function closeCheckout() {
+  document.getElementById('checkoutModalOverlay').classList.remove('open');
+}
+function handleCheckoutOverlayClick(e) {
+  if (e.target === document.getElementById('checkoutModalOverlay')) closeCheckout();
+}
+function handleOrderType() {
+  const val = document.getElementById('coType').value;
+  document.getElementById('coAddressWrap').style.display = val === 'Delivery' ? 'block' : 'none';
+  document.getElementById('coPickupInfo').classList.toggle('show', val === 'Pickup');
+}
+
+// ── SINGLE FINAL ORDER BUTTON → sends to restaurant number ──
+function checkoutFinalWhatsApp() {
+  const name    = document.getElementById('coName').value.trim();
+  const phone   = document.getElementById('coPhone').value.trim();
+  const type    = document.getElementById('coType').value;
+  const address = document.getElementById('coAddress').value.trim();
+  const notes   = document.getElementById('coNotes').value.trim();
+
+  if (!name)  { showToast('Please enter your name', 'error'); return; }
+  if (!phone) { showToast('Please enter your phone number', 'error'); return; }
+  if (!type)  { showToast('Please select Delivery or Pickup', 'error'); return; }
+  if (type === 'Delivery' && !address) { showToast('Please enter your delivery address', 'error'); return; }
+
+  const total = cart.reduce((s,i) => s + i.price * i.qty, 0);
+  const itemLines = cart.map(c =>
+    `• ${c.emoji} ${c.name}${c.size&&c.size!=='Price'?' ('+c.size+')':''} ×${c.qty}${c.note?' ['+c.note+']':''} = Rs. ${(c.price*c.qty).toLocaleString()}`
+  ).join('\n');
+
+  const deliveryLine = type === 'Delivery'
+    ? `\n📍 *Delivery Address:* ${address}`
+    : `\n🏃 *Self Pickup* (Ready in 15–35 mins)`;
+
+  const msg = encodeURIComponent(
+`🌐 *ORDER FROM WEBSITE* (${WEBSITE_NUM})
+━━━━━━━━━━━━━━━━━━━━
+
+👤 *Name:* ${name}
+📱 *Phone:* ${phone}
+🛵 *Type:* ${type}${deliveryLine}
+
+📋 *Items:*
+${itemLines}
+
+💰 *TOTAL: Rs. ${total.toLocaleString()}*
+${notes ? '\n📝 *Notes:* ' + notes : ''}
+━━━━━━━━━━━━━━━━━━━━`
+  );
+
+  window.open(`https://wa.me/${RESTAURANT_WA}?text=${msg}`, '_blank');
+  showToast('✅ Order sent to Sauce N Cheese!');
+  closeCheckout();
+  closeCart();
+  cart = [];
+  updateCartUI();
+}
+
+// ── CONTACT FORM ──
+function sendContactWhatsApp() {
+  const name    = document.getElementById('cf-name').value;
+  const phone   = document.getElementById('cf-phone').value;
+  const address = document.getElementById('cf-address').value;
+  const msg     = document.getElementById('cf-msg').value;
+  const text = encodeURIComponent(
+    `🌐 *Website Enquiry* (${WEBSITE_NUM})\n\n` +
+    `Hi! I'm ${name||'a customer'}.\n📱 ${phone||''}\n📍 ${address||''}\n\n${msg||"I'd like to place an order."}`
+  );
+  window.open(`https://wa.me/${RESTAURANT_WA}?text=${text}`, '_blank');
+}
+
+// ── TOAST ──
+function showToast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast'+(type?' '+type:'')+' show';
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── NAVBAR ──
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+});
+function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('open'); }
+function closeMobileMenu()  { document.getElementById('mobile-menu').classList.remove('open'); }
+
+// ── FADE OBSERVER ──
+const observer = new IntersectionObserver(
+  entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }),
+  { threshold: 0.1 }
+);
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// ── LOADER ──
+window.addEventListener('load', () => {
+  setTimeout(() => document.getElementById('loader').classList.add('hide'), 2000);
+});
+
+// ── INIT ──
+buildMenuFilters();
+filterMenu('All');
+buildDeals();
+setTimeout(() => document.querySelectorAll('.fade-in').forEach(el => observer.observe(el)), 200);
+</script>
+</body>
+</html>
