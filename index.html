@@ -210,7 +210,7 @@ section { padding: 80px 5%; }
   font-family: 'Nunito'; letter-spacing: 1px;
 }
 
-/* ── Pizza Size Hover Tooltip ── */
+/* ── Size Hover Tooltip ── */
 .size-tooltip {
   position: absolute;
   bottom: 0; left: 0; right: 0;
@@ -222,7 +222,6 @@ section { padding: 80px 5%; }
   transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
   z-index: 10;
 }
-.menu-card-img-wrap:hover .size-tooltip,
 .menu-card:hover .size-tooltip { transform: translateY(0); }
 .size-pill {
   display: flex; flex-direction: column; align-items: center; gap: 2px;
@@ -230,7 +229,7 @@ section { padding: 80px 5%; }
   border: 1px solid rgba(255,179,0,0.25);
   border-radius: 10px; padding: 6px 10px; flex: 1;
   transition: background 0.2s, border-color 0.2s, transform 0.15s;
-  cursor: pointer; user-select: none; border: none; font-family: inherit;
+  cursor: pointer; user-select: none; font-family: inherit;
 }
 .size-pill:hover { background: rgba(255,179,0,0.22); border: 1px solid var(--yellow); transform: translateY(-2px); }
 .size-pill:active { transform: scale(0.95); }
@@ -309,8 +308,6 @@ section { padding: 80px 5%; }
 #modalTitle { font-family: 'Bebas Neue'; font-size: 1.6rem; color: var(--yellow); letter-spacing: 2px; margin-bottom: 6px; }
 #modalDesc { font-size: 0.82rem; color: rgba(255,245,230,0.55); line-height: 1.6; margin-bottom: 18px; }
 .modal-label { font-size: 0.72rem; font-weight: 800; color: var(--yellow); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; display: block; }
-
-/* ── FIX: Select dropdown option text visibility ── */
 #modalSize {
   width: 100%;
   background: #2a1010;
@@ -322,11 +319,7 @@ section { padding: 80px 5%; }
   -webkit-appearance: none; appearance: none;
 }
 #modalSize:focus { border-color: var(--yellow); }
-#modalSize option {
-  background: #2a1010;
-  color: #FFF5E6;
-}
-
+#modalSize option { background: #2a1010; color: #FFF5E6; }
 #modalComment {
   width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,179,0,0.25);
   border-radius: 10px; padding: 11px 14px; color: var(--cream);
@@ -351,19 +344,18 @@ section { padding: 80px 5%; }
   border: 1.5px solid rgba(179,18,23,0.4);
   border-radius: 18px; padding: 24px;
   transition: all 0.35s; position: relative; overflow: hidden;
-  cursor: pointer;
 }
 .deal-card.premium { border-color: var(--yellow); background: linear-gradient(135deg, rgba(255,179,0,0.12), rgba(30,15,15,0.9)); }
 .deal-card.kids { border-color: #4ade80; background: linear-gradient(135deg, rgba(74,222,128,0.1), rgba(30,15,15,0.9)); }
 .deal-card.midnight { border-color: #818cf8; background: linear-gradient(135deg, rgba(129,140,248,0.1), rgba(30,15,15,0.9)); }
 .deal-card:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 20px 60px rgba(0,0,0,0.7); }
-.deal-card.selected { border-color: #4ade80 !important; box-shadow: 0 0 30px rgba(74,222,128,0.3) !important; }
 .deal-select-btn {
   margin-top: 14px; width: 100%;
   background: linear-gradient(135deg, var(--red), #d41c23);
   color: #fff; border: none; padding: 10px 16px; border-radius: 10px;
   font-family: 'Bebas Neue'; font-size: 0.95rem; letter-spacing: 2px;
   cursor: pointer; transition: all 0.3s; box-shadow: 0 0 14px rgba(179,18,23,0.4);
+  display: flex; align-items: center; justify-content: center; gap: 6px;
 }
 .deal-select-btn:hover { background: linear-gradient(135deg, var(--yellow), #e6a000); color: var(--black); }
 .deal-badge {
@@ -377,6 +369,74 @@ section { padding: 80px 5%; }
 .deal-price { font-family: 'Bebas Neue'; font-size: 2.4rem; color: var(--yellow); letter-spacing: 1px; line-height: 1; margin-bottom: 10px; }
 .deal-items { font-size: 0.82rem; color: rgba(255,245,230,0.7); line-height: 1.7; }
 .deal-items strong { color: var(--cream); }
+
+/* ── Deal Pizza Flavour Modal ── */
+.deal-flavour-modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+  z-index: 5500; display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transition: all 0.3s; backdrop-filter: blur(8px);
+  padding: 20px;
+}
+.deal-flavour-modal-overlay.open { opacity: 1; visibility: visible; }
+.deal-flavour-modal {
+  background: #1a0808; border: 1.5px solid rgba(255,179,0,0.3);
+  border-radius: 22px; width: 100%; max-width: 500px;
+  max-height: 90vh; overflow-y: auto;
+  padding: 28px; position: relative;
+  animation: modalSlideUp 0.3s ease;
+}
+.deal-flavour-modal h2 {
+  font-family: 'Bebas Neue'; font-size: 1.5rem; color: var(--yellow);
+  letter-spacing: 3px; margin-bottom: 4px;
+}
+.dfm-price { font-family: 'Bebas Neue'; font-size: 1.8rem; color: var(--red); margin-bottom: 10px; }
+.dfm-desc {
+  background: rgba(179,18,23,0.1); border: 1px solid rgba(179,18,23,0.25);
+  border-radius: 10px; padding: 10px 12px; font-size: 0.8rem;
+  color: rgba(255,245,230,0.7); line-height: 1.7; margin-bottom: 16px;
+}
+.classic-only-note {
+  background: rgba(255,179,0,0.1); border: 1.5px solid rgba(255,179,0,0.4);
+  border-radius: 10px; padding: 12px 14px; margin-bottom: 16px;
+  display: flex; gap: 10px; align-items: flex-start;
+}
+.classic-only-note .con-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 1px; }
+.classic-only-note .con-text { font-size: 0.78rem; color: rgba(255,245,230,0.85); line-height: 1.6; }
+.classic-only-note .con-text strong { color: var(--yellow); display: block; margin-bottom: 3px; font-size: 0.84rem; }
+.classic-only-note .con-text em { color: #ff8080; font-style: normal; font-weight: 700; }
+
+.flavour-box-wrap { margin-bottom: 12px; }
+.flavour-box-label {
+  font-size: 0.7rem; font-weight: 800; color: var(--yellow);
+  text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; display: block;
+}
+.flavour-select {
+  width: 100%; background: #2a1010; border: 1px solid rgba(255,179,0,0.3);
+  border-radius: 10px; padding: 11px 14px; color: var(--cream);
+  font-family: 'Nunito'; font-size: 0.88rem; outline: none;
+  transition: border-color 0.3s; cursor: pointer;
+  -webkit-appearance: none; appearance: none;
+}
+.flavour-select:focus { border-color: var(--yellow); }
+.flavour-select option { background: #2a1010; color: #FFF5E6; }
+.flavour-select option:disabled { color: rgba(255,245,230,0.4); }
+.flavour-error {
+  background: rgba(179,18,23,0.2); border: 1px solid var(--red);
+  border-radius: 8px; padding: 10px 12px; font-size: 0.8rem;
+  color: #ff8080; margin-top: 8px; display: none; line-height: 1.5;
+}
+.flavour-error.show { display: block; }
+
+.dfm-add-cart-btn {
+  width: 100%; margin-top: 18px;
+  background: linear-gradient(135deg, var(--red), #d41c23);
+  color: #fff; border: none; padding: 16px; border-radius: 14px;
+  font-family: 'Bebas Neue'; font-size: 1.15rem; letter-spacing: 2px;
+  cursor: pointer; transition: all 0.3s;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  box-shadow: 0 0 25px rgba(179,18,23,0.45);
+}
+.dfm-add-cart-btn:hover { background: linear-gradient(135deg, var(--yellow), #e6a000); color: var(--black); box-shadow: 0 0 35px rgba(255,179,0,0.5); }
 
 /* ── Deal Order Modal ── */
 .deal-modal-overlay {
@@ -431,7 +491,7 @@ section { padding: 80px 5%; }
 }
 .deal-order-btn:hover { background: linear-gradient(135deg, #1da851, #178f43); transform: scale(1.02); }
 
-/* ── Send-confirmation overlay (no external link) ── */
+/* ── Send-confirmation overlay ── */
 .send-confirm-overlay {
   position: fixed; inset: 0; background: rgba(0,0,0,0.95);
   z-index: 6000; display: flex; align-items: center; justify-content: center;
@@ -564,23 +624,16 @@ section { padding: 80px 5%; }
   text-decoration: none; transition: all 0.3s; display: flex; align-items: center; gap: 6px;
 }
 .social-btn:hover { background: var(--red); border-color: var(--red); transform: translateY(-2px); }
-
-/* ── Contact Form ── */
 .contact-form input,
 .contact-form textarea {
-  width: 100%;
-  background: #1e0808;
-  border: 1px solid rgba(255,179,0,0.25);
-  border-radius: 12px; padding: 14px 16px;
-  color: var(--cream);
+  width: 100%; background: #1e0808; border: 1px solid rgba(255,179,0,0.25);
+  border-radius: 12px; padding: 14px 16px; color: var(--cream);
   font-family: 'Nunito'; font-size: 0.9rem; margin-bottom: 12px;
   outline: none; transition: border-color 0.3s;
 }
-.contact-form input:focus,
-.contact-form textarea:focus { border-color: var(--yellow); }
+.contact-form input:focus, .contact-form textarea:focus { border-color: var(--yellow); }
 .contact-form textarea { min-height: 110px; resize: vertical; }
-.contact-form input::placeholder,
-.contact-form textarea::placeholder { color: rgba(255,245,230,0.3); }
+.contact-form input::placeholder, .contact-form textarea::placeholder { color: rgba(255,245,230,0.3); }
 .form-submit { width: 100%; }
 .map-placeholder {
   background: var(--glass); border: 1px solid var(--glass-border);
@@ -642,8 +695,6 @@ footer {
 .cart-total { display: flex; justify-content: space-between; margin-bottom: 16px; align-items: center; }
 .cart-total span { font-weight: 700; color: rgba(255,245,230,0.7); }
 .cart-total strong { font-family: 'Bebas Neue'; font-size: 1.5rem; color: var(--yellow); letter-spacing: 1px; }
-
-/* ── Single Big Order Button ── */
 .cart-proceed-btn {
   width: 100%;
   background: linear-gradient(135deg, #25D366, #1da851);
@@ -684,8 +735,6 @@ footer {
 }
 .checkout-modal h2 { font-family: 'Bebas Neue'; font-size: 1.8rem; color: var(--yellow); letter-spacing: 3px; margin-bottom: 6px; }
 .checkout-modal .checkout-sub { font-size: 0.82rem; color: rgba(255,245,230,0.45); margin-bottom: 22px; line-height: 1.6; }
-
-/* Order summary */
 .order-summary-box {
   background: rgba(179,18,23,0.1); border: 1px solid rgba(179,18,23,0.25);
   border-radius: 12px; padding: 14px; margin-bottom: 20px;
@@ -694,68 +743,61 @@ footer {
 .order-summary-item { display: flex; justify-content: space-between; font-size: 0.8rem; color: rgba(255,245,230,0.7); margin-bottom: 5px; padding-bottom: 5px; border-bottom: 1px solid rgba(255,255,255,0.04); }
 .order-summary-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
 .order-summary-total { display: flex; justify-content: space-between; font-weight: 800; color: var(--yellow); font-family: 'Bebas Neue'; font-size: 1.2rem; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,179,0,0.2); }
-
-/* Form fields */
 .co-label { display: block; font-size: 0.7rem; font-weight: 800; color: var(--yellow); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; margin-top: 14px; }
 .co-input {
-  width: 100%;
-  background: #1e0808;
-  border: 1px solid rgba(255,179,0,0.25);
-  border-radius: 10px; padding: 12px 14px;
-  color: var(--cream);
-  font-family: 'Nunito'; font-size: 0.9rem;
-  outline: none; transition: border-color 0.3s;
+  width: 100%; background: #1e0808; border: 1px solid rgba(255,179,0,0.25);
+  border-radius: 10px; padding: 12px 14px; color: var(--cream);
+  font-family: 'Nunito'; font-size: 0.9rem; outline: none; transition: border-color 0.3s;
 }
 .co-input:focus { border-color: var(--yellow); }
 .co-input::placeholder { color: rgba(255,245,230,0.28); }
-
-/* ── FIX: Select dropdown text always visible ── */
 .co-select {
-  width: 100%;
-  background: #2a0f0f;
-  border: 1px solid rgba(255,179,0,0.3);
-  border-radius: 10px; padding: 12px 14px;
-  color: #FFF5E6;
-  font-family: 'Nunito'; font-size: 0.9rem;
-  outline: none; transition: border-color 0.3s; cursor: pointer;
+  width: 100%; background: #2a0f0f; border: 1px solid rgba(255,179,0,0.3);
+  border-radius: 10px; padding: 12px 14px; color: #FFF5E6;
+  font-family: 'Nunito'; font-size: 0.9rem; outline: none; transition: border-color 0.3s; cursor: pointer;
   -webkit-appearance: none; appearance: none;
 }
 .co-select:focus { border-color: var(--yellow); }
-.co-select option {
-  background: #2a0f0f;
-  color: #FFF5E6;
-}
-.co-select option:disabled,
-.co-select option[value=""] {
-  color: rgba(255,245,230,0.45);
-}
-
+.co-select option { background: #2a0f0f; color: #FFF5E6; }
+.co-select option:disabled, .co-select option[value=""] { color: rgba(255,245,230,0.45); }
 .pickup-info {
   background: rgba(255,179,0,0.07); border: 1px solid rgba(255,179,0,0.2);
   border-radius: 10px; padding: 12px 14px; margin-top: 8px;
-  font-size: 0.82rem; color: rgba(255,245,230,0.7);
-  display: none;
+  font-size: 0.82rem; color: rgba(255,245,230,0.7); display: none;
 }
 .pickup-info.show { display: block; }
 
-/* ── Single Proceed Button ── */
+/* ── DELIVERY CHARGE BOX (NEW) ── */
+.address-hint {
+  display: flex; align-items: flex-start; gap: 6px;
+  font-size: 0.72rem; color: rgba(255,179,0,0.8);
+  margin-top: 5px; margin-bottom: 8px; line-height: 1.55;
+}
+.address-hint .ah-icon { font-size: 0.95rem; flex-shrink: 0; margin-top: 1px; }
+.delivery-charge-box {
+  display: none; align-items: center; gap: 12px;
+  background: rgba(255,179,0,0.08);
+  border: 1.5px solid rgba(255,179,0,0.45);
+  border-radius: 10px; padding: 12px 14px;
+  margin-top: 10px;
+}
+.delivery-charge-box.show { display: flex; }
+.delivery-charge-box .dc-icon { font-size: 1.5rem; flex-shrink: 0; }
+.delivery-charge-box .dc-body { flex: 1; }
+.delivery-charge-box .dc-label { font-size: 0.68rem; color: rgba(255,245,230,0.5); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
+.delivery-charge-box .dc-amount { font-family: 'Bebas Neue'; font-size: 1.35rem; color: var(--yellow); letter-spacing: 1px; }
+.delivery-charge-box .dc-area { font-size: 0.7rem; color: rgba(255,245,230,0.45); margin-top: 1px; }
+.delivery-charge-box .dc-fixed { font-size: 0.68rem; color: #ff8080; margin-top: 3px; font-weight: 700; letter-spacing: 0.5px; }
+
 .co-wa-final-btn {
-  width: 100%;
-  background: linear-gradient(135deg, #25D366, #1da851);
-  color: #fff; border: none; padding: 18px;
-  border-radius: 14px;
-  font-weight: 900; font-size: 1.05rem;
-  cursor: pointer; transition: all 0.3s;
+  width: 100%; background: linear-gradient(135deg, #25D366, #1da851);
+  color: #fff; border: none; padding: 18px; border-radius: 14px;
+  font-weight: 900; font-size: 1.05rem; cursor: pointer; transition: all 0.3s;
   display: flex; align-items: center; justify-content: center; gap: 10px;
   font-family: 'Nunito'; margin-top: 24px;
-  box-shadow: 0 0 30px rgba(37,211,102,0.4);
-  letter-spacing: 0.5px;
+  box-shadow: 0 0 30px rgba(37,211,102,0.4); letter-spacing: 0.5px;
 }
-.co-wa-final-btn:hover {
-  background: linear-gradient(135deg, #1da851, #178f43);
-  transform: scale(1.02);
-  box-shadow: 0 0 45px rgba(37,211,102,0.6);
-}
+.co-wa-final-btn:hover { background: linear-gradient(135deg, #1da851, #178f43); transform: scale(1.02); box-shadow: 0 0 45px rgba(37,211,102,0.6); }
 .co-note { text-align: center; font-size: 0.72rem; color: rgba(255,245,230,0.35); margin-top: 10px; line-height: 1.5; }
 
 /* ===================== SUCCESS TOAST ===================== */
@@ -1105,23 +1147,21 @@ footer {
   <div class="checkout-modal" id="checkoutModal">
     <button class="modal-close" onclick="closeCheckout()">✕</button>
     <h2>📋 YOUR ORDER</h2>
-    <p class="checkout-sub">
-      Review your order below, fill in your details, then tap the button — your order goes straight to us on WhatsApp!
-    </p>
-
-    <!-- Order Summary -->
+    <p class="checkout-sub">Review your order below, fill in your details, then tap the button — your order goes straight to us on WhatsApp!</p>
     <div class="order-summary-box">
       <h4>🛒 Order Summary</h4>
       <div id="coSummaryItems"></div>
       <div class="order-summary-total"><span>Total</span><span id="coSummaryTotal">Rs. 0</span></div>
     </div>
 
-    <!-- Customer Details -->
     <label class="co-label">Full Name *</label>
     <input type="text" class="co-input" id="coName" placeholder="e.g. Muhammad Ali">
 
     <label class="co-label">Phone Number *</label>
     <input type="tel" class="co-input" id="coPhone" placeholder="e.g. 0331-8025998">
+
+    <label class="co-label">Alternate Phone Number (optional)</label>
+    <input type="tel" class="co-input" id="coPhone2" placeholder="e.g. 0321-1234567">
 
     <label class="co-label">Delivery or Pickup? *</label>
     <select class="co-select" id="coType" onchange="handleOrderType()">
@@ -1132,7 +1172,22 @@ footer {
 
     <div id="coAddressWrap" style="display:none; margin-top:4px;">
       <label class="co-label">Delivery Address *</label>
-      <input type="text" class="co-input" id="coAddress" placeholder="Full delivery address">
+      <div class="address-hint">
+        <span class="ah-icon">⚠️</span>
+        <span>Strictly mention your <strong>area name</strong> in the address (e.g. Mehmoodabad No.5, PECHS, KAECHS Block 4, Manzoor Colony) so we can calculate the correct delivery charges.</span>
+      </div>
+      <input type="text" class="co-input" id="coAddress"
+             placeholder="e.g. House 12, Street 3, Mehmoodabad No.5, Karachi"
+             oninput="detectDeliveryCharge()">
+      <div class="delivery-charge-box" id="deliveryChargeBox">
+        <div class="dc-icon">🛵</div>
+        <div class="dc-body">
+          <div class="dc-label">Delivery Charges</div>
+          <div class="dc-amount" id="dcAmount"></div>
+          <div class="dc-area" id="dcArea"></div>
+          <div class="dc-fixed">Fixed charge · cannot be changed</div>
+        </div>
+      </div>
     </div>
 
     <div class="pickup-info" id="coPickupInfo">
@@ -1142,58 +1197,37 @@ footer {
     <label class="co-label" style="margin-top:14px;">Additional Notes (optional)</label>
     <input type="text" class="co-input" id="coNotes" placeholder="Any special requests...">
 
-    <!-- SINGLE BUTTON -->
     <button class="co-wa-final-btn" onclick="checkoutFinalWhatsApp()">
       💬 &nbsp;PLACE ORDER ON WHATSAPP
     </button>
-    <p class="co-note">
-      Tapping this opens WhatsApp and sends your full order to Sauce N Cheese.<br>
-      Cash on Delivery available · Karachi only.
-    </p>
+    <p class="co-note">Tapping this opens WhatsApp and sends your full order to Sauce N Cheese.<br>Cash on Delivery available · Karachi only.</p>
   </div>
 </div>
 
-<!-- DEAL ORDER MODAL -->
-<div class="deal-modal-overlay" id="dealModalOverlay" onclick="handleDealOverlayClick(event)">
-  <div class="deal-modal" id="dealModal">
-    <button class="modal-close" onclick="closeDealModal()">✕</button>
-    <h2 id="dmTitle">DEAL 01</h2>
-    <div class="deal-modal-price" id="dmPrice"></div>
-    <div class="deal-modal-desc" id="dmDesc"></div>
+<!-- DEAL PIZZA FLAVOUR MODAL -->
+<div class="deal-flavour-modal-overlay" id="dealFlavourModalOverlay" onclick="handleDealFlavourOverlayClick(event)">
+  <div class="deal-flavour-modal" id="dealFlavourModal">
+    <button class="modal-close" onclick="closeDealFlavourModal()">✕</button>
+    <h2 id="dfmTitle">DEAL 01</h2>
+    <div class="dfm-price" id="dfmPrice"></div>
+    <div class="dfm-desc" id="dfmDesc"></div>
 
-    <div class="pizza-flavour-wrap" id="dmPizzaWrap">
-      <div class="classic-note">
-        ⚠️ <strong>Classic Flavours Only</strong> — Pizza in deals is available in Classic Flavours only (B.B.Q Tikka, Chicken Fajita, Chicken Afghani, Chicken Supreme, Cheese Pepperoni, Tandoori Chicken, Hot N Spicy, Cheesy Lover, Veggie Pizza). Special &amp; Signature flavours are <u>not</u> included in deals.
+    <div class="classic-only-note" id="dfmClassicNote" style="display:none;">
+      <div class="con-icon">⚠️</div>
+      <div class="con-text">
+        <strong>Classic Flavours Only in Deals</strong>
+        Only Classic Flavours are available in deals: B.B.Q Tikka, Chicken Fajita, Chicken Afghani, Chicken Supreme, Cheese Pepperoni, Tandoori Chicken, Hot N Spicy, Cheesy Lover, Veggie Pizza.
+        <br><em>Special &amp; Signature flavours cannot be selected for deals.</em>
       </div>
-      <label class="modal-label" id="dmFlavourLabel">Enter Pizza Flavour(s)</label>
-      <textarea class="pizza-flavour-input" id="dmFlavour" placeholder="e.g. B.B.Q Tikka, Chicken Supreme...&#10;Write each pizza on a new line if more than one."></textarea>
-      <div class="deal-flavour-error" id="dmFlavourError"></div>
     </div>
 
-    <label class="co-label" style="margin-top:14px;">Your Name *</label>
-    <input type="text" class="co-input" id="dmName" placeholder="e.g. Muhammad Ali">
-    <label class="co-label">Phone Number *</label>
-    <input type="tel" class="co-input" id="dmPhone" placeholder="e.g. 0331-8025998">
-    <label class="co-label">Delivery or Pickup? *</label>
-    <select class="co-select" id="dmType" onchange="handleDmType()">
-      <option value="" disabled selected>— Select —</option>
-      <option value="Delivery">🛵 Delivery</option>
-      <option value="Pickup">🏃 Self Pickup</option>
-    </select>
-    <div id="dmAddressWrap" style="display:none; margin-top:4px;">
-      <label class="co-label">Delivery Address *</label>
-      <input type="text" class="co-input" id="dmAddress" placeholder="Full delivery address">
-    </div>
-    <div class="pickup-info" id="dmPickupInfo">
-      ⏱ Your order will be ready for pickup in <strong>15–35 minutes</strong> from our kitchen at KAECHS Baloch Colony, Karachi.
-    </div>
-    <label class="co-label" style="margin-top:14px;">Additional Notes (optional)</label>
-    <input type="text" class="co-input" id="dmNotes" placeholder="Extra cheese, less spice...">
+    <div id="dfmFlavoursContainer"></div>
+    <div class="flavour-error" id="dfmFlavourError"></div>
 
-    <button class="deal-order-btn" onclick="submitDealOrder()">
-      💬 &nbsp;PLACE DEAL ORDER
+    <button class="dfm-add-cart-btn" onclick="addDealToCart()">
+      🛒 &nbsp;ADD DEAL TO CART
     </button>
-    <p class="co-note" style="margin-top:10px;">Cash on Delivery available · Karachi only</p>
+    <p class="co-note" style="margin-top:10px;">Added to cart — complete your order via WhatsApp checkout</p>
   </div>
 </div>
 
@@ -1216,8 +1250,31 @@ footer {
 
 <script>
 // ── Numbers ──
-const RESTAURANT_WA = '923352014007'; // orders sent TO this number
-const WEBSITE_NUM   = '03347724486';  // identifies orders as from website
+const RESTAURANT_WA = '923352014007';
+const WEBSITE_NUM   = '03347724486';
+
+// ── Classic flavours list (for validation) ──
+const CLASSIC_FLAVOURS = [
+  'bbq tikka','b.b.q tikka','chicken fajita','chicken afghani','chicken supreme',
+  'cheese pepperoni','tandoori chicken','hot n spicy','cheesy lover','veggie pizza'
+];
+const SPECIAL_FLAVOURS_KEYWORDS = [
+  'spicy creamy','fajita sicilion','special malai','ringo kabab','special mughlai',
+  'creamy tikka','tax max','mustard spicy','super supreme',
+  'bbq super creamy','creamy super spicy','euro delight','crown pizza',
+  'signature','special'
+];
+
+function isClassicFlavour(val) {
+  const v = val.toLowerCase().trim();
+  for (const c of CLASSIC_FLAVOURS) { if (v === c || v.includes(c)) return true; }
+  return false;
+}
+function isSpecialOrSignature(val) {
+  const v = val.toLowerCase().trim();
+  for (const s of SPECIAL_FLAVOURS_KEYWORDS) { if (v.includes(s)) return true; }
+  return false;
+}
 
 // ============================================================
 //  MENU DATA
@@ -1283,31 +1340,41 @@ const menuData = [
   { id:58, cat:'Cake',            emoji:'🎂', image:'', name:'Lava Cake',             desc:'Warm chocolate lava cake with molten centre.',                                                                                       prices:[{label:'Price',val:450}] },
 ];
 
+// ── DEALS DATA ──
 const dealsData = [
-  { num:'01', price:670,  items:'2 Small Pizza and 500ml Drink', type:'regular' },
-  { num:'02', price:1400, items:'2 Regular Pizza and 1 Ltr Drink', type:'regular' },
-  { num:'03', price:1890, items:'2 Large Pizza and 1.5 Ltr Drink', type:'regular' },
-  { num:'04', price:4399, items:'5 Large Pizza and 2 Cold Drink 1.5 Ltr', type:'regular' },
-  { num:'05', price:2600, items:'1 Large Pizza, 2 Club Sandwich, 1 Lasagne and 1.5 Ltr Drink', type:'regular' },
-  { num:'06', price:1899, items:'1 Large Pizza, 1 Regular Pizza, 1 Small Pizza and 1.5 Ltr Drink', type:'regular' },
-  { num:'07', price:2999, items:'2 Large Pizza, 1 Pizza Fries, 4 Drumsticks & 2 (1.5 Ltr Drink)', type:'regular' },
-  { num:'08', price:1299, items:'1 Mushroom Burger, 1 Zinger, 2 Drumsticks and 1 Ltr Drink', type:'regular' },
-  { num:'09', price:2350, items:'1 Large Pizza, 1 Crispy Roasted Club Sandwich, 6 Spicy Wings, 1 Pizza Fries and 1.5 Liter Drink', type:'regular' },
-  { num:'10', price:1280, items:'3 Crispy Zinger and 1 Liter Drink', type:'regular' },
-  { num:'11', price:890,  items:'1 Club Sandwich, 1 Zinger Burger and 500ml Drink', type:'regular' },
-  { num:'12', price:650,  items:'1 Small Pizza and 1 Zinger Burger', type:'regular' },
-  { num:'13', price:1050, items:'Quarter Injected Fried Chicken, 1 Crispy Zinger and 500ml Drink', type:'regular' },
-  { num:'Kids Deal',    price:2399, items:'3 Small Pizza, 12 Nuggets, 1 Large Pizza Fries and 3 (300ml Drink)', type:'kids' },
-  { num:'Premium Deal', price:4999, items:'2 Large Pizza, 3 Zinger Burger, 2 Club Sandwich, Half Injected Fried Chicken and 1 (1.5 Ltr Drink and 2 One Ltr Drink)', type:'premium' },
-  { num:'Mid Night Deal',price:null, items:'2 Large Pizza: Rs. 1699 | 2 Regular Pizza: Rs. 1199 | 5 Zinger: Rs. 1799', type:'midnight' },
+  { num:'01', price:670,  pizzaCount:2, items:'2 Small Pizza and 500ml Drink', pizzaSize:'Small', type:'regular' },
+  { num:'02', price:1400, pizzaCount:2, items:'2 Regular Pizza and 1 Ltr Drink', pizzaSize:'Regular', type:'regular' },
+  { num:'03', price:1890, pizzaCount:2, items:'2 Large Pizza and 1.5 Ltr Drink', pizzaSize:'Large', type:'regular' },
+  { num:'04', price:4399, pizzaCount:5, items:'5 Large Pizza and 2 Cold Drink 1.5 Ltr', pizzaSize:'Large', type:'regular' },
+  { num:'05', price:2600, pizzaCount:1, items:'1 Large Pizza, 2 Club Sandwich, 1 Lasagne and 1.5 Ltr Drink', pizzaSize:'Large', type:'regular' },
+  { num:'06', price:1899, pizzaCount:3, items:'1 Large Pizza, 1 Regular Pizza, 1 Small Pizza and 1.5 Ltr Drink', pizzaSize:'Mixed', type:'regular' },
+  { num:'07', price:2999, pizzaCount:2, items:'2 Large Pizza, 1 Pizza Fries, 4 Drumsticks & 2 (1.5 Ltr Drink)', pizzaSize:'Large', type:'regular' },
+  { num:'08', price:1299, pizzaCount:0, items:'1 Mushroom Burger, 1 Zinger, 2 Drumsticks and 1 Ltr Drink', type:'regular' },
+  { num:'09', price:2350, pizzaCount:1, items:'1 Large Pizza, 1 Crispy Roasted Club Sandwich, 6 Spicy Wings, 1 Pizza Fries and 1.5 Liter Drink', pizzaSize:'Large', type:'regular' },
+  { num:'10', price:1280, pizzaCount:0, items:'3 Crispy Zinger and 1 Liter Drink', type:'regular' },
+  { num:'11', price:890,  pizzaCount:0, items:'1 Club Sandwich, 1 Zinger Burger and 500ml Drink', type:'regular' },
+  { num:'12', price:650,  pizzaCount:1, items:'1 Small Pizza and 1 Zinger Burger', pizzaSize:'Small', type:'regular' },
+  { num:'13', price:1050, pizzaCount:0, items:'Quarter Injected Fried Chicken, 1 Crispy Zinger and 500ml Drink', type:'regular' },
+  { num:'Kids Deal',    price:2399, pizzaCount:4, items:'3 Small Pizza, 12 Nuggets, 1 Large Pizza Fries and 3 (300ml Drink)', pizzaSize:'Small', type:'kids' },
+  { num:'Premium Deal', price:4999, pizzaCount:2, items:'2 Large Pizza, 3 Zinger Burger, 2 Club Sandwich, Half Injected Fried Chicken and 1 (1.5 Ltr Drink and 2 One Ltr Drink)', pizzaSize:'Large', type:'premium' },
+  { num:'Mid Night Deal',price:null, pizzaCount:0, items:'2 Large Pizza: Rs. 1699 | 2 Regular Pizza: Rs. 1199 | 5 Zinger: Rs. 1799', type:'midnight' },
 ];
 
 // ── STATE ──
 let cart = [];
 let activeFilter = 'All';
 let currentModalItem = null;
+let currentDealIndex = null;
 
-// ── PIZZA SIZE TOOLTIP HTML ──
+// ── CLASSIC FLAVOURS for dropdown ──
+const classicFlavourOptions = [
+  'B.B.Q Tikka','Chicken Fajita','Chicken Afghani','Chicken Supreme',
+  'Cheese Pepperoni','Tandoori Chicken','Hot N Spicy','Cheesy Lover','Veggie Pizza'
+];
+
+// ──────────────────────────────────────────────
+//  SIZE TOOLTIP BUILDER
+// ──────────────────────────────────────────────
 function buildSizeTooltip(prices, itemId) {
   if (prices.length <= 1) return '';
   const pills = prices.map(p =>
@@ -1324,21 +1391,19 @@ function addSizeDirectly(e, itemId, price, sizeLabel) {
   e.stopPropagation();
   const item = menuData.find(i => i.id === itemId);
   if (!item) return;
-
-  const existing = cart.find(c => c.id === itemId && c.size === sizeLabel);
+  const existing = cart.find(c => c.id === itemId && c.size === sizeLabel && !c.isDeal);
   if (existing) { existing.qty++; }
-  else { cart.push({ id: itemId, name: item.name, emoji: item.emoji, price, size: sizeLabel, note: '', qty: 1 }); }
-
+  else { cart.push({ id: itemId, name: item.name, emoji: item.emoji, price, size: sizeLabel, note: '', qty: 1, isDeal: false }); }
   updateCartUI();
   showToast(`✅ ${item.name} (${sizeLabel}) added!`);
-
-  // Flash the pill green briefly
   const btn = e.currentTarget;
   btn.classList.add('added');
   setTimeout(() => btn.classList.remove('added'), 1200);
 }
 
-// ── MENU BUILD ──
+// ──────────────────────────────────────────────
+//  MENU BUILD
+// ──────────────────────────────────────────────
 function buildMenuFilters() {
   const cats = ['All', ...new Set(menuData.map(i => i.cat))];
   document.getElementById('menuFilters').innerHTML = cats.map(c =>
@@ -1385,21 +1450,138 @@ function renderMenuItems(items) {
   }).join('');
 }
 
+// ──────────────────────────────────────────────
+//  DEALS BUILD
+// ──────────────────────────────────────────────
 function buildDeals() {
-  document.getElementById('dealsGrid').innerHTML = dealsData.map(d => {
+  document.getElementById('dealsGrid').innerHTML = dealsData.map((d, idx) => {
     const typeClass = {premium:'premium',kids:'kids',midnight:'midnight'}[d.type] || '';
     const badge = {premium:'⭐ PREMIUM',kids:'🧒 KIDS',midnight:'🌙 MIDNIGHT'}[d.type] || '🔥 HOT DEAL';
     const priceHtml = d.price
       ? `<div class="deal-price">Rs. ${d.price.toLocaleString()}</div>`
       : `<div class="deal-price" style="font-size:1.2rem;color:var(--red)">SEE BELOW</div>`;
+    const btnHtml = d.type === 'midnight'
+      ? `<button class="deal-select-btn" onclick="orderMidnightDeal()" style="background:linear-gradient(135deg,#818cf8,#6366f1);">📱 Order on WhatsApp</button>`
+      : `<button class="deal-select-btn" onclick="openDealFlavourModal(${idx})">🛒 Add to Cart</button>`;
     return `
     <div class="deal-card ${typeClass} fade-in visible">
       <div class="deal-badge">${badge}</div>
       <div class="deal-number">DEAL ${d.num}</div>
       ${priceHtml}
       <div class="deal-items">${d.items.replace(/\|/g,'<br>')}</div>
+      ${btnHtml}
     </div>`;
   }).join('');
+}
+
+// ──────────────────────────────────────────────
+//  DEAL FLAVOUR MODAL
+// ──────────────────────────────────────────────
+function openDealFlavourModal(idx) {
+  currentDealIndex = idx;
+  const d = dealsData[idx];
+  document.getElementById('dfmTitle').textContent = `DEAL ${d.num}`;
+  document.getElementById('dfmPrice').textContent = d.price ? `Rs. ${d.price.toLocaleString()}` : '';
+  document.getElementById('dfmDesc').textContent = d.items.replace(/\|/g,' | ');
+  const container = document.getElementById('dfmFlavoursContainer');
+  const errorEl   = document.getElementById('dfmFlavourError');
+  const noteEl    = document.getElementById('dfmClassicNote');
+  errorEl.classList.remove('show');
+  errorEl.textContent = '';
+  if (d.pizzaCount && d.pizzaCount > 0) {
+    noteEl.style.display = 'flex';
+    let html = '';
+    for (let i = 1; i <= d.pizzaCount; i++) {
+      const sizeLabel = d.pizzaSize === 'Mixed'
+        ? (i === 1 ? 'Large' : i === 2 ? 'Regular' : 'Small')
+        : (d.pizzaSize || '');
+      const label = d.pizzaCount === 1
+        ? `🍕 Pizza Flavour${sizeLabel ? ' (' + sizeLabel + ')' : ''}`
+        : `🍕 Pizza ${i} Flavour${sizeLabel ? ' (' + sizeLabel + ')' : ''}`;
+      html += `
+        <div class="flavour-box-wrap">
+          <label class="flavour-box-label" for="dfmFlavour${i}">${label}</label>
+          <select class="flavour-select" id="dfmFlavour${i}">
+            <option value="" disabled selected>— Select Classic Flavour —</option>
+            ${classicFlavourOptions.map(f => `<option value="${f}">${f}</option>`).join('')}
+          </select>
+        </div>`;
+    }
+    container.innerHTML = html;
+  } else {
+    noteEl.style.display = 'none';
+    container.innerHTML = '';
+  }
+  document.getElementById('dealFlavourModalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDealFlavourModal() {
+  document.getElementById('dealFlavourModalOverlay').classList.remove('open');
+  if (!document.getElementById('cartSidebar').classList.contains('open')) {
+    document.body.style.overflow = '';
+  }
+}
+
+function handleDealFlavourOverlayClick(e) {
+  if (e.target === document.getElementById('dealFlavourModalOverlay')) closeDealFlavourModal();
+}
+
+function addDealToCart() {
+  const d = dealsData[currentDealIndex];
+  const errorEl = document.getElementById('dfmFlavourError');
+  errorEl.classList.remove('show');
+  let flavourNotes = [];
+  if (d.pizzaCount && d.pizzaCount > 0) {
+    for (let i = 1; i <= d.pizzaCount; i++) {
+      const sel = document.getElementById(`dfmFlavour${i}`);
+      if (!sel) continue;
+      const val = sel.value;
+      if (!val) {
+        errorEl.textContent = `Please select a flavour for Pizza ${i}.`;
+        errorEl.classList.add('show');
+        return;
+      }
+      if (isSpecialOrSignature(val)) {
+        errorEl.innerHTML = `❌ <strong>${val}</strong> is a Special/Signature flavour and is <strong>not available in deals</strong>. Please choose a Classic flavour only.`;
+        errorEl.classList.add('show');
+        return;
+      }
+      if (!isClassicFlavour(val)) {
+        errorEl.innerHTML = `❌ <strong>${val}</strong> is not available in deals. Only Classic Flavours are allowed.`;
+        errorEl.classList.add('show');
+        return;
+      }
+      const sizeLabel = d.pizzaSize === 'Mixed'
+        ? (i === 1 ? 'Large' : i === 2 ? 'Regular' : 'Small')
+        : (d.pizzaSize || '');
+      flavourNotes.push(`Pizza ${i}: ${val}${sizeLabel ? ' (' + sizeLabel + ')' : ''}`);
+    }
+  }
+  const dealNote = flavourNotes.length > 0 ? flavourNotes.join(' | ') : '';
+  const cartKey = `deal-${d.num}`;
+  cart.push({
+    id: cartKey,
+    name: `🎁 Deal ${d.num}`,
+    emoji: '🎁',
+    price: d.price || 0,
+    size: '',
+    note: dealNote,
+    qty: 1,
+    isDeal: true,
+    dealNum: d.num
+  });
+  updateCartUI();
+  closeDealFlavourModal();
+  openCart();
+  showToast(`✅ Deal ${d.num} added to cart!`);
+}
+
+function orderMidnightDeal() {
+  const msg = encodeURIComponent(
+    `Hi! I'd like to order the *Mid Night Deal* from Sauce N Cheese.\n\nMid Night Deal options:\n• 2 Large Pizza: Rs. 1699\n• 2 Regular Pizza: Rs. 1199\n• 5 Zinger: Rs. 1799\n\nPlease let me know the total for my selection.`
+  );
+  window.open(`https://wa.me/${RESTAURANT_WA}?text=${msg}`, '_blank');
 }
 
 // ── PRODUCT MODAL ──
@@ -1433,13 +1615,13 @@ function handleModalOverlayClick(e) {
 }
 function addModalItemToCart() {
   if (!currentModalItem) return;
-  const sizeEl = document.getElementById('modalSize');
-  const price  = parseInt(sizeEl.value);
+  const sizeEl    = document.getElementById('modalSize');
+  const price     = parseInt(sizeEl.value);
   const sizeLabel = sizeEl.options[sizeEl.selectedIndex].text.split(' —')[0];
   const comment   = document.getElementById('modalComment').value.trim();
-  const existing  = cart.find(c => c.id === currentModalItem.id && c.size === sizeLabel);
+  const existing  = cart.find(c => c.id === currentModalItem.id && c.size === sizeLabel && !c.isDeal);
   if (existing) { existing.qty++; }
-  else { cart.push({ id:currentModalItem.id, name:currentModalItem.name, emoji:currentModalItem.emoji, price, size:sizeLabel, note:comment, qty:1 }); }
+  else { cart.push({ id:currentModalItem.id, name:currentModalItem.name, emoji:currentModalItem.emoji, price, size:sizeLabel, note:comment, qty:1, isDeal:false }); }
   updateCartUI();
   closeProductModal();
   openCart();
@@ -1458,22 +1640,22 @@ function updateCartUI() {
   if (cart.length === 0) {
     itemsEl.innerHTML = '<div class="cart-empty"><div class="cart-empty-icon">🛒</div><p>Your cart is empty.<br>Add some delicious items!</p></div>';
   } else {
-    itemsEl.innerHTML = cart.map(c => `
+    itemsEl.innerHTML = cart.map((c,idx) => `
       <div class="cart-item">
         <div style="flex:1">
           <div class="cart-item-name">${c.emoji} ${c.name} ×${c.qty}</div>
-          <div class="cart-item-size">${c.size !== 'Price' ? c.size : ''}</div>
+          ${c.size && c.size !== 'Price' ? `<div class="cart-item-size">${c.size}</div>` : ''}
           ${c.note ? `<div class="cart-item-note">📝 ${c.note}</div>` : ''}
         </div>
         <div style="display:flex;align-items:center;gap:10px">
           <div class="cart-item-price">Rs. ${(c.price*c.qty).toLocaleString()}</div>
-          <button class="cart-item-remove" onclick="removeFromCart(${c.id},'${c.size}')">✕</button>
+          <button class="cart-item-remove" onclick="removeFromCart(${idx})">✕</button>
         </div>
       </div>`).join('');
   }
 }
-function removeFromCart(id, size) {
-  cart = cart.filter(c => !(c.id === id && c.size === size));
+function removeFromCart(idx) {
+  cart.splice(idx, 1);
   updateCartUI();
 }
 function openCart() {
@@ -1490,13 +1672,70 @@ function toggleCart() {
   document.getElementById('cartSidebar').classList.contains('open') ? closeCart() : openCart();
 }
 
+// ──────────────────────────────────────────────
+//  DELIVERY CHARGE DETECTION (NEW)
+// ──────────────────────────────────────────────
+function normaliseAddr(s) {
+  // lower-case, collapse dots/dashes/spaces into single space
+  return s.toLowerCase().replace(/[.\-]+/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+function detectDeliveryCharge() {
+  const raw  = document.getElementById('coAddress').value || '';
+  const addr = normaliseAddr(raw);
+  const box  = document.getElementById('deliveryChargeBox');
+  const amtEl = document.getElementById('dcAmount');
+  const areaEl = document.getElementById('dcArea');
+
+  let charge = null;
+  let areaName = '';
+
+  // Priority 1 — KAECHS / Block X / A-141 style → Rs. 80
+  // Matches: "kaechs", "block 4", "block-6", "a 141", "a141"
+  if (/\bkaechs\b/.test(addr) ||
+      /\bblock\s*\d+\b/.test(addr) ||
+      /\ba[\s-]?\d{2,3}\b/.test(addr)) {
+    charge = 80;
+    areaName = 'KAECHS / Block area';
+  }
+  // Priority 2 — Mehmoodabad No. 4 / 5 / 6 → Rs. 100
+  // Matches: "mehmoodabad no 5", "meh no 5", "mehmoodabad 4", "meh 6", "meh no 4", etc.
+  else if (/(mehmoodabad|meh)\s*(no\.?\s*)?[456]\b/.test(addr)) {
+    charge = 100;
+    areaName = 'Mehmoodabad No. 4 / 5 / 6';
+  }
+  // Priority 3 — Rs. 120 areas
+  // Mehmoodabad 2 / 3, TP2, KDA, Manzoor Colony, Gujjar Chowk, PECHS
+  else if (
+    /(mehmoodabad|meh)\s*(no\.?\s*)?[23]\b/.test(addr) ||
+    /\btp\s*2\b/.test(addr) ||
+    /\bkda\b/.test(addr) ||
+    /manzoor\s*colony/.test(addr) ||
+    /gujjar\s*chowk/.test(addr) ||
+    /\bpechs\b/.test(addr)
+  ) {
+    charge = 120;
+    areaName = 'Mehmoodabad No. 2/3 · TP2 · KDA · Manzoor Colony · Gujjar Chowk · PECHS';
+  }
+
+  if (charge !== null) {
+    amtEl.textContent  = 'Rs. ' + charge;
+    areaEl.textContent = '📍 ' + areaName;
+    box.dataset.charge = charge;
+    box.classList.add('show');
+  } else {
+    box.classList.remove('show');
+    box.dataset.charge = '';
+  }
+}
+
 // ── CHECKOUT MODAL ──
 function openCheckout() {
   if (cart.length === 0) { showToast('🛒 Your cart is empty!','error'); return; }
   const total = cart.reduce((s,i) => s + i.price * i.qty, 0);
   document.getElementById('coSummaryItems').innerHTML = cart.map(c =>
     `<div class="order-summary-item">
-       <span>${c.emoji} ${c.name}${c.size&&c.size!=='Price'?' ('+c.size+')':''} ×${c.qty}</span>
+       <span>${c.emoji} ${c.name}${c.size&&c.size!=='Price'?' ('+c.size+')':''} ×${c.qty}${c.note?' — '+c.note:''}</span>
        <span>Rs. ${(c.price*c.qty).toLocaleString()}</span>
      </div>`
   ).join('');
@@ -1504,6 +1743,11 @@ function openCheckout() {
   document.getElementById('coType').value = '';
   document.getElementById('coAddressWrap').style.display = 'none';
   document.getElementById('coPickupInfo').classList.remove('show');
+  // Reset delivery charge box
+  const box = document.getElementById('deliveryChargeBox');
+  box.classList.remove('show');
+  box.dataset.charge = '';
+  document.getElementById('coAddress').value = '';
   document.getElementById('checkoutModalOverlay').classList.add('open');
 }
 function closeCheckout() {
@@ -1516,12 +1760,18 @@ function handleOrderType() {
   const val = document.getElementById('coType').value;
   document.getElementById('coAddressWrap').style.display = val === 'Delivery' ? 'block' : 'none';
   document.getElementById('coPickupInfo').classList.toggle('show', val === 'Pickup');
+  // Reset charge box when switching to pickup
+  if (val !== 'Delivery') {
+    const box = document.getElementById('deliveryChargeBox');
+    box.classList.remove('show');
+    box.dataset.charge = '';
+  }
 }
 
-// ── SINGLE FINAL ORDER BUTTON → sends to restaurant number ──
 function checkoutFinalWhatsApp() {
   const name    = document.getElementById('coName').value.trim();
   const phone   = document.getElementById('coPhone').value.trim();
+  const phone2  = document.getElementById('coPhone2').value.trim();
   const type    = document.getElementById('coType').value;
   const address = document.getElementById('coAddress').value.trim();
   const notes   = document.getElementById('coNotes').value.trim();
@@ -1531,27 +1781,38 @@ function checkoutFinalWhatsApp() {
   if (!type)  { showToast('Please select Delivery or Pickup', 'error'); return; }
   if (type === 'Delivery' && !address) { showToast('Please enter your delivery address', 'error'); return; }
 
+  // Get delivery charge (fixed, auto-detected)
+  const dcBox = document.getElementById('deliveryChargeBox');
+  const deliveryCharge = (type === 'Delivery' && dcBox && dcBox.dataset.charge)
+    ? parseInt(dcBox.dataset.charge) : 0;
+
   const total = cart.reduce((s,i) => s + i.price * i.qty, 0);
+  const grandTotal = total + deliveryCharge;
+
   const itemLines = cart.map(c =>
     `• ${c.emoji} ${c.name}${c.size&&c.size!=='Price'?' ('+c.size+')':''} ×${c.qty}${c.note?' ['+c.note+']':''} = Rs. ${(c.price*c.qty).toLocaleString()}`
   ).join('\n');
 
+  const phone2Line  = phone2 ? `\n📱 *Alt Phone:* ${phone2}` : '';
   const deliveryLine = type === 'Delivery'
     ? `\n📍 *Delivery Address:* ${address}`
     : `\n🏃 *Self Pickup* (Ready in 15–35 mins)`;
+
+  const chargesLine = deliveryCharge > 0
+    ? `\n\n💰 *Items Total:* Rs. ${total.toLocaleString()}\n🛵 *Delivery Charges:* Rs. ${deliveryCharge}\n💵 *GRAND TOTAL: Rs. ${grandTotal.toLocaleString()}*`
+    : `\n\n💰 *TOTAL: Rs. ${total.toLocaleString()}*`;
 
   const msg = encodeURIComponent(
 `🌐 *ORDER FROM WEBSITE* (${WEBSITE_NUM})
 ━━━━━━━━━━━━━━━━━━━━
 
 👤 *Name:* ${name}
-📱 *Phone:* ${phone}
+📱 *Phone:* ${phone}${phone2Line}
 🛵 *Type:* ${type}${deliveryLine}
 
 📋 *Items:*
 ${itemLines}
-
-💰 *TOTAL: Rs. ${total.toLocaleString()}*
+${chargesLine}
 ${notes ? '\n📝 *Notes:* ' + notes : ''}
 ━━━━━━━━━━━━━━━━━━━━`
   );
