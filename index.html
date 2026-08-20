@@ -292,6 +292,108 @@ footer{background:#0a0a0a;border-top:1px solid var(--gb);padding:44px 5% 22px;}
 .co-wa{width:100%;background:linear-gradient(135deg,#25D366,#1da851);color:#fff;border:none;padding:16px;border-radius:13px;font-weight:900;font-size:1rem;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:9px;font-family:'Nunito';margin-top:22px;box-shadow:0 0 28px rgba(37,211,102,.38);}
 .co-wa:hover{background:linear-gradient(135deg,#1da851,#178f43);transform:scale(1.02);}
 .co-note{text-align:center;font-size:.69rem;color:rgba(255,245,230,.32);margin-top:9px;line-height:1.5;}
+/* AUTOMATED DELIVERY CHARGE */
+.deal-total-box{margin-top:12px;padding:12px 13px;border-radius:12px;background:linear-gradient(135deg,rgba(255,179,0,.08),rgba(179,18,23,.10));border:1px solid rgba(255,179,0,.24);}
+.deal-total-box>div{display:flex;justify-content:space-between;align-items:center;padding:5px 0;color:rgba(255,245,230,.62);font-size:.72rem;}
+.deal-total-box strong{color:var(--yellow);font-size:.86rem;}
+.deal-total-box .deal-grand{margin-top:6px;padding-top:9px;border-top:1px solid rgba(255,179,0,.18);font-weight:900;color:var(--yellow);}
+.deal-total-box .deal-grand strong{font-family:'Bebas Neue';font-size:1.3rem;letter-spacing:1px;}
+.delivery-charge-box{
+  display:none;
+  margin-top:10px;
+  padding:11px 13px;
+  background:linear-gradient(135deg,rgba(255,179,0,.10),rgba(179,18,23,.10));
+  border:1px solid rgba(255,179,0,.32);
+  border-radius:10px;
+  color:rgba(255,245,230,.72);
+  font-size:.78rem;
+  line-height:1.5;
+}
+.delivery-charge-box.show{display:block;}
+.delivery-charge-box .dc-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
+.delivery-charge-box .dc-label{
+  color:rgba(255,245,230,.55);
+  font-size:.68rem;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  font-weight:800;
+}
+.delivery-charge-box .dc-amount{
+  color:var(--yellow);
+  font-family:'Bebas Neue';
+  font-size:1.2rem;
+  letter-spacing:1px;
+  white-space:nowrap;
+}
+.delivery-charge-box .dc-area{
+  display:block;
+  margin-top:3px;
+  color:rgba(255,245,230,.58);
+  font-size:.69rem;
+  font-weight:700;
+}
+.delivery-info-panel{
+  margin:12px 0 4px;
+  background:linear-gradient(145deg,rgba(255,179,0,.08),rgba(179,18,23,.09));
+  border:1px solid rgba(255,179,0,.24);
+  border-radius:13px;
+  overflow:hidden;
+}
+.delivery-info-head{
+  padding:11px 13px;
+  background:rgba(255,179,0,.07);
+  border-bottom:1px solid rgba(255,179,0,.16);
+  color:var(--yellow);
+  font-family:'Bebas Neue';
+  font-size:.95rem;
+  letter-spacing:1.8px;
+}
+.delivery-zone-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:7px;
+  padding:10px;
+}
+.delivery-zone{
+  padding:9px 10px;
+  background:rgba(0,0,0,.16);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:9px;
+}
+.delivery-zone strong{display:block;color:var(--yellow);font-size:.75rem;margin-bottom:3px;}
+.delivery-zone span{display:block;color:rgba(255,245,230,.58);font-size:.64rem;line-height:1.45;}
+.delivery-zone.special{border-color:rgba(179,18,23,.34);background:rgba(179,18,23,.08);}
+.delivery-zone.special strong{color:#ffcc66;}
+.delivery-special-note{
+  margin:0 10px 10px;
+  padding:10px 11px;
+  border-radius:9px;
+  background:rgba(179,18,23,.12);
+  border:1px solid rgba(179,18,23,.3);
+  color:rgba(255,245,230,.72);
+  font-size:.67rem;
+  line-height:1.55;
+}
+.delivery-special-note b{color:#fff;}
+.delivery-live-note{
+  display:none;
+  margin-top:8px;
+  padding:9px 11px;
+  border-radius:9px;
+  background:rgba(179,18,23,.12);
+  border:1px solid rgba(179,18,23,.32);
+  color:#ff9b9b;
+  font-size:.68rem;
+  line-height:1.5;
+}
+.delivery-live-note.show{display:block;}
+@media(max-width:560px){.delivery-zone-grid{grid-template-columns:1fr;}}
+
 
 /* TOAST */
 .toast{position:fixed;bottom:94px;left:50%;transform:translateX(-50%) translateY(18px);background:#1a2a1a;border:1px solid #4ade80;color:#4ade80;padding:12px 22px;border-radius:11px;font-weight:700;font-size:.87rem;z-index:9999;opacity:0;transition:all .4s;white-space:nowrap;box-shadow:0 7px 28px rgba(0,0,0,.5);}
@@ -531,16 +633,37 @@ footer{background:#0a0a0a;border-top:1px solid var(--gb);padding:44px 5% 22px;}
     <button class="mclose" onclick="closeCheckout()">✕</button>
     <div class="co-ttl">📋 YOUR ORDER</div>
     <div class="co-sub">Review your order, fill in your details, then place it directly on WhatsApp!</div>
-    <div class="o-sum"><h4>🛒 Order Summary</h4><div id="coItems"></div><div class="o-st"><span>Total</span><span id="coTotal">Rs. 0</span></div></div>
+    <div class="o-sum"><h4>🛒 Order Summary</h4><div id="coItems"></div><div class="o-st"><span>Grand Total</span><span id="coTotal">Rs. 0</span></div></div>
     <label class="co-lbl">Full Name *</label><input type="text" class="ci" id="coName" placeholder="e.g. Muhammad Ali">
     <label class="co-lbl">Phone Number *</label><input type="tel" class="ci" id="coPhone" placeholder="e.g. 0331-8025998">
     <label class="co-lbl">Delivery or Pickup? *</label>
     <select class="cs" id="coType" onchange="handleCoType()"><option value="" disabled selected>— Select —</option><option value="Delivery">🛵 Delivery</option><option value="Pickup">🏃 Self Pickup</option></select>
     <div id="coAddrWrap" style="display:none;margin-top:4px;">
       <label class="co-lbl">Delivery Address *</label>
-      <input type="text" class="ci" id="coAddr" placeholder="Full delivery address">
+      <input type="text" class="ci" id="coAddr" placeholder="Full delivery address" oninput="detectDeliveryCharge()">
+      <div class="delivery-info-panel">
+        <div class="delivery-info-head">🛵 DELIVERY CHARGES &amp; SERVICE AREAS</div>
+        <div class="delivery-zone-grid">
+          <div class="delivery-zone"><strong>Rs. 80</strong><span>KAECHS · Block areas · A-141 style addresses</span></div>
+          <div class="delivery-zone"><strong>Rs. 100</strong><span>Mehmoodabad No. 4 · No. 5 · No. 6</span></div>
+          <div class="delivery-zone"><strong>Rs. 120</strong><span>Mehmoodabad No. 2/3 · TP-2 · KDA · Manzoor Colony · Gujjar Chowk · PECHS</span></div>
+          <div class="delivery-zone special"><strong>Rs. 250</strong><span>Delhi Mercantile Society (DMCHS) · Darul Aman Society · Tariq Road</span></div>
+          <div class="delivery-zone special"><strong>Rs. 300</strong><span>Bahadurabad</span></div>
+        </div>
+        <div class="delivery-special-note">
+          <b>⏱ Delivery Time:</b> 35–55 mins &nbsp;·&nbsp; <b>Note:</b> Please mention your area properly.
+        </div>
+      </div>
+      <div class="delivery-charge-box" id="deliveryChargeBox">
+        <div class="dc-row">
+          <span class="dc-label">🛵 Your Delivery Charges</span>
+          <span class="dc-amount" id="dcAmount">Rs. 0</span>
+        </div>
+        <span class="dc-area" id="dcArea"></span>
+      </div>
+      <div class="delivery-live-note" id="deliveryLiveNote"></div>
     </div>
-    <div class="pi" id="coPick">⏱ Ready for pickup in <strong>35–45 minutes</strong> at Shop No. SA/59, Block – 4, KAECHS Baloch Colony, Karachi.</div>
+    <div class="pi" id="coPick">⏱ Ready for pickup in <strong>35–55 minutes</strong> at Shop No. SA/59, Block – 4, KAECHS Baloch Colony, Karachi.</div>
     <label class="co-lbl" style="margin-top:12px;">Additional Notes (optional)</label>
     <input type="text" class="ci" id="coNotes" placeholder="Any special requests...">
     <button class="co-wa" onclick="finalOrderWA()">💬 &nbsp;PLACE ORDER ON WHATSAPP</button>
@@ -555,6 +678,10 @@ footer{background:#0a0a0a;border-top:1px solid var(--gb);padding:44px 5% 22px;}
     <div class="dm-ttl" id="dmTitle"></div>
     <div class="dm-price" id="dmPrice"></div>
     <div class="dm-desc" id="dmDesc"></div>
+    <div id="dmOptionWrap" style="display:none;margin-top:12px;">
+      <label class="co-lbl">Select One Midnight Deal *</label>
+      <select class="cs" id="dmDealOption" onchange="handleDmOption()"></select>
+    </div>
     <div id="dmPizzaSection" style="display:none;">
       <div class="cw-note"><span class="cw-ic">⚠️</span><div class="cw-txt"><strong>Classic Flavours ONLY in Deals</strong>Special &amp; Signature flavours are NOT available in deals. Choosing one will block your order.</div></div>
       <div class="cf-list"><span class="cft">✅ Allowed Classic Flavours:</span>B.B.Q Tikka · Chicken Fajita · Chicken Afghani · Chicken Supreme · Cheese Pepperoni · Tandoori Chicken · Hot N Spicy · Cheesy Lover · Veggie Pizza</div>
@@ -565,10 +692,29 @@ footer{background:#0a0a0a;border-top:1px solid var(--gb);padding:44px 5% 22px;}
     <label class="co-lbl">Phone Number *</label><input type="tel" class="ci" id="dmPhone" placeholder="e.g. 0331-8025998">
     <label class="co-lbl">Delivery or Pickup? *</label>
     <select class="cs" id="dmType" onchange="handleDmType()"><option value="" disabled selected>— Select —</option><option value="Delivery">🛵 Delivery</option><option value="Pickup">🏃 Self Pickup</option></select>
-    <div id="dmAddrWrap" style="display:none;margin-top:4px;"><label class="co-lbl">Delivery Address *</label><input type="text" class="ci" id="dmAddr" placeholder="Full delivery address"></div>
-    <div class="pi" id="dmPick">⏱ Ready for pickup in <strong>35–45 minutes</strong> at KAECHS Baloch Colony, Karachi.</div>
+    <div id="dmAddrWrap" style="display:none;margin-top:4px;">
+      <label class="co-lbl">Delivery Address *</label>
+      <input type="text" class="ci" id="dmAddr" placeholder="Enter your area / full delivery address" oninput="updateDealTotal()">
+      <div class="delivery-info-panel">
+        <div class="delivery-info-head">🛵 DELIVERY CHARGES</div>
+        <div class="delivery-zone-grid">
+          <div class="delivery-zone"><strong>Rs. 80</strong><span>KAECHS · Block areas · A-141 style addresses</span></div>
+          <div class="delivery-zone"><strong>Rs. 100</strong><span>Mehmoodabad No. 4 · No. 5 · No. 6</span></div>
+          <div class="delivery-zone"><strong>Rs. 120</strong><span>Mehmoodabad No. 2/3 · TP-2 · KDA · Manzoor Colony · Gujjar Chowk · PECHS</span></div>
+          <div class="delivery-zone special"><strong>Rs. 250</strong><span>Delhi Mercantile / DMCHS · Darul Aman Society · Tariq Road</span></div>
+          <div class="delivery-zone special"><strong>Rs. 300</strong><span>Bahadurabad</span></div>
+        </div>
+        <div class="delivery-special-note"><b>⏱ Delivery Time:</b> 35–55 mins &nbsp;·&nbsp; <b>Note:</b> Please mention your area properly.</div>
+      </div>
+    </div>
+    <div class="pi" id="dmPick">⏱ Ready for pickup in <strong>35–55 minutes</strong> at KAECHS Baloch Colony, Karachi.</div>
     <label class="co-lbl" style="margin-top:12px;">Additional Notes (optional)</label>
     <input type="text" class="ci" id="dmNotes" placeholder="Extra cheese, less spice...">
+    <div class="deal-total-box">
+      <div><span>Deal Total</span><strong id="dmDealBaseTotal">Rs. 0</strong></div>
+      <div><span>Delivery Charges</span><strong id="dmDeliveryAmount">Rs. 0</strong></div>
+      <div class="deal-grand"><span>GRAND TOTAL</span><strong id="dmGrandTotal">Rs. 0</strong></div>
+    </div>
     <button class="d-order-btn" onclick="submitDeal()">💬 &nbsp;PLACE DEAL ORDER ON WHATSAPP</button>
     <p class="co-note" style="margin-top:9px;">Cash on Delivery available · Karachi only</p>
   </div>
@@ -614,7 +760,7 @@ const MD=[
   {id:20,cat:'Signature Pizza',e:'🍕',n:'Creamy Super Spicy',d:'Creamy spicy sauce, spicy chicken, green jalapeños, mushrooms, chicken pepperoni.',p:[{l:'Small',v:450},{l:'Medium',v:880},{l:'Large',v:1350}]},
   {id:21,cat:'Signature Pizza',e:'🍕',n:'Euro Delight',d:'Creamy spicy sauce, 2 chicken meats, loaded mozzarella, jalapeños, olive chunks.',p:[{l:'Small',v:450},{l:'Medium',v:880},{l:'Large',v:1350}]},
   {id:22,cat:'Signature Pizza',e:'🍕',n:'Smoky Dynamite',d:'Creamy Dynamite sauce with smoky flavourful chicken meat, onions, chicken pepperoni, mozzarella.',p:[{l:'Small',v:450},{l:'Medium',v:880},{l:'Large',v:1350}]},
-  {id:23,cat:'Signature Pizza',e:'🍕',n:'Crown Pizza',d:'Flower-shaped pizza with mustard spicy flavour and crown stuffed kabab crust.',p:[{l:'Large',v:1450}]},
+  {id:23,cat:'Signature Pizza',e:'🍕',n:'Crown Pizza',d:'Flower-shaped pizza with mustard spicy flavour and crown stuffed kabab crust.',p:[{l:'Large',v:1500}]},
   // Burgers — Chicken
   {id:24,cat:'Burgers',e:'🍔',n:'Crispy Zinger Burger',d:'Classic crispy fried chicken burger with premium bun.',p:[{l:'Without Cheese',v:400},{l:'With Cheese',v:450}]},
   {id:25,cat:'Burgers',e:'🍔',n:'Jumbo Zinger Burger',d:'Extra-large crispy zinger patty in a premium bun.',p:[{l:'With Cheese',v:750}]},
@@ -625,7 +771,7 @@ const MD=[
   // Beef Burgers
   {id:30,cat:'Burgers',e:'🍔',n:'Classic Beef Burger',d:'Classic beef patty with fresh toppings.',p:[{l:'Price',v:480}]},
   {id:31,cat:'Burgers',e:'🍔',n:'Beef Mushroom Burger',d:'Juicy beef patty topped with sautéed mushrooms.',p:[{l:'Price',v:550}]},
-  {id:32,cat:'Burgers',e:'🍔',n:'Beef Firy Smash Burger',d:'Smashed beef patty with fiery sauce.',p:[{l:'Price',v:555}]},
+  {id:32,cat:'Burgers',e:'🍔',n:'Beef Firy Smash Burger',d:'Smashed beef patty with fiery sauce.',p:[{l:'Price',v:550}]},
   {id:33,cat:'Burgers',e:'🍔',n:'American Swiss Burger',d:'Premium American-style Swiss cheese beef burger.',p:[{l:'Price',v:600}]},
   // Wraps
   {id:34,cat:'Wraps',e:'🌯',n:'Gyro Wrap',d:'Classic gyro-style wrap with fresh fillings.',p:[{l:'Price',v:400}]},
@@ -683,9 +829,12 @@ const DD=[
   {num:'12',price:650,items:'1 Small Pizza and 1 Zinger Burger',pizza:1,pSz:'Small',type:'regular'},
   {num:'13',price:1050,items:'Quarter Injected Fried Chicken (Leg Only), 1 Crispy Zinger and 500ml Drink',pizza:0,type:'regular'},
   {num:'14',price:1800,items:'Qtr Fried Chicken, 1 Beef Firy Smash Burger, 1 BBQ Club Sandwich, and 1 Ltr Colddrink',pizza:0,type:'regular'},
-  {num:'Kids Deal',price:null,items:'3 Small Pizza, 12 Nuggets, 1 Large Pizza Fries and 3 (300ml Drink)',pizza:3,pSz:'Small',type:'kids'},
   {num:'Premium Deal',price:5300,items:'2 Large Pizza, 3 Zinger Burger, 2 Club Sandwich, Half Injected Fried Chicken and 1 (1.5 Ltr Drink and 2 One Ltr Drink)',pizza:2,pSz:'Large',type:'premium'},
-  {num:'Mid Night Deal',price:null,items:'2 Large Pizza: Rs. 1900 | 2 Regular Pizza: Rs. 1200 | 5 Zinger: Rs. 1900',pizza:0,type:'midnight'},
+  {num:'Mid Night Deal',price:null,items:'Choose 1 of 3 Midnight Deal options',pizza:0,type:'midnight',options:[
+    {name:'2 Large Pizza',price:1900,pizza:2,pSz:'Large'},
+    {name:'2 Regular Pizza',price:1200,pizza:2,pSz:'Regular'},
+    {name:'5 Zinger',price:1900,pizza:0,pSz:''}
+  ]},
 ];
 
 // ── ADD-ONS (from menu image) ──
@@ -735,10 +884,10 @@ function filterMenu(cat){
 // DEALS
 function buildDeals(){
   document.getElementById('dealsGrid').innerHTML=DD.map((d,i)=>{
-    const tc={premium:'premium',kids:'kids',midnight:'midnight'}[d.type]||'';
-    const badge={premium:'⭐ PREMIUM',kids:'🧒 KIDS',midnight:'🌙 MIDNIGHT'}[d.type]||'🔥 HOT DEAL';
-    const ph=d.price?`<div class="dc-price">Rs. ${d.price.toLocaleString()}</div>`:`<div class="dc-price" style="font-size:1.2rem;color:var(--red)">SEE ITEMS</div>`;
-    const pb=d.pizza>0?`<div class="dc-piz-badge">🍕 Includes Pizza</div>`:'';
+    const tc={premium:'premium',midnight:'midnight'}[d.type]||'';
+    const badge={premium:'⭐ PREMIUM',midnight:'🌙 MIDNIGHT'}[d.type]||'🔥 HOT DEAL';
+    const ph=d.type==='midnight'?`<div class="dc-price" style="font-size:1.05rem;color:var(--red)">3 OPTIONS</div>`:`<div class="dc-price">Rs. ${d.price.toLocaleString()}</div>`;
+    const pb=d.type==='midnight'?`<div class="dc-piz-badge">🍕 Choose your deal &amp; classic pizza flavours</div>`:(d.pizza>0?`<div class="dc-piz-badge">🍕 Includes Pizza</div>`:'');
     return `<div class="dc ${tc} fi vis" onclick="openDealModal(${i})">
       <div class="dc-badge">${badge}</div>
       <div class="dc-inner"><div class="dc-num">DEAL ${d.num}</div>${ph}<div class="dc-items">${d.items.replace(/\|/g,'<br>')}</div>${pb}</div>
@@ -785,71 +934,69 @@ function addFromModal(){
 }
 
 // DEAL MODAL
-function openDealModal(idx){
-  curDealIdx=idx;const d=DD[idx];
-  document.getElementById('dmTitle').textContent='DEAL '+d.num;
-  document.getElementById('dmPrice').textContent=d.price?'Rs. '+d.price.toLocaleString():'See items below';
-  document.getElementById('dmDesc').innerHTML=d.items.replace(/\|/g,'<br>');
-  const ps=document.getElementById('dmPizzaSection');
-  const fb=document.getElementById('dmFlavourBoxes');
-  const err=document.getElementById('dmErr');
-  err.classList.remove('show');err.textContent='';
-  if(d.pizza>0){
-    ps.style.display='block';
-    let html='';
-    for(let i=1;i<=d.pizza;i++){
-      const sz=d.pSz==='Mixed'?(i===1?'Large':i===2?'Regular':'Small'):(d.pSz||'');
-      const lbl=d.pizza===1?`🍕 Pizza Flavour${sz?' ('+sz+')':''}`:`🍕 Pizza ${i} Flavour${sz?' ('+sz+')':''}`;
-      html+=`<div class="flv-wrap"><label class="fl-lbl" for="df${i}">${lbl}</label>
-        <select class="cs" id="df${i}"><option value="" disabled selected>— Select Classic Flavour —</option>
-        ${CLASSIC_OPTS.map(f=>`<option value="${f}">${f}</option>`).join('')}</select></div>`;
+function getSelectedDealOption(){
+  const d=DD[curDealIdx];
+  if(!d || d.type!=='midnight') return d;
+  const sel=document.getElementById('dmDealOption');
+  const idx=sel ? parseInt(sel.value,10) : 0;
+  return d.options?.[idx] || d.options?.[0] || {name:'',price:0,pizza:0,pSz:''};
+}
+function renderDealPizzaFlavours(){
+  const selected=getSelectedDealOption();
+  const ps=document.getElementById('dmPizzaSection'),fb=document.getElementById('dmFlavourBoxes');
+  if(!ps||!fb)return;
+  if(selected.pizza>0){
+    ps.style.display='block'; let html='';
+    for(let i=1;i<=selected.pizza;i++){
+      const sz=selected.pSz||'';
+      const lbl=selected.pizza===1?`🍕 Pizza Flavour${sz?' ('+sz+')':''}`:`🍕 Pizza ${i} Flavour${sz?' ('+sz+')':''}`;
+      html+=`<div class="flv-wrap"><label class="fl-lbl" for="df${i}">${lbl}</label><select class="cs" id="df${i}"><option value="" disabled selected>— Select Classic Flavour —</option>${CLASSIC_OPTS.map(f=>`<option value="${f}">${f}</option>`).join('')}</select></div>`;
     }
     fb.innerHTML=html;
   }else{ps.style.display='none';fb.innerHTML='';}
-  ['dmName','dmPhone','dmAddr','dmNotes'].forEach(id=>{document.getElementById(id).value='';});
-  document.getElementById('dmType').value='';
-  document.getElementById('dmAddrWrap').style.display='none';
-  document.getElementById('dmPick').classList.remove('show');
-  document.getElementById('dealMO').classList.add('open');
-  document.body.style.overflow='hidden';
+}
+function updateDealTotal(){
+  const selected=getSelectedDealOption(),type=document.getElementById('dmType')?.value,addr=document.getElementById('dmAddr')?.value.trim()||'';
+  let deliveryCharge=0;
+  if(type==='Delivery'){
+    const zone=getDeliveryZone(normaliseAddr(addr));
+    if(zone && zone.special){ if(selected.price>2500 && !isSpecialDeliveryUnavailableNow()) deliveryCharge=zone.charge; }
+    else if(zone) deliveryCharge=zone.charge;
+  }
+  const base=selected.price||0,grand=base+deliveryCharge;
+  const baseEl=document.getElementById('dmDealBaseTotal'),dcEl=document.getElementById('dmDeliveryAmount'),totalEl=document.getElementById('dmGrandTotal');
+  if(baseEl)baseEl.textContent='Rs. '+base.toLocaleString();
+  if(dcEl)dcEl.textContent='Rs. '+deliveryCharge.toLocaleString();
+  if(totalEl)totalEl.textContent='Rs. '+grand.toLocaleString();
+}
+function openDealModal(idx){
+  curDealIdx=idx;const d=DD[idx];
+  document.getElementById('dmTitle').textContent=d.type==='midnight'?'MIDNIGHT DEAL':'DEAL '+d.num;
+  document.getElementById('dmPrice').textContent=d.type==='midnight'?'Choose 1 option below':(d.price?'Rs. '+d.price.toLocaleString():'See items below');
+  document.getElementById('dmDesc').innerHTML=d.type==='midnight'?'Pick one Midnight Deal option and choose Classic Flavours only for pizza.':d.items.replace(/\|/g,'<br>');
+  const optWrap=document.getElementById('dmOptionWrap');
+  if(d.type==='midnight'){optWrap.style.display='block';document.getElementById('dmDealOption').innerHTML=d.options.map((o,i)=>`<option value="${i}">${o.name} — Rs. ${o.price.toLocaleString()}</option>`).join('');}else optWrap.style.display='none';
+  const err=document.getElementById('dmErr');err.classList.remove('show');err.textContent='';
+  ['dmName','dmPhone','dmAddr','dmNotes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('dmType').value='';document.getElementById('dmAddrWrap').style.display='none';document.getElementById('dmPick').classList.remove('show');
+  renderDealPizzaFlavours();updateDealTotal();
+  document.getElementById('dealMO').classList.add('open');document.body.style.overflow='hidden';
 }
 function closeDealModal(){document.getElementById('dealMO').classList.remove('open');document.body.style.overflow='';}
 function handleDealOverlay(e){if(e.target===document.getElementById('dealMO'))closeDealModal();}
-function handleDmType(){
-  const v=document.getElementById('dmType').value;
-  document.getElementById('dmAddrWrap').style.display=v==='Delivery'?'block':'none';
-  document.getElementById('dmPick').classList.toggle('show',v==='Pickup');
-}
+function handleDmOption(){renderDealPizzaFlavours();updateDealTotal();}
+function handleDmType(){const v=document.getElementById('dmType').value;document.getElementById('dmAddrWrap').style.display=v==='Delivery'?'block':'none';document.getElementById('dmPick').classList.toggle('show',v==='Pickup');updateDealTotal();}
 function submitDeal(){
-  const d=DD[curDealIdx];
-  const err=document.getElementById('dmErr');
-  err.classList.remove('show');
-  let flavs=[];
-  if(d.pizza>0){
-    for(let i=1;i<=d.pizza;i++){
-      const sel=document.getElementById('df'+i);
-      const v=sel?sel.value:'';
-      if(!v){err.textContent='❌ Please select flavour for Pizza '+i+'.';err.classList.add('show');sel&&sel.focus();return;}
-      const bl=isBlocked(v);
-      if(bl){err.innerHTML='❌ <strong>'+v+'</strong> is a Special/Signature flavour — NOT allowed in deals. Choose a Classic flavour only.';err.classList.add('show');return;}
-      const sz=d.pSz==='Mixed'?(i===1?'Large':i===2?'Regular':'Small'):(d.pSz||'');
-      flavs.push(`Pizza ${i}: ${v}${sz?' ('+sz+')':''}`);
-    }
-  }
-  const name=document.getElementById('dmName').value.trim();
-  const phone=document.getElementById('dmPhone').value.trim();
-  const type=document.getElementById('dmType').value;
-  const addr=document.getElementById('dmAddr').value.trim();
-  const notes=document.getElementById('dmNotes').value.trim();
-  if(!name){showToast('Please enter your name','err');return;}
-  if(!phone){showToast('Please enter your phone number','err');return;}
-  if(!type){showToast('Please select Delivery or Pickup','err');return;}
-  if(type==='Delivery'&&!addr){showToast('Please enter your delivery address','err');return;}
-  const dline=type==='Delivery'?'\n📍 *Delivery Address:* '+addr:'\n🏃 *Self Pickup* (Ready in 35–45 mins)';
-  const fl=flavs.length>0?'\n🍕 *Pizza Flavour(s):* '+flavs.join(' | '):'';
-  const msg=encodeURIComponent(`🌐 *DEAL ORDER FROM WEBSITE* (${SITE_NUM})\n━━━━━━━━━━━━━━━━━\n\n📦 *Deal ${d.num}*${d.price?' — Rs. '+d.price.toLocaleString():''}\n📋 *Includes:* ${d.items}${fl}\n\n👤 *Name:* ${name}\n📱 *Phone:* ${phone}\n🛵 *Type:* ${type}${dline}${notes?'\n📝 *Notes:* '+notes:''}\n━━━━━━━━━━━━━━━━━`);
-  window.open(`https://wa.me/${WA_NUM}?text=${msg}`,'_blank');
-  showToast('✅ Deal '+d.num+' order sent!');closeDealModal();
+  const d=DD[curDealIdx],selected=getSelectedDealOption(),err=document.getElementById('dmErr');err.classList.remove('show');err.textContent='';let flavs=[];
+  for(let i=1;i<=selected.pizza;i++){const sel=document.getElementById('df'+i),v=sel?sel.value:'';if(!v){err.textContent='❌ Please select flavour for Pizza '+i+'.';err.classList.add('show');sel&&sel.focus();return;}if(!CLASSIC_OPTS.includes(v)){err.textContent='❌ Please select a Classic Flavour only.';err.classList.add('show');return;}flavs.push(`Pizza ${i}: ${v}${selected.pSz?' ('+selected.pSz+')':''}`);}
+  const name=document.getElementById('dmName').value.trim(),phone=document.getElementById('dmPhone').value.trim(),type=document.getElementById('dmType').value,addr=document.getElementById('dmAddr').value.trim(),notes=document.getElementById('dmNotes').value.trim();
+  if(!name){showToast('Please enter your name','err');return;}if(!phone){showToast('Please enter your phone number','err');return;}if(!type){showToast('Please select Delivery or Pickup','err');return;}if(type==='Delivery'&&!addr){showToast('Please enter your delivery address','err');return;}
+  let deliveryCharge=0;if(type==='Delivery'){const zone=getDeliveryZone(normaliseAddr(addr));if(zone&&zone.special&&(selected.price<=2500||isSpecialDeliveryUnavailableNow())){showDeliveryUnavailable();return;}if(zone)deliveryCharge=zone.charge;}
+  const dline=type==='Delivery'?'\n📍 *Delivery Address:* '+addr:'\n🏃 *Self Pickup* (Ready in 35–55 mins)';
+  const fl=flavs.length?'\n🍕 *Pizza Flavour(s):* '+flavs.join(' | '):'';const label=d.type==='midnight'?selected.name:'Deal '+d.num;const grand=(selected.price||0)+deliveryCharge;
+  const charges=type==='Delivery'?`\n💰 *Deal Total:* Rs. ${(selected.price||0).toLocaleString()}\n🛵 *Delivery Charges:* Rs. ${deliveryCharge.toLocaleString()}\n💵 *GRAND TOTAL:* Rs. ${grand.toLocaleString()}`:`\n💰 *TOTAL:* Rs. ${(selected.price||0).toLocaleString()}`;
+  const msg=encodeURIComponent(`🌐 *DEAL ORDER FROM WEBSITE* (${SITE_NUM})\n━━━━━━━━━━━━━━━━━\n\n📦 *${label}*\n🍽️ *Option:* ${selected.name}${fl}\n${charges}\n👤 *Name:* ${name}\n📱 *Phone:* ${phone}\n🛵 *Type:* ${type}${dline}${notes?'\n📝 *Notes:* '+notes:''}\n━━━━━━━━━━━━━━━━━`);
+  window.open(`https://wa.me/${WA_NUM}?text=${msg}`,'_blank');showToast('✅ Deal order sent!');closeDealModal();
 }
 
 // CART
@@ -868,37 +1015,241 @@ function closeCart(){document.getElementById('cartSidebar').classList.remove('op
 function toggleCart(){document.getElementById('cartSidebar').classList.contains('open')?closeCart():openCart();}
 
 // CHECKOUT
+// ── AUTOMATED DELIVERY CHARGES ──
+// Address matching is normalized so entries such as KAECHS, Block-4,
+// A-141, Mehmoodabad No. 5, PECHS, TP-2, etc. are detected automatically.
+// Special-zone eligibility is intentionally handled at order submission so
+// unavailable orders receive a generic service-availability message.
+function normaliseAddr(s){
+  return (s||'')
+    .toLowerCase()
+    .replace(/[.\-]+/g,' ')
+    .replace(/\s+/g,' ')
+    .trim();
+}
+
+function getDeliveryZone(addr){
+  // Priority matters: special zones must win over broader PECHS/block matches.
+  if(/\bbahadurabad\b/.test(addr)){
+    return {charge:300, special:true, name:'Bahadurabad'};
+  }
+
+  if(
+    /\bdelhi\s+mercantile\s+society\b/.test(addr) ||
+    /\bdmchs(?:\s+society)?\b/.test(addr) ||
+    /\bdarul\s+aman\s+society\b/.test(addr) ||
+    /\btariq\s+road\b/.test(addr)
+  ){
+    return {charge:250, special:true, name:'Special delivery zone'};
+  }
+
+  // Existing standard delivery zones.
+  if(
+    /\bkaechs\b/.test(addr) ||
+    /\bblock\s+\d+\b/.test(addr) ||
+    /\ba\s*\d{2,3}\b/.test(addr)
+  ){
+    return {charge:80, special:false, name:'KAECHS / Block area'};
+  }
+
+  if(/\b(mehmoodabad|meh)\s+(?:no\s*)?[456]\b/.test(addr)){
+    return {charge:100, special:false, name:'Mehmoodabad No. 4 / 5 / 6'};
+  }
+
+  if(
+    /\b(mehmoodabad|meh)\s+(?:no\s*)?[23]\b/.test(addr) ||
+    /\btp\s*2\b/.test(addr) ||
+    /\bkda\b/.test(addr) ||
+    /\bmanzoor\s+colony\b/.test(addr) ||
+    /\bgujjar\s+chowk\b/.test(addr) ||
+    /\bpechs\b/.test(addr)
+  ){
+    return {charge:120, special:false, name:'Mehmoodabad No. 2/3 · TP2 · KDA · Manzoor Colony · Gujjar Chowk · PECHS'};
+  }
+
+  return null;
+}
+
+function isSpecialDeliveryUnavailableNow(){
+  // Special-zone delivery is unavailable Saturday/Sunday from 9:00 PM to midnight.
+  const parts=new Intl.DateTimeFormat('en-US',{
+    timeZone:'Asia/Karachi',
+    weekday:'short',
+    hour:'numeric',
+    minute:'numeric',
+    hour12:false
+  }).formatToParts(new Date());
+
+  const get=k=>parts.find(p=>p.type===k)?.value||'';
+  const day=get('weekday');
+  const hour=Number(get('hour'));
+  const minute=Number(get('minute'));
+  const isWeekend=day==='Sat'||day==='Sun';
+  const after9pm=hour>=21 && hour<24;
+  return isWeekend && after9pm;
+}
+
+function getOrderSubtotal(){
+  return cart.reduce((s,i)=>s+i.price*i.qty,0);
+}
+
+function getDeliveryEligibility(){
+  const raw=document.getElementById('coAddr')?.value||'';
+  const addr=normaliseAddr(raw);
+  const zone=getDeliveryZone(addr);
+  const subtotal=getOrderSubtotal();
+
+  if(!zone) return {zone:null,charge:0,allowed:true,reason:''};
+
+  // Special zones (Bahadurabad / Delhi Mercantile / DMCHS /
+  // Darul Aman / Tariq Road) require a minimum order of Rs. 2,500.
+  if(zone.special && subtotal<=2500){
+    return {zone,charge:0,allowed:false,reason:'minimum'};
+  }
+
+  if(zone.special && isSpecialDeliveryUnavailableNow()){
+    return {zone,charge:0,allowed:false,reason:'time'};
+  }
+
+  return {zone,charge:zone.charge,allowed:true,reason:''};
+}
+
+function showDeliveryUnavailable(){
+  // Keep operational eligibility details out of the customer-facing message.
+  showToast('Sorry, delivery is temporarily unavailable for this address. Please try again later or choose pickup.','err');
+}
+
+function detectDeliveryCharge(){
+  const box=document.getElementById('deliveryChargeBox');
+  const amtEl=document.getElementById('dcAmount');
+  const areaEl=document.getElementById('dcArea');
+  const note=document.getElementById('deliveryLiveNote');
+  if(!box||!amtEl||!areaEl)return;
+
+  const addr=normaliseAddr(document.getElementById('coAddr')?.value||'');
+  const zone=getDeliveryZone(addr);
+  const blockedNow=zone && zone.special && isSpecialDeliveryUnavailableNow();
+  if(note){note.classList.remove('show');note.textContent='';}
+
+  // Customer-facing display: special areas remain available all day except
+  // Saturday/Sunday 9:00 PM–12:00 AM. The Rs. 2,500 minimum is enforced
+  // silently at submission, not shown as an availability warning here.
+  if(zone && !blockedNow){
+    amtEl.textContent='Rs. '+zone.charge.toLocaleString();
+    areaEl.textContent='📍 '+zone.name+' · Delivery charge added to your order';
+    box.dataset.charge=String(zone.charge);
+    box.classList.add('show');
+  }else if(zone && blockedNow){
+    box.classList.remove('show');
+    box.dataset.charge='';
+    amtEl.textContent='Rs. 0';
+    areaEl.textContent='';
+    if(note){
+      note.textContent='⚠️ Special-area delivery is unavailable Saturday & Sunday from 9:00 PM to 12:00 AM.';
+      note.classList.add('show');
+    }
+  }else{
+    box.classList.remove('show');
+    box.dataset.charge='';
+    amtEl.textContent='Rs. 0';
+    areaEl.textContent='';
+  }
+
+  updateCheckoutTotal();
+}
+function updateCheckoutTotal(){
+  const total=getOrderSubtotal();
+  const box=document.getElementById('deliveryChargeBox');
+  const type=document.getElementById('coType')?.value;
+  const deliveryCharge=(type==='Delivery' && box && box.dataset.charge)
+    ? parseInt(box.dataset.charge,10) : 0;
+  const grandTotal=total+deliveryCharge;
+  const totalEl=document.getElementById('coTotal');
+
+  if(totalEl) totalEl.textContent='Rs. '+grandTotal.toLocaleString();
+}
+
+// ── CHECKOUT ──
 function openCheckout(){
   if(!cart.length){showToast('🛒 Your cart is empty!','err');return;}
+
   const tot=cart.reduce((s,i)=>s+i.price*i.qty,0);
   document.getElementById('coItems').innerHTML=cart.map(c=>`<div class="o-si"><span>${c.e} ${c.n}${c.sz&&c.sz!=='Price'?' ('+c.sz+')':''} ×${c.qty}</span><span>Rs. ${(c.price*c.qty).toLocaleString()}</span></div>`).join('');
   document.getElementById('coTotal').textContent='Rs. '+tot.toLocaleString();
+
   document.getElementById('coType').value='';
   document.getElementById('coAddrWrap').style.display='none';
   document.getElementById('coPick').classList.remove('show');
+
+  const box=document.getElementById('deliveryChargeBox');
+  if(box){
+    box.classList.remove('show');
+    box.dataset.charge='';
+  }
+  document.getElementById('coAddr').value='';
   document.getElementById('checkMO').classList.add('open');
 }
+
 function closeCheckout(){document.getElementById('checkMO').classList.remove('open');}
 function handleCheckOverlay(e){if(e.target===document.getElementById('checkMO'))closeCheckout();}
+
 function handleCoType(){
   const v=document.getElementById('coType').value;
   document.getElementById('coAddrWrap').style.display=v==='Delivery'?'block':'none';
   document.getElementById('coPick').classList.toggle('show',v==='Pickup');
+
+  // Reset delivery charge when switching to pickup.
+  if(v!=='Delivery'){
+    const box=document.getElementById('deliveryChargeBox');
+    if(box){
+      box.classList.remove('show');
+      box.dataset.charge='';
+    }
+  }else{
+    detectDeliveryCharge();
+  }
+  updateCheckoutTotal();
 }
+
 function finalOrderWA(){
   const name=document.getElementById('coName').value.trim();
   const phone=document.getElementById('coPhone').value.trim();
   const type=document.getElementById('coType').value;
   const addr=document.getElementById('coAddr').value.trim();
   const notes=document.getElementById('coNotes').value.trim();
+
   if(!name){showToast('Please enter your name','err');return;}
   if(!phone){showToast('Please enter your phone','err');return;}
   if(!type){showToast('Please select Delivery or Pickup','err');return;}
   if(type==='Delivery'&&!addr){showToast('Please enter delivery address','err');return;}
-  const tot=cart.reduce((s,i)=>s+i.price*i.qty,0);
+
+  const tot=getOrderSubtotal();
+  let deliveryCharge=0;
+
+  if(type==='Delivery'){
+    // Re-check eligibility at submission time so the rule cannot be bypassed
+    // by changing the address/order after the checkout display was updated.
+    const eligibility=getDeliveryEligibility();
+    if(!eligibility.allowed){
+      showDeliveryUnavailable();
+      return;
+    }
+    deliveryCharge=eligibility.charge||0;
+  }
+
+  const grandTotal=tot+deliveryCharge;
+
   const lines=cart.map(c=>`• ${c.e} ${c.n}${c.sz&&c.sz!=='Price'?' ('+c.sz+')':''} ×${c.qty}${c.note?' ['+c.note+']':''} = Rs. ${(c.price*c.qty).toLocaleString()}`).join('\n');
-  const dl=type==='Delivery'?'\n📍 *Delivery Address:* '+addr:'\n🏃 *Self Pickup* (Ready in 35–45 mins)';
-  const msg=encodeURIComponent(`🌐 *ORDER FROM WEBSITE* (${SITE_NUM})\n━━━━━━━━━━━━━━━━━\n\n👤 *Name:* ${name}\n📱 *Phone:* ${phone}\n🛵 *Type:* ${type}${dl}\n\n📋 *Items:*\n${lines}\n\n💰 *TOTAL: Rs. ${tot.toLocaleString()}*${notes?'\n📝 *Notes:* '+notes:''}\n━━━━━━━━━━━━━━━━━`);
+  const dl=type==='Delivery'
+    ? '\n📍 *Delivery Address:* '+addr
+    : '\n🏃 *Self Pickup* (Ready in 35–55 mins)';
+
+  const chargesLine=deliveryCharge>0
+    ? `\n\n💰 *Items Total:* Rs. ${tot.toLocaleString()}\n🛵 *Delivery Charges:* Rs. ${deliveryCharge.toLocaleString()}\n💵 *GRAND TOTAL: Rs. ${grandTotal.toLocaleString()}*`
+    : `\n\n💰 *TOTAL: Rs. ${tot.toLocaleString()}*`;
+
+  const msg=encodeURIComponent(`🌐 *ORDER FROM WEBSITE* (${SITE_NUM})\n━━━━━━━━━━━━━━━━━\n\n👤 *Name:* ${name}\n📱 *Phone:* ${phone}\n🛵 *Type:* ${type}${dl}\n\n📋 *Items:*\n${lines}${chargesLine}${notes?'\n📝 *Notes:* '+notes:''}\n━━━━━━━━━━━━━━━━━`);
+
   window.open(`https://wa.me/${WA_NUM}?text=${msg}`,'_blank');
   showToast('✅ Order sent!');closeCheckout();closeCart();cart=[];updateCart();
 }
